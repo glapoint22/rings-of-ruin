@@ -1,0 +1,186 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 881656b722883e942b86f37ab2090e54, type: 3}
+  m_Name: Level01
+  m_EditorClassIdentifier: 
+  levelID: 1
+  rings:
+  - ringIndex: 0
+    segments:
+    - segmentIndex: 0
+      isGap: 0
+      isCrumbling: 0
+      gemPrefab: {fileID: 0}
+      hazardPrefab: {fileID: 0}
+      powerUpPrefab: {fileID: 0}
+      portalPrefab: {fileID: 0}
+    - segmentIndex: 1
+      isGap: 0
+      isCrumbling: 0
+      gemPrefab: {fileID: 0}
+      hazardPrefab: {fileID: 0}
+      powerUpPrefab: {fileID: 0}
+      portalPrefab: {fileID: 0}
+    - segmentIndex: 2
+      isGap: 0
+      isCrumbling: 0
+      gemPrefab: {fileID: 0}
+      hazardPrefab: {fileID: 0}
+      powerUpPrefab: {fileID: 0}
+      portalPrefab: {fileID: 0}
+    - segmentIndex: 3
+      isGap: 0
+      isCrumbling: 0
+      gemPrefab: {fileID: 0}
+      hazardPrefab: {fileID: 0}
+      powerUpPrefab: {fileID: 0}
+      portalPrefab: {fileID: 0}
+    - segmentIndex: 4
+      isGap: 0
+      isCrumbling: 0
+      gemPrefab: {fileID: 0}
+      hazardPrefab: {fileID: 0}
+      powerUpPrefab: {fileID: 0}
+      portalPrefab: {fileID: 0}
+    - segmentIndex: 5
+      isGap: 0
+      isCrumbling: 0
+      gemPrefab: {fileID: 0}
+      hazardPrefab: {fileID: 0}
+      powerUpPrefab: {fileID: 0}
+      portalPrefab: {fileID: 0}
+    - segmentIndex: 6
+      isGap: 0
+      isCrumbling: 0
+      gemPrefab: {fileID: 0}
+      hazardPrefab: {fileID: 0}
+      powerUpPrefab: {fileID: 0}
+      portalPrefab: {fileID: 0}
+    - segmentIndex: 7
+      isGap: 0
+      isCrumbling: 0
+      gemPrefab: {fileID: 0}
+      hazardPrefab: {fileID: 0}
+      powerUpPrefab: {fileID: 0}
+      portalPrefab: {fileID: 0}
+    - segmentIndex: 8
+      isGap: 0
+      isCrumbling: 0
+      gemPrefab: {fileID: 0}
+      hazardPrefab: {fileID: 0}
+      powerUpPrefab: {fileID: 0}
+      portalPrefab: {fileID: 0}
+    - segmentIndex: 9
+      isGap: 0
+      isCrumbling: 0
+      gemPrefab: {fileID: 0}
+      hazardPrefab: {fileID: 0}
+      powerUpPrefab: {fileID: 0}
+      portalPrefab: {fileID: 0}
+    - segmentIndex: 10
+      isGap: 0
+      isCrumbling: 0
+      gemPrefab: {fileID: 0}
+      hazardPrefab: {fileID: 0}
+      powerUpPrefab: {fileID: 0}
+      portalPrefab: {fileID: 0}
+    - segmentIndex: 11
+      isGap: 0
+      isCrumbling: 0
+      gemPrefab: {fileID: 0}
+      hazardPrefab: {fileID: 0}
+      powerUpPrefab: {fileID: 0}
+      portalPrefab: {fileID: 0}
+    - segmentIndex: 12
+      isGap: 0
+      isCrumbling: 0
+      gemPrefab: {fileID: 0}
+      hazardPrefab: {fileID: 0}
+      powerUpPrefab: {fileID: 0}
+      portalPrefab: {fileID: 0}
+    - segmentIndex: 13
+      isGap: 0
+      isCrumbling: 0
+      gemPrefab: {fileID: 0}
+      hazardPrefab: {fileID: 0}
+      powerUpPrefab: {fileID: 0}
+      portalPrefab: {fileID: 0}
+    - segmentIndex: 14
+      isGap: 0
+      isCrumbling: 0
+      gemPrefab: {fileID: 0}
+      hazardPrefab: {fileID: 0}
+      powerUpPrefab: {fileID: 0}
+      portalPrefab: {fileID: 0}
+    - segmentIndex: 15
+      isGap: 0
+      isCrumbling: 0
+      gemPrefab: {fileID: 0}
+      hazardPrefab: {fileID: 0}
+      powerUpPrefab: {fileID: 0}
+      portalPrefab: {fileID: 0}
+    - segmentIndex: 16
+      isGap: 0
+      isCrumbling: 0
+      gemPrefab: {fileID: 0}
+      hazardPrefab: {fileID: 0}
+      powerUpPrefab: {fileID: 0}
+      portalPrefab: {fileID: 0}
+    - segmentIndex: 17
+      isGap: 0
+      isCrumbling: 0
+      gemPrefab: {fileID: 0}
+      hazardPrefab: {fileID: 0}
+      powerUpPrefab: {fileID: 0}
+      portalPrefab: {fileID: 0}
+    - segmentIndex: 18
+      isGap: 0
+      isCrumbling: 0
+      gemPrefab: {fileID: 0}
+      hazardPrefab: {fileID: 0}
+      powerUpPrefab: {fileID: 0}
+      portalPrefab: {fileID: 0}
+    - segmentIndex: 19
+      isGap: 0
+      isCrumbling: 0
+      gemPrefab: {fileID: 0}
+      hazardPrefab: {fileID: 0}
+      powerUpPrefab: {fileID: 0}
+      portalPrefab: {fileID: 0}
+    - segmentIndex: 20
+      isGap: 0
+      isCrumbling: 0
+      gemPrefab: {fileID: 0}
+      hazardPrefab: {fileID: 0}
+      powerUpPrefab: {fileID: 0}
+      portalPrefab: {fileID: 0}
+    - segmentIndex: 21
+      isGap: 0
+      isCrumbling: 0
+      gemPrefab: {fileID: 0}
+      hazardPrefab: {fileID: 0}
+      powerUpPrefab: {fileID: 0}
+      portalPrefab: {fileID: 0}
+    - segmentIndex: 22
+      isGap: 0
+      isCrumbling: 0
+      gemPrefab: {fileID: 0}
+      hazardPrefab: {fileID: 0}
+      powerUpPrefab: {fileID: 0}
+      portalPrefab: {fileID: 0}
+    - segmentIndex: 23
+      isGap: 0
+      isCrumbling: 0
+      gemPrefab: {fileID: 0}
+      hazardPrefab: {fileID: 0}
+      powerUpPrefab: {fileID: 0}
+      portalPrefab: {fileID: 0}
