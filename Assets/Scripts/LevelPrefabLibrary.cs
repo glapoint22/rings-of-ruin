@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections.Generic;
 
 [CreateAssetMenu(menuName = "Rings of Ruin/Prefab Library")]
 public class LevelPrefabLibrary : ScriptableObject
@@ -34,100 +35,90 @@ public class LevelPrefabLibrary : ScriptableObject
     [Header("Checkpoint")]
     public GameObject checkpointPrefab;
 
-
     [Header("Portal")]
     public GameObject portalPrefab;
 
+    private Dictionary<CollectibleType, GameObject> collectiblePrefabs;
+    private Dictionary<PickupType, GameObject> pickupPrefabs;
+    private Dictionary<HazardType, GameObject> hazardPrefabs;
+    private Dictionary<EnemyType, GameObject> enemyPrefabs;
+
+    private void OnEnable()
+    {
+        InitializeDictionaries();
+    }
+
+    private void InitializeDictionaries()
+    {
+        collectiblePrefabs = new Dictionary<CollectibleType, GameObject>
+        {
+            { CollectibleType.Gem, gemPrefab },
+            { CollectibleType.Coin, coinPrefab }
+        };
+
+        pickupPrefabs = new Dictionary<PickupType, GameObject>
+        {
+            { PickupType.Shield, shieldPrefab },
+            { PickupType.Cloak, cloakPrefab },
+            { PickupType.TimeDilation, timeDilationPrefab },
+            { PickupType.Health, healthPrefab },
+            { PickupType.Decoy, decoyPrefab },
+            { PickupType.Pathmaker, pathmakerPrefab },
+            { PickupType.Spell, spellPrefab },
+            { PickupType.Key, keyPrefab }
+        };
+
+        hazardPrefabs = new Dictionary<HazardType, GameObject>
+        {
+            { HazardType.Crusher, crusherPrefab },
+            { HazardType.Catapult, catapultPrefab }
+        };
+
+        enemyPrefabs = new Dictionary<EnemyType, GameObject>
+        {
+            { EnemyType.Ruinwalker, ruinwalkerPrefab },
+            { EnemyType.Gravecaller, gravecallerPrefab },
+            { EnemyType.Bloodseeker, bloodseekerPrefab }
+        };
+    }
 
     public GameObject GetCollectiblePrefab(CollectibleType collectibleType)
     {
-        GameObject prefab = null;
-
-        if (collectibleType == CollectibleType.Gem)
+        if (collectiblePrefabs.TryGetValue(collectibleType, out GameObject prefab))
         {
-            prefab = gemPrefab;
+            return prefab;
         }
-        else if (collectibleType == CollectibleType.Coin)
-        {
-            prefab = coinPrefab;
-        }
-
-        return prefab;
+        Debug.LogWarning($"No prefab found for collectible type: {collectibleType}");
+        return null;
     }
-
-
 
     public GameObject GetPickupPrefab(PickupType pickupType)
     {
-        GameObject prefab = null;
-        switch (pickupType)
+        if (pickupPrefabs.TryGetValue(pickupType, out GameObject prefab))
         {
-            case PickupType.Shield:
-                prefab = shieldPrefab;
-                break;
-            case PickupType.Cloak:
-                prefab = cloakPrefab;
-                break;
-            case PickupType.TimeDilation:
-                prefab = timeDilationPrefab;
-                break;
-            case PickupType.Health:
-                prefab = healthPrefab;
-                break;
-            case PickupType.Decoy:
-                prefab = decoyPrefab;
-                break;
-            case PickupType.Pathmaker:
-                prefab = pathmakerPrefab;
-                break;
-            case PickupType.Key:
-                prefab = keyPrefab;
-                break;
-
-            case PickupType.Spell:
-                prefab = spellPrefab;
-                break;
+            return prefab;
         }
-
-        return prefab;
+        Debug.LogWarning($"No prefab found for pickup type: {pickupType}");
+        return null;
     }
-
-
 
     public GameObject GetHazardPrefab(HazardType hazardType)
     {
-        GameObject prefab = null;
-
-        switch (hazardType)
+        if (hazardPrefabs.TryGetValue(hazardType, out GameObject prefab))
         {
-            case HazardType.Crusher:
-                prefab = crusherPrefab;
-                break;
-            case HazardType.Catapult:
-                prefab = catapultPrefab;
-                break;
+            return prefab;
         }
-
-        return prefab;
+        Debug.LogWarning($"No prefab found for hazard type: {hazardType}");
+        return null;
     }
-
-
 
     public GameObject GetEnemyPrefab(EnemyType enemyType)
     {
-        GameObject prefab = null;
-        switch (enemyType)
+        if (enemyPrefabs.TryGetValue(enemyType, out GameObject prefab))
         {
-            case EnemyType.Ruinwalker:
-                prefab = ruinwalkerPrefab;
-                break;
-            case EnemyType.Gravecaller:
-                prefab = gravecallerPrefab;
-                break;
-            case EnemyType.Bloodseeker:
-                prefab = bloodseekerPrefab;
-                break;
+            return prefab;
         }
-        return prefab;
+        Debug.LogWarning($"No prefab found for enemy type: {enemyType}");
+        return null;
     }
 }
