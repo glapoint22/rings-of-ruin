@@ -35,7 +35,7 @@ MonoBehaviour:
   crusherPrefab: {fileID: 7598187423802398679, guid: 72574f59b9d3dcf41a1b1fadfbb9e791, type: 3}
   catapultPrefab: {fileID: 5580114535029454179, guid: b01e9bd22b01bb6428b032d11302d137, type: 3}
   crumblingPlatformPrefab: {fileID: 3286068841890438987, guid: ff20c6cb2c72eff42a9fb091022f1181, type: 3}
-  ruinwalkerPrefab: {fileID: 0}
-  gravecallerPrefab: {fileID: 0}
-  bloodseekerPrefab: {fileID: 0}
-  checkpointFlagPrefab: {fileID: 0}
+  ruinwalkerPrefab: {fileID: 94538880463379437, guid: d61b32293d6434d4aac3e96affb18e1d, type: 3}
+  gravecallerPrefab: {fileID: 4730132979662416648, guid: c55e863a62e5aa34d80f8229f5b5d698, type: 3}
+  bloodseekerPrefab: {fileID: 1332851432689936905, guid: 674a88931e07a9745a3ca9a3156514a9, type: 3}
+  checkpointFlagPrefab: {fileID: 6198304022393613139, guid: 93b7c8b9bb09f3442912a870fcfad369, type: 3}
