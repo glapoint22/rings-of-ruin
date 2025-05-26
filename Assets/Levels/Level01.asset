@@ -51,13 +51,13 @@ MonoBehaviour:
       hazardType: 0
       pickupType: 0
       enemyType: 0
-      collectibleType: 0
+      collectibleType: 2
       hasCheckpoint: 0
     - segmentIndex: 4
       isLocked: 0
       segmentType: 0
       hasPortal: 0
-      hazardType: 0
+      hazardType: 1
       pickupType: 0
       enemyType: 0
       collectibleType: 0
@@ -66,14 +66,14 @@ MonoBehaviour:
       isLocked: 0
       segmentType: 0
       hasPortal: 0
-      hazardType: 0
+      hazardType: 2
       pickupType: 0
       enemyType: 0
       collectibleType: 0
       hasCheckpoint: 0
     - segmentIndex: 6
       isLocked: 0
-      segmentType: 0
+      segmentType: 2
       hasPortal: 0
       hazardType: 0
       pickupType: 0
@@ -85,7 +85,7 @@ MonoBehaviour:
       segmentType: 0
       hasPortal: 0
       hazardType: 0
-      pickupType: 0
+      pickupType: 1
       enemyType: 0
       collectibleType: 0
       hasCheckpoint: 0
@@ -94,7 +94,7 @@ MonoBehaviour:
       segmentType: 0
       hasPortal: 0
       hazardType: 0
-      pickupType: 0
+      pickupType: 2
       enemyType: 0
       collectibleType: 0
       hasCheckpoint: 0
@@ -103,7 +103,7 @@ MonoBehaviour:
       segmentType: 0
       hasPortal: 0
       hazardType: 0
-      pickupType: 0
+      pickupType: 3
       enemyType: 0
       collectibleType: 0
       hasCheckpoint: 0
@@ -112,7 +112,7 @@ MonoBehaviour:
       segmentType: 0
       hasPortal: 0
       hazardType: 0
-      pickupType: 0
+      pickupType: 4
       enemyType: 0
       collectibleType: 0
       hasCheckpoint: 0
@@ -121,7 +121,7 @@ MonoBehaviour:
       segmentType: 0
       hasPortal: 0
       hazardType: 0
-      pickupType: 0
+      pickupType: 5
       enemyType: 0
       collectibleType: 0
       hasCheckpoint: 0
@@ -130,7 +130,7 @@ MonoBehaviour:
       segmentType: 0
       hasPortal: 0
       hazardType: 0
-      pickupType: 0
+      pickupType: 6
       enemyType: 0
       collectibleType: 0
       hasCheckpoint: 0
@@ -139,7 +139,7 @@ MonoBehaviour:
       segmentType: 0
       hasPortal: 0
       hazardType: 0
-      pickupType: 0
+      pickupType: 7
       enemyType: 0
       collectibleType: 0
       hasCheckpoint: 0
@@ -148,7 +148,7 @@ MonoBehaviour:
       segmentType: 0
       hasPortal: 0
       hazardType: 0
-      pickupType: 0
+      pickupType: 8
       enemyType: 0
       collectibleType: 0
       hasCheckpoint: 0
@@ -160,14 +160,14 @@ MonoBehaviour:
       pickupType: 0
       enemyType: 0
       collectibleType: 0
-      hasCheckpoint: 0
+      hasCheckpoint: 1
     - segmentIndex: 16
       isLocked: 0
       segmentType: 0
       hasPortal: 0
       hazardType: 0
       pickupType: 0
-      enemyType: 0
+      enemyType: 1
       collectibleType: 0
       hasCheckpoint: 0
     - segmentIndex: 17
@@ -176,7 +176,7 @@ MonoBehaviour:
       hasPortal: 0
       hazardType: 0
       pickupType: 0
-      enemyType: 0
+      enemyType: 2
       collectibleType: 0
       hasCheckpoint: 0
     - segmentIndex: 18
@@ -194,11 +194,11 @@ MonoBehaviour:
       hasPortal: 0
       hazardType: 0
       pickupType: 0
-      enemyType: 0
+      enemyType: 3
       collectibleType: 0
       hasCheckpoint: 0
     - segmentIndex: 20
-      isLocked: 0
+      isLocked: 1
       segmentType: 0
       hasPortal: 0
       hazardType: 0

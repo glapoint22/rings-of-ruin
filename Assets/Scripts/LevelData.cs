@@ -75,8 +75,7 @@ public enum HazardType
 {
     None,
     Crusher,
-    Catapult,
-    CrumblingTile
+    Catapult
 }
 
 public enum PickupType
@@ -88,7 +87,8 @@ public enum PickupType
     Health,
     Decoy,
     Pathmaker,
-    SpellSpawn
+    Spell,
+    Key
 }
 
 

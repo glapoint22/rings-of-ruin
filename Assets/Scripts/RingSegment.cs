@@ -20,7 +20,7 @@ public class RingSegment : MonoBehaviour
     public int SegmentIndex => segmentIndex;
     public bool IsGap => isGap;
 
-    public Transform SlotCollectIble => slotCollectible;
+    public Transform SlotCollectible => slotCollectible;
     public Transform SlotHazard => slotHazard;
     public Transform SlotPickup => slotPickup;
     public Transform SlotPortal => slotPortal;

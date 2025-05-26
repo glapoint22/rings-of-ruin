@@ -36,10 +36,11 @@ public class LevelEditorWindow : EditorWindow
     {
         LoadPrefabLibrary();
 
-
         GUILayout.Label("Rings of Ruin – Level Editor", EditorStyles.boldLabel);
-
         EditorGUILayout.Space(20);
+
+        // 🔄 Refresh the level list each time OnGUI runs
+        RefreshLevelList();
 
         GUILayout.Label("Select Level", EditorStyles.boldLabel);
 
@@ -61,7 +62,6 @@ public class LevelEditorWindow : EditorWindow
             }
         }
 
-
         EditorGUILayout.Space(10);
 
         // ➕ / 🗑️ Level controls
@@ -69,16 +69,36 @@ public class LevelEditorWindow : EditorWindow
 
         if (GUILayout.Button("➕ Create New Level"))
         {
-            string path = EditorUtility.SaveFilePanelInProject("Create LevelData", "Level_New", "asset", "Choose save location");
-            if (!string.IsNullOrEmpty(path))
+            string folderPath = "Assets/Levels";
+
+            if (!AssetDatabase.IsValidFolder(folderPath))
             {
-                var newLevel = ScriptableObject.CreateInstance<LevelData>();
-                AssetDatabase.CreateAsset(newLevel, path);
-                AssetDatabase.SaveAssets();
-                selectedLevelData = newLevel;
-                EditorPrefs.SetString(LevelDataPrefKey, path);
-                LoadAllLevels();
+                AssetDatabase.CreateFolder("Assets", "Levels");
             }
+
+            int nextID = AssetDatabase.FindAssets("t:LevelData", new[] { folderPath }).Length + 1;
+            string assetName = $"Level_{nextID:D2}.asset";
+            string fullPath = AssetDatabase.GenerateUniqueAssetPath($"{folderPath}/{assetName}");
+
+            var newLevel = ScriptableObject.CreateInstance<LevelData>();
+            newLevel.levelID = nextID;
+            var newRing = new RingConfiguration { ringIndex = 0 };
+            for (int i = 0; i < 24; i++)
+            {
+                newRing.segments.Add(new SegmentConfiguration { segmentIndex = i });
+            }
+            newLevel.rings.Add(newRing);
+
+            AssetDatabase.CreateAsset(newLevel, fullPath);
+            AssetDatabase.SaveAssets();
+            AssetDatabase.Refresh();
+
+            selectedLevelData = newLevel;
+            selectedRingIndex = 0;
+            EditorPrefs.SetString(LevelDataPrefKey, fullPath);
+
+            RefreshLevelList();
+            selectedLevelIndex = allLevels.IndexOf(selectedLevelData);
         }
 
         GUI.enabled = selectedLevelData != null;
@@ -91,31 +111,27 @@ public class LevelEditorWindow : EditorWindow
                 AssetDatabase.SaveAssets();
                 selectedLevelData = null;
                 EditorPrefs.DeleteKey(LevelDataPrefKey);
-                LoadAllLevels();
+                RefreshLevelList();
             }
         }
         GUI.enabled = true;
 
-        
-
         GUILayout.EndHorizontal();
 
         GUILayout.Space(10);
+        
 
-        DrawAltarSettings();
-
-        // If no level is selected after delete or startup
         if (selectedLevelData == null)
         {
             EditorGUILayout.HelpBox("Select or create a LevelData asset to begin.", MessageType.Info);
             return;
         }
 
-        GUILayout.Space(10);
+        DrawAltarSettings();
 
+        GUILayout.Space(10);
         GUILayout.BeginHorizontal();
 
-        // Dropdown to choose ring
         string[] ringLabels = selectedLevelData.rings.Select((r, i) => $"Ring {i + 1}").ToArray();
         selectedRingIndex = Mathf.Clamp(selectedRingIndex, 0, selectedLevelData.rings.Count - 1);
 
@@ -123,7 +139,6 @@ public class LevelEditorWindow : EditorWindow
         if (newRingIndex != selectedRingIndex)
             selectedRingIndex = newRingIndex;
 
-        // Add Ring
         if (GUILayout.Button("➕ Add Ring", GUILayout.Width(100)))
         {
             var newRing = new RingConfiguration
@@ -141,7 +156,6 @@ public class LevelEditorWindow : EditorWindow
             EditorUtility.SetDirty(selectedLevelData);
         }
 
-        // Delete Ring
         GUI.enabled = selectedLevelData.rings.Count > 1;
 
         if (GUILayout.Button("🗑️ Delete Ring", GUILayout.Width(100)))
@@ -154,47 +168,38 @@ public class LevelEditorWindow : EditorWindow
             }
         }
 
-       
-
         GUI.enabled = true;
-
-       
-
         GUILayout.EndHorizontal();
 
         EditorGUILayout.Space(10);
 
         selectedLevelData.rings[selectedRingIndex].rotation =
-      (RingRotationDirection)EditorGUILayout.EnumPopup("Ring Rotation", selectedLevelData.rings[selectedRingIndex].rotation);
+          (RingRotationDirection)EditorGUILayout.EnumPopup("Ring Rotation", selectedLevelData.rings[selectedRingIndex].rotation);
 
-        // Now ensure segments are populated for the selected ring
         EnsureRingSegmentListExists();
 
-
-        // 🔁 Ring layout and segment editor
         EditorGUILayout.Space(10);
         DrawRingLayout();
-
-        GUILayout.Space(900); // reserve vertical space
+        GUILayout.Space(900);
         DrawSegmentDetails();
 
-
         GUILayout.BeginHorizontal();
-
-
-        if (GUILayout.Button("🛠 Build Preview"))
-        {
-            BuildPreview();
-        }
-
-
-        if (GUILayout.Button("🧹 Clear Preview"))
-        {
-            ClearPreview();
-        }
-
+        if (GUILayout.Button("🛠 Build Preview")) BuildPreview();
+        if (GUILayout.Button("🧹 Clear Preview")) ClearPreview();
         GUILayout.EndHorizontal();
     }
+
+
+
+    private void RefreshLevelList()
+    {
+        allLevels = AssetDatabase.FindAssets("t:LevelData")
+            .Select(guid => AssetDatabase.LoadAssetAtPath<LevelData>(AssetDatabase.GUIDToAssetPath(guid)))
+            .Where(ld => ld != null)
+            .OrderBy(ld => ld.levelID)
+            .ToList();
+    }
+
 
 
     private void DrawRingLayout()
@@ -378,7 +383,90 @@ public class LevelEditorWindow : EditorWindow
                 segmentGO.transform.rotation = rotation;
                 segmentGO.transform.SetParent(previewRoot);
                 segmentGO.name = $"Ring{ring.ringIndex}_Seg{i}";
+
+
+                RingSegment ringSegment = segmentGO.GetComponent<RingSegment>();
+                if (ringSegment == null) continue;
+
+
+                // --- 1. Collectible (Gem/Coin)
+                if (segment.collectibleType != CollectibleType.None && ringSegment.SlotCollectible != null)
+                {
+                    prefab = prefabLibrary.GetCollectiblePrefab(segment.collectibleType);
+                    if (prefab != null)
+                    {
+                        GameObject go = (GameObject)PrefabUtility.InstantiatePrefab(prefab);
+                        go.transform.SetParent(ringSegment.SlotCollectible, false);
+                        go.name = $"Collectible_{segment.collectibleType}";
+                    }
+                }
+
+
+
+                // --- 2. Pickup (Shield, Cloak, etc.)
+                if (segment.pickupType != PickupType.None && ringSegment.SlotPickup != null)
+                {
+                    prefab = prefabLibrary.GetPickupPrefab(segment.pickupType);
+                    if (prefab != null)
+                    {
+                        GameObject go = (GameObject)PrefabUtility.InstantiatePrefab(prefab);
+                        go.transform.SetParent(ringSegment.SlotPickup, false);
+                        go.name = $"Pickup_{segment.pickupType}";
+                    }
+                }
+
+
+                // --- 3. Hazard (Crusher, Crumbling)
+                if (segment.hazardType != HazardType.None && ringSegment.SlotHazard != null)
+                {
+                    prefab = prefabLibrary.GetHazardPrefab(segment.hazardType);
+                    if (prefab != null)
+                    {
+                        GameObject go = (GameObject)PrefabUtility.InstantiatePrefab(prefab);
+                        go.transform.SetParent(ringSegment.SlotHazard, false);
+                        go.name = $"Hazard_{segment.hazardType}";
+                    }
+                }
+
+                // --- 4. Portal
+                if (segment.hasPortal && ringSegment.SlotPortal != null)
+                {
+                    prefab = prefabLibrary.portalPrefab;
+                    if (prefab != null)
+                    {
+                        GameObject go = (GameObject)PrefabUtility.InstantiatePrefab(prefab);
+                        go.transform.SetParent(ringSegment.SlotPortal, false);
+                        go.name = $"Portal";
+                    }
+                }
+
+                // --- 5. Enemy
+                if (segment.enemyType != EnemyType.None && ringSegment.SlotEnemy != null)
+                {
+                    prefab = prefabLibrary.GetEnemyPrefab(segment.enemyType);
+                    if (prefab != null)
+                    {
+                        GameObject go = (GameObject)PrefabUtility.InstantiatePrefab(prefab);
+                        go.transform.SetParent(ringSegment.SlotEnemy, false);
+                        go.name = $"Enemy_{segment.enemyType}";
+                    }
+                }
+
+                // --- 6. Checkpoint Flag
+                if (segment.hasCheckpoint && ringSegment.SlotCheckpoint != null)
+                {
+                    prefab = prefabLibrary.checkpointPrefab;
+                    if (prefab != null)
+                    {
+                        GameObject go = (GameObject)PrefabUtility.InstantiatePrefab(prefab);
+                        go.transform.SetParent(ringSegment.SlotCheckpoint, false);
+                        go.name = $"Checkpoint";
+                    }
+                }
             }
+
+
+
         }
     }
 
