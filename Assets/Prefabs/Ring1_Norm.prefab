@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 434148284801339165}
   m_Layer: 0
-  m_Name: Slot Center
+  m_Name: Slot Collectible
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -65,6 +65,7 @@ Transform:
   - {fileID: 4212175387970015814}
   - {fileID: 1616240017475351442}
   - {fileID: 3685456814366168487}
+  - {fileID: 8834979323426964376}
   - {fileID: 8711182411940748469}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -83,10 +84,11 @@ MonoBehaviour:
   ringIndex: 0
   segmentIndex: 0
   isGap: 0
-  slotCenter: {fileID: 434148284801339165}
-  slotTrap: {fileID: 4212175387970015814}
-  slotAbove: {fileID: 1616240017475351442}
+  slotCollectible: {fileID: 434148284801339165}
+  slotHazard: {fileID: 4212175387970015814}
+  slotPickup: {fileID: 1616240017475351442}
   slotPortal: {fileID: 3685456814366168487}
+  slotCheckpoint: {fileID: 8834979323426964376}
 --- !u!1 &4549377739599161252
 GameObject:
   m_ObjectHideFlags: 0
@@ -118,6 +120,37 @@ Transform:
   m_Children: []
   m_Father: {fileID: 5736332341399069040}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &6018992854313092332
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8834979323426964376}
+  m_Layer: 0
+  m_Name: Slot Checkpoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8834979323426964376
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6018992854313092332}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1.081, y: 0, z: 0.786}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5736332341399069040}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6723421386770772617
 GameObject:
   m_ObjectHideFlags: 0
@@ -128,7 +161,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1616240017475351442}
   m_Layer: 0
-  m_Name: Sllot Above
+  m_Name: Sllot Pickup
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -143,7 +176,7 @@ Transform:
   m_GameObject: {fileID: 6723421386770772617}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1.079, y: 0.204, z: 0.751}
+  m_LocalPosition: {x: 0.592, y: 0.204, z: 0.858}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -159,7 +192,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4212175387970015814}
   m_Layer: 0
-  m_Name: Slot Trap
+  m_Name: Slot Hazard
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

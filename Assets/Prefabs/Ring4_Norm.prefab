@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6450676680490851037}
   m_Layer: 0
-  m_Name: Slot Center
+  m_Name: Slot Collectible
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -26,6 +26,37 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 1.68, y: 0, z: 0.657}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8020439656434627691}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1379886256513044751
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 495382046949065536}
+  m_Layer: 0
+  m_Name: Slot Checkpoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &495382046949065536
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1379886256513044751}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 3.25, y: 0, z: 0.448}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -72,7 +103,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1278679841264956178}
   m_Layer: 0
-  m_Name: Slot Trap
+  m_Name: Slot Hazard
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -103,7 +134,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7848139099195169281}
   m_Layer: 0
-  m_Name: Sllot Above
+  m_Name: Sllot Pickup
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -118,7 +149,7 @@ Transform:
   m_GameObject: {fileID: 3700396494310294417}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 3.263, y: 0.229, z: 0.504}
+  m_LocalPosition: {x: 1.664, y: 0.229, z: 0.666}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -158,6 +189,7 @@ Transform:
   - {fileID: 1278679841264956178}
   - {fileID: 7848139099195169281}
   - {fileID: 2254595682273169129}
+  - {fileID: 495382046949065536}
   - {fileID: 414190376064584708}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -176,10 +208,11 @@ MonoBehaviour:
   ringIndex: 0
   segmentIndex: 0
   isGap: 0
-  slotCenter: {fileID: 6450676680490851037}
-  slotTrap: {fileID: 1278679841264956178}
-  slotAbove: {fileID: 7848139099195169281}
+  slotCollectible: {fileID: 6450676680490851037}
+  slotHazard: {fileID: 1278679841264956178}
+  slotPickup: {fileID: 7848139099195169281}
   slotPortal: {fileID: 2254595682273169129}
+  slotCheckpoint: {fileID: 495382046949065536}
 --- !u!1001 &159251677781322735
 PrefabInstance:
   m_ObjectHideFlags: 0

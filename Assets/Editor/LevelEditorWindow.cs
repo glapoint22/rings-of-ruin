@@ -1,12 +1,14 @@
+using System.Collections.Generic;
 using System.Linq;
 using UnityEditor;
 using UnityEngine;
 
 public class LevelEditorWindow : EditorWindow
 {
-    [SerializeField] private float ringRadius = 400f;
-    [SerializeField] private float buttonSize = 80f;
+    private LevelPrefabLibrary prefabLibrary;
 
+    private float ringRadius = 400f;
+    private float buttonSize = 80f;
     private LevelData selectedLevelData;
     private int selectedRingIndex = 0;
     private int selectedSegmentIndex = -1;
@@ -32,6 +34,9 @@ public class LevelEditorWindow : EditorWindow
 
     private void OnGUI()
     {
+        LoadPrefabLibrary();
+
+
         GUILayout.Label("Rings of Ruin – Level Editor", EditorStyles.boldLabel);
 
         EditorGUILayout.Space(20);
@@ -90,7 +95,13 @@ public class LevelEditorWindow : EditorWindow
         }
         GUI.enabled = true;
 
+        
+
         GUILayout.EndHorizontal();
+
+        GUILayout.Space(10);
+
+        DrawAltarSettings();
 
         // If no level is selected after delete or startup
         if (selectedLevelData == null)
@@ -142,9 +153,18 @@ public class LevelEditorWindow : EditorWindow
             }
         }
 
+       
+
         GUI.enabled = true;
 
+       
+
         GUILayout.EndHorizontal();
+
+        EditorGUILayout.Space(10);
+
+        selectedLevelData.rings[selectedRingIndex].rotation =
+      (RingRotationDirection)EditorGUILayout.EnumPopup("Ring Rotation", selectedLevelData.rings[selectedRingIndex].rotation);
 
         // Now ensure segments are populated for the selected ring
         EnsureRingSegmentListExists();
@@ -153,15 +173,33 @@ public class LevelEditorWindow : EditorWindow
         // 🔁 Ring layout and segment editor
         EditorGUILayout.Space(10);
         DrawRingLayout();
-        GUILayout.Space(1000); // reserve vertical space
+
+        GUILayout.Space(900); // reserve vertical space
         DrawSegmentDetails();
+
+
+        GUILayout.BeginHorizontal();
+
+
+        if (GUILayout.Button("🛠 Build Preview"))
+        {
+            BuildPreview();
+        }
+
+
+        if (GUILayout.Button("🧹 Clear Preview"))
+        {
+            ClearPreview();
+        }
+
+        GUILayout.EndHorizontal();
     }
 
 
     private void DrawRingLayout()
     {
         float viewWidth = position.width;
-        Vector2 ringCenter = new Vector2(viewWidth / 2f, 600f);
+        Vector2 ringCenter = new Vector2(viewWidth / 2f, 650f);
 
         Handles.BeginGUI();
 
@@ -173,8 +211,9 @@ public class LevelEditorWindow : EditorWindow
 
             Rect buttonRect = new Rect(buttonCenter.x - buttonSize / 2, buttonCenter.y - buttonSize / 2, buttonSize, buttonSize);
 
-            SegmentConfiguration segment = selectedLevelData.rings[selectedRingIndex].segments[i];
+            SegmentConfiguration segment = selectedLevelData.rings[selectedRingIndex].segments[i]; // <- this must be here
 
+            // Color logic
             switch (segment.segmentType)
             {
                 case SegmentType.Gap:
@@ -188,14 +227,20 @@ public class LevelEditorWindow : EditorWindow
                     break;
             }
 
+            // Build label with emoji indicators
             string label = i.ToString();
-
             if (segment.segmentType == SegmentType.Normal)
             {
-                if (segment.hasGem) label += "\n💎";
-                if (segment.hasHazard) label += "\n⚠️";
-                if (segment.hasPowerUp) label += "\n🌀";
+                if (segment.collectibleType == CollectibleType.Gem)
+                    label += "\n💎";
+                else if (segment.collectibleType == CollectibleType.Coin)
+                    label += "\n🪙";
+                if (segment.hazardType != HazardType.None) label += "\n⚠️";
                 if (segment.hasPortal) label += "\n⏩";
+                if (segment.enemyType != EnemyType.None) label += "\n👾";
+                if (segment.pickupType != PickupType.None) label += "\n✨";
+                if (segment.hasCheckpoint) label += "\n🚩";
+                if (segment.isLocked) label += "\n🔒";
             }
 
             if (GUI.Button(buttonRect, label))
@@ -206,6 +251,10 @@ public class LevelEditorWindow : EditorWindow
 
             GUI.color = Color.white;
         }
+
+
+
+
 
         Handles.EndGUI();
     }
@@ -224,15 +273,24 @@ public class LevelEditorWindow : EditorWindow
 
         EditorGUI.BeginChangeCheck();
 
-        // Segment type selection
         segment.segmentType = (SegmentType)EditorGUILayout.EnumPopup("Segment Type", segment.segmentType);
 
-        // Only allow pickups if this is a Normal segment
         EditorGUI.BeginDisabledGroup(segment.segmentType != SegmentType.Normal);
-        segment.hasGem = EditorGUILayout.Toggle("Gem", segment.hasGem);
-        segment.hasHazard = EditorGUILayout.Toggle("Hazard", segment.hasHazard);
-        segment.hasPowerUp = EditorGUILayout.Toggle("Power-Up", segment.hasPowerUp);
+
+        segment.collectibleType = (CollectibleType)EditorGUILayout.EnumPopup("Collectable", segment.collectibleType);
+
+
+        segment.hazardType = (HazardType)EditorGUILayout.EnumPopup("Hazard Type", segment.hazardType);
+        segment.pickupType = (PickupType)EditorGUILayout.EnumPopup("Pickup Type", segment.pickupType);
+
         segment.hasPortal = EditorGUILayout.Toggle("Portal", segment.hasPortal);
+        segment.hasCheckpoint = EditorGUILayout.Toggle("Checkpoint", segment.hasCheckpoint);
+
+        segment.enemyType = (EnemyType)EditorGUILayout.EnumPopup("Enemy", segment.enemyType);
+
+        segment.isLocked = EditorGUILayout.Toggle("Locked Gate", segment.isLocked);
+
+
         EditorGUI.EndDisabledGroup();
 
         if (EditorGUI.EndChangeCheck())
@@ -240,6 +298,7 @@ public class LevelEditorWindow : EditorWindow
             EditorUtility.SetDirty(selectedLevelData);
         }
     }
+
 
     private void EnsureRingSegmentListExists()
     {
@@ -255,5 +314,97 @@ public class LevelEditorWindow : EditorWindow
             });
         }
     }
+
+
+
+    private void DrawAltarSettings()
+    {
+        selectedLevelData.isAltarLockedByKey = EditorGUILayout.Toggle("Altar Locked", selectedLevelData.isAltarLockedByKey);
+
+    }
+
+
+
+    private Transform GetOrCreatePreviewRoot()
+    {
+        var existing = GameObject.Find("_LevelPreview");
+        if (existing != null)
+            return existing.transform;
+
+        var root = new GameObject("_LevelPreview");
+        return root.transform;
+    }
+
+
+
+    private void BuildPreview()
+    {
+        ClearPreview();
+
+        if (selectedLevelData == null)
+        {
+            Debug.LogWarning("No LevelData selected.");
+            return;
+        }
+
+        Transform previewRoot = GetOrCreatePreviewRoot();
+
+        foreach (var ring in selectedLevelData.rings)
+        {
+            float radius = 5f + ring.ringIndex * 2.5f;
+
+            for (int i = 0; i < ring.segments.Count; i++)
+            {
+                var segment = ring.segments[i];
+                float angle = i * Mathf.PI * 2f / SegmentCount - Mathf.PI / 2f;
+                Vector3 position = new Vector3(Mathf.Cos(angle), 0, Mathf.Sin(angle)) * radius;
+                Quaternion rotation = Quaternion.Euler(0, -angle * Mathf.Rad2Deg, 0);
+
+                int ringIndex = ring.ringIndex;
+
+                GameObject prefab = segment.segmentType == SegmentType.Gap
+                    ? prefabLibrary.gapSegmentPrefabs[ringIndex]
+                    : prefabLibrary.normalSegmentPrefabs[ringIndex];
+
+
+                if (prefab == null) continue;
+
+                GameObject segmentGO = (GameObject)PrefabUtility.InstantiatePrefab(prefab);
+                segmentGO.transform.position = position;
+                segmentGO.transform.rotation = rotation;
+                segmentGO.transform.SetParent(previewRoot);
+                segmentGO.name = $"Ring{ring.ringIndex}_Seg{i}";
+            }
+        }
+    }
+
+
+
+    private void ClearPreview()
+    {
+        var existing = GameObject.Find("_LevelPreview");
+        if (existing != null)
+            DestroyImmediate(existing);
+    }
+
+
+
+    private void LoadPrefabLibrary()
+    {
+        if (prefabLibrary != null) return;
+
+        string[] guids = AssetDatabase.FindAssets("t:LevelPrefabLibrary");
+        if (guids.Length > 0)
+        {
+            string path = AssetDatabase.GUIDToAssetPath(guids[0]);
+            prefabLibrary = AssetDatabase.LoadAssetAtPath<LevelPrefabLibrary>(path);
+        }
+
+        if (prefabLibrary == null)
+        {
+            Debug.LogWarning("No LevelPrefabLibrary asset found. Please create one via 'Create > Rings of Ruin > Prefab Library'.");
+        }
+    }
+
 
 }

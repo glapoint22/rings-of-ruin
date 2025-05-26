@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3607902825834094727}
   m_Layer: 0
-  m_Name: Slot Trap
+  m_Name: Slot Hazard
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -96,6 +96,7 @@ Transform:
   - {fileID: 3607902825834094727}
   - {fileID: 3315446240855074197}
   - {fileID: 7829757181607365665}
+  - {fileID: 2344310168826939139}
   - {fileID: 6554804974354478176}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -114,10 +115,11 @@ MonoBehaviour:
   ringIndex: 0
   segmentIndex: 0
   isGap: 0
-  slotCenter: {fileID: 757250589291739356}
-  slotTrap: {fileID: 3607902825834094727}
-  slotAbove: {fileID: 3315446240855074197}
+  slotCollectible: {fileID: 757250589291739356}
+  slotHazard: {fileID: 3607902825834094727}
+  slotPickup: {fileID: 3315446240855074197}
   slotPortal: {fileID: 7829757181607365665}
+  slotCheckpoint: {fileID: 2344310168826939139}
 --- !u!1 &4281838244866016198
 GameObject:
   m_ObjectHideFlags: 0
@@ -128,7 +130,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3315446240855074197}
   m_Layer: 0
-  m_Name: Sllot Above
+  m_Name: Sllot Pickup
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -143,7 +145,7 @@ Transform:
   m_GameObject: {fileID: 4281838244866016198}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 2.489, y: 0.261, z: 0.511}
+  m_LocalPosition: {x: 1.317, y: 0.261, z: 0.7}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -159,7 +161,7 @@ GameObject:
   m_Component:
   - component: {fileID: 757250589291739356}
   m_Layer: 0
-  m_Name: Slot Center
+  m_Name: Slot Collectible
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -175,6 +177,37 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 1.375, y: 0, z: 0.68}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6631679772080927230}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &7762619214485934321
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2344310168826939139}
+  m_Layer: 0
+  m_Name: Slot Checkpoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2344310168826939139
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7762619214485934321}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 2.6, y: 0, z: 0.556}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

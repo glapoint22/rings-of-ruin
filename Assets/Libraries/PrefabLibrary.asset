@@ -1,0 +1,41 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5dd870ee12c017447a131f5873161399, type: 3}
+  m_Name: PrefabLibrary
+  m_EditorClassIdentifier: 
+  normalSegmentPrefabs:
+  - {fileID: 2235975708072195948, guid: 1daff7f1703680b48bff238a3436548e, type: 3}
+  - {fileID: 5859960933196909592, guid: 92bb02f7eee2891448e9c41d849dec59, type: 3}
+  - {fileID: 3557702605399015103, guid: 7ad0ad223c7c2ef43b27ba1326bb22a2, type: 3}
+  - {fileID: 4696534980819948806, guid: 6fd2b80aefa6f6c41995a63eee1546fa, type: 3}
+  gapSegmentPrefabs:
+  - {fileID: 1412275854526739006, guid: 5b3b2b093f21ee64c8280ab0c7181c26, type: 3}
+  - {fileID: 2304869420920820612, guid: 05f83ebb3659aec48adbc9f39b6401fd, type: 3}
+  - {fileID: 3113857544761921626, guid: 540797ae70c760c4183fdfe5f0a78deb, type: 3}
+  - {fileID: 8665015893421046531, guid: 73fe91cb3b09a4347ac2ce8f81f6f95b, type: 3}
+  gemPrefab: {fileID: 0}
+  coinPrefab: {fileID: 0}
+  shieldPrefab: {fileID: 0}
+  cloakPrefab: {fileID: 0}
+  timeDilationPrefab: {fileID: 0}
+  healthPrefab: {fileID: 0}
+  decoyPrefab: {fileID: 0}
+  pathmakerPrefab: {fileID: 0}
+  portalPrefab: {fileID: 0}
+  spellSpawnVisual: {fileID: 0}
+  crusherPrefab: {fileID: 0}
+  catapultPrefab: {fileID: 0}
+  crumblingPlatformPrefab: {fileID: 0}
+  ruinwalkerPrefab: {fileID: 0}
+  gravecallerPrefab: {fileID: 0}
+  bloodseekerPrefab: {fileID: 0}
+  checkpointFlagPrefab: {fileID: 0}

@@ -3,23 +3,24 @@ using UnityEngine;
 public class RingSegment : MonoBehaviour
 {
     [Header("Segment Info")]
-    [SerializeField] private int ringIndex;       // 0 = Ring1, 1 = Ring2...
-    [SerializeField] private int segmentIndex;    // Index within the ring
-    [SerializeField] private bool isGap;          // For logic/editor use
+    [SerializeField] private int ringIndex;
+    [SerializeField] private int segmentIndex;
+    [SerializeField] private bool isGap;
 
     [Header("Slot Anchors")]
-    [SerializeField] private Transform slotCenter;
-    [SerializeField] private Transform slotTrap;
-    [SerializeField] private Transform slotAbove;
+    [SerializeField] private Transform slotCollectible;
+    [SerializeField] private Transform slotHazard;
+    [SerializeField] private Transform slotPickup;
     [SerializeField] private Transform slotPortal;
+    [SerializeField] private Transform slotCheckpoint;
 
-    // Properties for read-only access
     public int RingIndex => ringIndex;
     public int SegmentIndex => segmentIndex;
     public bool IsGap => isGap;
 
-    public Transform SlotCenter => slotCenter;
-    public Transform SlotTrap => slotTrap;
-    public Transform SlotAbove => slotAbove;
+    public Transform SlotCollectIble => slotCollectible;
+    public Transform SlotHazard => slotHazard;
+    public Transform SlotPickup => slotPickup;
     public Transform SlotPortal => slotPortal;
+    public Transform SlotCheckpoint => slotCheckpoint;
 }
