@@ -22,19 +22,19 @@ MonoBehaviour:
   - {fileID: 2304869420920820612, guid: 05f83ebb3659aec48adbc9f39b6401fd, type: 3}
   - {fileID: 3113857544761921626, guid: 540797ae70c760c4183fdfe5f0a78deb, type: 3}
   - {fileID: 8665015893421046531, guid: 73fe91cb3b09a4347ac2ce8f81f6f95b, type: 3}
-  gemPrefab: {fileID: 0}
-  coinPrefab: {fileID: 0}
-  shieldPrefab: {fileID: 0}
-  cloakPrefab: {fileID: 0}
-  timeDilationPrefab: {fileID: 0}
-  healthPrefab: {fileID: 0}
-  decoyPrefab: {fileID: 0}
-  pathmakerPrefab: {fileID: 0}
-  portalPrefab: {fileID: 0}
-  spellSpawnVisual: {fileID: 0}
-  crusherPrefab: {fileID: 0}
-  catapultPrefab: {fileID: 0}
-  crumblingPlatformPrefab: {fileID: 0}
+  gemPrefab: {fileID: 1330952793056581977, guid: 21b70fda3216c4143acc6763d40ffc20, type: 3}
+  coinPrefab: {fileID: 3045200245669249379, guid: b6a82ed13bc494e4588d1e53a6dfcfc7, type: 3}
+  shieldPrefab: {fileID: 8136413537345762719, guid: a7b07f4daf0b6c84ab1c479658b22dfc, type: 3}
+  cloakPrefab: {fileID: 4973491188983367704, guid: 54f70e3948ba0354aa28843f623948ec, type: 3}
+  timeDilationPrefab: {fileID: 641186488462051596, guid: 0bff36ada604d314ab06f32ff09dfa13, type: 3}
+  healthPrefab: {fileID: 4311258303650999628, guid: 62bc426a24b13ec4998f2dfa1e75b453, type: 3}
+  decoyPrefab: {fileID: 49177663287305275, guid: d4a58f95a66c59f4b80fc94edb3f220c, type: 3}
+  pathmakerPrefab: {fileID: 4237826271509774255, guid: 3ccccef47c85e864bbd9e52c32ae1f8b, type: 3}
+  portalPrefab: {fileID: 515101759093858978, guid: 07e59bd7db92da04eb1af62eb99cc347, type: 3}
+  spellSpawnVisual: {fileID: 4799016877198760528, guid: 6ae96f66658755247a8cce2b15b1d0d5, type: 3}
+  crusherPrefab: {fileID: 7598187423802398679, guid: 72574f59b9d3dcf41a1b1fadfbb9e791, type: 3}
+  catapultPrefab: {fileID: 5580114535029454179, guid: b01e9bd22b01bb6428b032d11302d137, type: 3}
+  crumblingPlatformPrefab: {fileID: 3286068841890438987, guid: ff20c6cb2c72eff42a9fb091022f1181, type: 3}
   ruinwalkerPrefab: {fileID: 0}
   gravecallerPrefab: {fileID: 0}
   bloodseekerPrefab: {fileID: 0}

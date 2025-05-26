@@ -185,6 +185,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 5268751061277873034}
   - {fileID: 6450676680490851037}
   - {fileID: 1278679841264956178}
   - {fileID: 7848139099195169281}
@@ -208,11 +209,43 @@ MonoBehaviour:
   ringIndex: 0
   segmentIndex: 0
   isGap: 0
+  slotEnemy: {fileID: 5268751061277873034}
   slotCollectible: {fileID: 6450676680490851037}
   slotHazard: {fileID: 1278679841264956178}
   slotPickup: {fileID: 7848139099195169281}
   slotPortal: {fileID: 2254595682273169129}
   slotCheckpoint: {fileID: 495382046949065536}
+--- !u!1 &4872824073060752263
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5268751061277873034}
+  m_Layer: 0
+  m_Name: Slot Enemy
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5268751061277873034
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4872824073060752263}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -0.94, y: 0, z: -0.59}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8020439656434627691}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &159251677781322735
 PrefabInstance:
   m_ObjectHideFlags: 0
