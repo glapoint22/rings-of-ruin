@@ -5,6 +5,9 @@ using UnityEngine;
 
 public class LevelEditorWindow : EditorWindow
 {
+    private List<LevelData> allLevels = new List<LevelData>();
+    private int selectedLevelIndex = 0;
+
     private LevelPrefabLibrary prefabLibrary;
 
     private float ringRadius = 400f;
@@ -23,14 +26,11 @@ public class LevelEditorWindow : EditorWindow
     }
 
 
-    public void OnEnable()
+    private void OnEnable()
     {
-        string path = EditorPrefs.GetString(LevelDataPrefKey, string.Empty);
-        if (!string.IsNullOrEmpty(path))
-        {
-            selectedLevelData = AssetDatabase.LoadAssetAtPath<LevelData>(path);
-        }
+        LoadAllLevels();
     }
+
 
     private void OnGUI()
     {
@@ -41,27 +41,26 @@ public class LevelEditorWindow : EditorWindow
 
         EditorGUILayout.Space(20);
 
-        // 🔍 Find all LevelData assets
-        var allLevelData = AssetDatabase.FindAssets("t:LevelData")
-            .Select(guid => AssetDatabase.LoadAssetAtPath<LevelData>(AssetDatabase.GUIDToAssetPath(guid)))
-            .Where(ld => ld != null)
-            .OrderBy(ld => ld.levelID)
-            .ToList();
+        GUILayout.Label("Select Level", EditorStyles.boldLabel);
 
-        // 🔽 Dropdown to select LevelData
-        string[] levelNames = allLevelData.Select(ld => $"Level {ld.levelID}").ToArray();
-        int currentIndex = Mathf.Max(0, allLevelData.IndexOf(selectedLevelData));
-        int newIndex = EditorGUILayout.Popup("Select Level", currentIndex, levelNames);
-
-        if (newIndex != currentIndex && newIndex < allLevelData.Count)
+        if (allLevels.Count == 0)
         {
-            selectedLevelData = allLevelData[newIndex];
-            if (selectedLevelData != null)
+            EditorGUILayout.HelpBox("No LevelData assets found. Click 'Create New Level' to get started.", MessageType.Info);
+        }
+        else
+        {
+            string[] levelNames = allLevels.Select(ld => $"Level {ld.levelID}").ToArray();
+            int newIndex = EditorGUILayout.Popup("Select Level", selectedLevelIndex, levelNames);
+
+            if (newIndex != selectedLevelIndex)
             {
+                selectedLevelIndex = newIndex;
+                selectedLevelData = allLevels[selectedLevelIndex];
                 string path = AssetDatabase.GetAssetPath(selectedLevelData);
                 EditorPrefs.SetString(LevelDataPrefKey, path);
             }
         }
+
 
         EditorGUILayout.Space(10);
 
@@ -78,6 +77,7 @@ public class LevelEditorWindow : EditorWindow
                 AssetDatabase.SaveAssets();
                 selectedLevelData = newLevel;
                 EditorPrefs.SetString(LevelDataPrefKey, path);
+                LoadAllLevels();
             }
         }
 
@@ -91,6 +91,7 @@ public class LevelEditorWindow : EditorWindow
                 AssetDatabase.SaveAssets();
                 selectedLevelData = null;
                 EditorPrefs.DeleteKey(LevelDataPrefKey);
+                LoadAllLevels();
             }
         }
         GUI.enabled = true;
@@ -356,9 +357,12 @@ public class LevelEditorWindow : EditorWindow
             for (int i = 0; i < ring.segments.Count; i++)
             {
                 var segment = ring.segments[i];
-                float angle = i * Mathf.PI * 2f / SegmentCount - Mathf.PI / 2f;
+                float angle = -i * Mathf.PI * 2f / SegmentCount + Mathf.PI / 2f;
                 Vector3 position = new Vector3(Mathf.Cos(angle), 0, Mathf.Sin(angle)) * radius;
                 Quaternion rotation = Quaternion.Euler(0, -angle * Mathf.Rad2Deg, 0);
+
+
+
 
                 int ringIndex = ring.ringIndex;
 
@@ -403,6 +407,40 @@ public class LevelEditorWindow : EditorWindow
         if (prefabLibrary == null)
         {
             Debug.LogWarning("No LevelPrefabLibrary asset found. Please create one via 'Create > Rings of Ruin > Prefab Library'.");
+        }
+    }
+
+
+    private void LoadAllLevels()
+    {
+        allLevels = AssetDatabase.FindAssets("t:LevelData")
+            .Select(guid => AssetDatabase.LoadAssetAtPath<LevelData>(AssetDatabase.GUIDToAssetPath(guid)))
+            .Where(ld => ld != null)
+            .OrderBy(ld => ld.levelID)
+            .ToList();
+
+        // Select the first level if nothing is selected
+        if (selectedLevelData == null && allLevels.Count > 0)
+        {
+            selectedLevelIndex = 0;
+            selectedLevelData = allLevels[0];
+
+            string path = AssetDatabase.GetAssetPath(selectedLevelData);
+            EditorPrefs.SetString(LevelDataPrefKey, path);
+        }
+        else
+        {
+            // Try to restore selectedLevelData from EditorPrefs if available
+            string path = EditorPrefs.GetString(LevelDataPrefKey, string.Empty);
+            if (!string.IsNullOrEmpty(path))
+            {
+                var match = allLevels.FirstOrDefault(ld => AssetDatabase.GetAssetPath(ld) == path);
+                if (match != null)
+                {
+                    selectedLevelData = match;
+                    selectedLevelIndex = allLevels.IndexOf(match);
+                }
+            }
         }
     }
 

@@ -37,7 +37,7 @@ MonoBehaviour:
       hasCheckpoint: 0
     - segmentIndex: 2
       isLocked: 0
-      segmentType: 0
+      segmentType: 1
       hasPortal: 0
       hazardType: 0
       pickupType: 0

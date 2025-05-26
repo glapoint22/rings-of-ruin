@@ -48,10 +48,11 @@ MonoBehaviour:
   ringIndex: 0
   segmentIndex: 0
   isGap: 0
-  slotCenter: {fileID: 0}
-  slotTrap: {fileID: 0}
-  slotAbove: {fileID: 0}
+  slotCollectible: {fileID: 0}
+  slotHazard: {fileID: 0}
+  slotPickup: {fileID: 0}
   slotPortal: {fileID: 0}
+  slotCheckpoint: {fileID: 0}
 --- !u!1001 &6502709035860312135
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -74,19 +75,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 7535da0d75127bd4c8be80b03ad15144, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 7535da0d75127bd4c8be80b03ad15144, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0.5
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 7535da0d75127bd4c8be80b03ad15144, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.7071068
+      value: -0.5
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 7535da0d75127bd4c8be80b03ad15144, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.7071068
+      value: -0.5
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 7535da0d75127bd4c8be80b03ad15144, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -94,7 +95,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 7535da0d75127bd4c8be80b03ad15144, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: 180
+      value: -90
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 7535da0d75127bd4c8be80b03ad15144, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
