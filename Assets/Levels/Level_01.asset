@@ -233,5 +233,224 @@ MonoBehaviour:
       enemyType: 0
       collectibleType: 0
       hasCheckpoint: 0
+  - ringIndex: 1
+    rotation: 0
+    segments:
+    - segmentIndex: 0
+      isLocked: 0
+      segmentType: 0
+      hasPortal: 0
+      hazardType: 0
+      pickupType: 0
+      enemyType: 0
+      collectibleType: 0
+      hasCheckpoint: 0
+    - segmentIndex: 1
+      isLocked: 0
+      segmentType: 0
+      hasPortal: 0
+      hazardType: 0
+      pickupType: 0
+      enemyType: 0
+      collectibleType: 0
+      hasCheckpoint: 0
+    - segmentIndex: 2
+      isLocked: 0
+      segmentType: 0
+      hasPortal: 0
+      hazardType: 0
+      pickupType: 0
+      enemyType: 0
+      collectibleType: 0
+      hasCheckpoint: 0
+    - segmentIndex: 3
+      isLocked: 0
+      segmentType: 0
+      hasPortal: 0
+      hazardType: 0
+      pickupType: 0
+      enemyType: 0
+      collectibleType: 0
+      hasCheckpoint: 0
+    - segmentIndex: 4
+      isLocked: 0
+      segmentType: 0
+      hasPortal: 0
+      hazardType: 0
+      pickupType: 0
+      enemyType: 0
+      collectibleType: 0
+      hasCheckpoint: 0
+    - segmentIndex: 5
+      isLocked: 0
+      segmentType: 0
+      hasPortal: 0
+      hazardType: 0
+      pickupType: 0
+      enemyType: 0
+      collectibleType: 0
+      hasCheckpoint: 0
+    - segmentIndex: 6
+      isLocked: 0
+      segmentType: 0
+      hasPortal: 0
+      hazardType: 0
+      pickupType: 0
+      enemyType: 0
+      collectibleType: 0
+      hasCheckpoint: 0
+    - segmentIndex: 7
+      isLocked: 0
+      segmentType: 0
+      hasPortal: 0
+      hazardType: 0
+      pickupType: 0
+      enemyType: 0
+      collectibleType: 0
+      hasCheckpoint: 0
+    - segmentIndex: 8
+      isLocked: 0
+      segmentType: 0
+      hasPortal: 0
+      hazardType: 0
+      pickupType: 0
+      enemyType: 0
+      collectibleType: 0
+      hasCheckpoint: 0
+    - segmentIndex: 9
+      isLocked: 0
+      segmentType: 0
+      hasPortal: 0
+      hazardType: 0
+      pickupType: 0
+      enemyType: 0
+      collectibleType: 0
+      hasCheckpoint: 0
+    - segmentIndex: 10
+      isLocked: 0
+      segmentType: 0
+      hasPortal: 0
+      hazardType: 0
+      pickupType: 0
+      enemyType: 0
+      collectibleType: 0
+      hasCheckpoint: 0
+    - segmentIndex: 11
+      isLocked: 0
+      segmentType: 0
+      hasPortal: 0
+      hazardType: 0
+      pickupType: 0
+      enemyType: 0
+      collectibleType: 0
+      hasCheckpoint: 0
+    - segmentIndex: 12
+      isLocked: 0
+      segmentType: 0
+      hasPortal: 0
+      hazardType: 0
+      pickupType: 0
+      enemyType: 0
+      collectibleType: 0
+      hasCheckpoint: 0
+    - segmentIndex: 13
+      isLocked: 0
+      segmentType: 0
+      hasPortal: 0
+      hazardType: 0
+      pickupType: 0
+      enemyType: 0
+      collectibleType: 0
+      hasCheckpoint: 0
+    - segmentIndex: 14
+      isLocked: 0
+      segmentType: 0
+      hasPortal: 0
+      hazardType: 0
+      pickupType: 0
+      enemyType: 0
+      collectibleType: 0
+      hasCheckpoint: 0
+    - segmentIndex: 15
+      isLocked: 0
+      segmentType: 0
+      hasPortal: 0
+      hazardType: 0
+      pickupType: 0
+      enemyType: 0
+      collectibleType: 0
+      hasCheckpoint: 0
+    - segmentIndex: 16
+      isLocked: 0
+      segmentType: 0
+      hasPortal: 0
+      hazardType: 0
+      pickupType: 0
+      enemyType: 0
+      collectibleType: 0
+      hasCheckpoint: 0
+    - segmentIndex: 17
+      isLocked: 0
+      segmentType: 0
+      hasPortal: 0
+      hazardType: 0
+      pickupType: 0
+      enemyType: 0
+      collectibleType: 0
+      hasCheckpoint: 0
+    - segmentIndex: 18
+      isLocked: 0
+      segmentType: 0
+      hasPortal: 0
+      hazardType: 0
+      pickupType: 0
+      enemyType: 0
+      collectibleType: 0
+      hasCheckpoint: 0
+    - segmentIndex: 19
+      isLocked: 0
+      segmentType: 0
+      hasPortal: 0
+      hazardType: 0
+      pickupType: 0
+      enemyType: 0
+      collectibleType: 0
+      hasCheckpoint: 0
+    - segmentIndex: 20
+      isLocked: 0
+      segmentType: 0
+      hasPortal: 0
+      hazardType: 0
+      pickupType: 0
+      enemyType: 0
+      collectibleType: 0
+      hasCheckpoint: 0
+    - segmentIndex: 21
+      isLocked: 0
+      segmentType: 0
+      hasPortal: 0
+      hazardType: 0
+      pickupType: 0
+      enemyType: 0
+      collectibleType: 0
+      hasCheckpoint: 0
+    - segmentIndex: 22
+      isLocked: 0
+      segmentType: 0
+      hasPortal: 0
+      hazardType: 0
+      pickupType: 0
+      enemyType: 0
+      collectibleType: 0
+      hasCheckpoint: 0
+    - segmentIndex: 23
+      isLocked: 0
+      segmentType: 0
+      hasPortal: 0
+      hazardType: 0
+      pickupType: 0
+      enemyType: 0
+      collectibleType: 0
+      hasCheckpoint: 0
   enemies: []
   isAltarLockedByKey: 0
