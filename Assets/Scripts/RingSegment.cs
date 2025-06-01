@@ -5,10 +5,10 @@ using UnityEngine;
 /// </summary>
 public class RingSegment : MonoBehaviour
 {
-    [Header("Segment Info")]
-    [SerializeField] private int ringIndex;
-    [SerializeField] private int segmentIndex;
-    [SerializeField] private bool isGap;
+    //[Header("Segment Info")]
+    //[SerializeField] private int ringIndex;
+    //[SerializeField] private int segmentIndex;
+    //[SerializeField] private bool isGap;
 
     [Header("Slot Anchors")]
     [SerializeField] private Transform slotEnemy;
@@ -20,9 +20,9 @@ public class RingSegment : MonoBehaviour
     
 
     // Segment identification properties
-    public int RingIndex => ringIndex;
-    public int SegmentIndex => segmentIndex;
-    public bool IsGap => isGap;
+    //public int RingIndex => ringIndex;
+    //public int SegmentIndex => segmentIndex;
+    //public bool IsGap => isGap;
 
     // Game element slot properties
     public Transform SlotEnemy => slotEnemy;
@@ -32,10 +32,10 @@ public class RingSegment : MonoBehaviour
     public Transform SlotPortal => slotPortal;
     public Transform SlotCheckpoint => slotCheckpoint;
 
-    private void OnValidate()
-    {
-        // Ensure indices are non-negative
-        ringIndex = Mathf.Max(0, ringIndex);
-        segmentIndex = Mathf.Max(0, segmentIndex);
-    }
+    //private void OnValidate()
+    //{
+    //    // Ensure indices are non-negative
+    //    ringIndex = Mathf.Max(0, ringIndex);
+    //    segmentIndex = Mathf.Max(0, segmentIndex);
+    //}
 }

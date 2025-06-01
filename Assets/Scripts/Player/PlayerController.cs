@@ -153,4 +153,21 @@ public class PlayerController : MonoBehaviour
     {
         return t * t * (3f - 2f * t); // smoothstep
     }
+
+
+    public void FallIntoGap()
+    {
+        Debug.Log("[PlayerController] Falling into gap...");
+
+        // Stop movement
+        enabled = false;
+
+        // Enable gravity
+        var rb = GetComponent<Rigidbody>();
+        if (rb != null)
+        {
+            rb.useGravity = true;
+            rb.isKinematic = false;
+        }
+    }
 }
