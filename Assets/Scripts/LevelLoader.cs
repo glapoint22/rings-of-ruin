@@ -13,7 +13,7 @@ public class LevelLoader : MonoBehaviour
 
     private LevelData currentLevel;
 
-    private void Start()
+    private void Awake()
     {
         if (initialLevel != null)
         {
@@ -33,7 +33,7 @@ public class LevelLoader : MonoBehaviour
         }
 
         levelBuilder.BuildLevel(levelData, levelRoot);
-        Debug.Log($"[LevelLoader] Loaded Level {levelData.levelID}");
+        //Debug.Log($"[LevelLoader] Loaded Level {levelData.levelID}");
     }
 
     private void ClearLevel()

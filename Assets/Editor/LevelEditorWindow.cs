@@ -367,7 +367,8 @@ public class LevelEditorWindow : EditorWindow
             else if (segment.collectibleType == CollectibleType.Coin)
                 label += "\n🪙";
             if (segment.hazardType != HazardType.None) label += "\n⚠️";
-            if (segment.hasPortal) label += "\n🎯";
+            if (segment.portalType == PortalType.PortalA) label += "\n🎯";
+            if (segment.portalType == PortalType.PortalB) label += "\n🎲";
             if (segment.enemyType != EnemyType.None) label += "\n👹";
             if (segment.pickupType != PickupType.None) label += "\n✋";
             if (segment.hasCheckpoint) label += "\n🚩";
@@ -404,7 +405,7 @@ public class LevelEditorWindow : EditorWindow
         segment.collectibleType = (CollectibleType)EditorGUILayout.EnumPopup("Collectable", segment.collectibleType);
         segment.hazardType = (HazardType)EditorGUILayout.EnumPopup("Hazard Type", segment.hazardType);
         segment.pickupType = (PickupType)EditorGUILayout.EnumPopup("Pickup Type", segment.pickupType);
-        segment.hasPortal = EditorGUILayout.Toggle("Portal", segment.hasPortal);
+        segment.portalType = (PortalType)EditorGUILayout.EnumPopup("Portal", segment.portalType);
         segment.hasCheckpoint = EditorGUILayout.Toggle("Checkpoint", segment.hasCheckpoint);
         segment.enemyType = (EnemyType)EditorGUILayout.EnumPopup("Enemy", segment.enemyType);
         segment.isLocked = EditorGUILayout.Toggle("Locked Gate", segment.isLocked);
@@ -419,27 +420,6 @@ public class LevelEditorWindow : EditorWindow
     #endregion
 
     #region Preview Management
-    // 3D preview generation and management in the scene view
-    //private void BuildPreview()
-    //{
-    //    ClearPreview();
-
-    //    if (selectedLevelData == null)
-    //    {
-    //        Debug.LogWarning("No LevelData selected.");
-    //        return;
-    //    }
-
-
-
-    //    foreach (var ring in selectedLevelData.rings)
-    //    {
-    //        BuildRingPreview(ring, previewRoot);
-    //    }
-    //}
-
-
-
 
     private void BuildPreview()
     {
@@ -469,132 +449,7 @@ public class LevelEditorWindow : EditorWindow
 
 
 
-    //private void BuildRingPreview(RingConfiguration ring, Transform previewRoot)
-    //{
-    //    float radius = PREVIEW_BASE_RADIUS + ring.ringIndex * PREVIEW_RING_SPACING;
-
-    //    for (int i = 0; i < ring.segments.Count; i++)
-    //    {
-    //        var segment = ring.segments[i];
-    //        float angle = -i * Mathf.PI * 2f / SEGMENT_COUNT + Mathf.PI / 2f;
-    //        Vector3 position = new Vector3(Mathf.Cos(angle), 0, Mathf.Sin(angle)) * radius;
-    //        Quaternion rotation = Quaternion.Euler(0, -angle * Mathf.Rad2Deg, 0);
-
-    //        GameObject segmentGO = CreateSegmentGameObject(ring, segment, position, rotation, previewRoot);
-    //        if (segmentGO == null) continue;
-
-    //        ConfigureSegmentComponents(segmentGO, segment);
-    //    }
-    //}
-
-    //private GameObject CreateSegmentGameObject(RingConfiguration ring, SegmentConfiguration segment, Vector3 position, Quaternion rotation, Transform previewRoot)
-    //{
-    //    int ringIndex = ring.ringIndex;
-    //    GameObject prefab = segment.segmentType == SegmentType.Gap
-    //        ? prefabLibrary.gapSegmentPrefabs[ringIndex]
-    //        : prefabLibrary.normalSegmentPrefabs[ringIndex];
-
-    //    if (prefab == null) return null;
-
-    //    GameObject segmentGO = (GameObject)PrefabUtility.InstantiatePrefab(prefab);
-    //    segmentGO.transform.position = position;
-    //    segmentGO.transform.rotation = rotation;
-    //    segmentGO.transform.SetParent(previewRoot);
-    //    segmentGO.name = $"Ring{ring.ringIndex}_Seg{segment.segmentIndex}";
-
-    //    return segmentGO;
-    //}
-
-    //private void ConfigureSegmentComponents(GameObject segmentGO, SegmentConfiguration segment)
-    //{
-    //    RingSegment ringSegment = segmentGO.GetComponent<RingSegment>();
-    //    if (ringSegment == null) return;
-
-    //    ConfigureCollectible(ringSegment, segment);
-    //    ConfigurePickup(ringSegment, segment);
-    //    ConfigureHazard(ringSegment, segment);
-    //    ConfigurePortal(ringSegment, segment);
-    //    ConfigureEnemy(ringSegment, segment);
-    //    ConfigureCheckpoint(ringSegment, segment);
-    //}
-
-    //private void ConfigureCollectible(RingSegment ringSegment, SegmentConfiguration segment)
-    //{
-    //    if (segment.collectibleType == CollectibleType.None || ringSegment.SlotCollectible == null) return;
-
-    //    GameObject prefab = prefabLibrary.GetCollectiblePrefab(segment.collectibleType);
-    //    if (prefab != null)
-    //    {
-    //        GameObject go = (GameObject)PrefabUtility.InstantiatePrefab(prefab);
-    //        go.transform.SetParent(ringSegment.SlotCollectible, false);
-    //        go.name = $"Collectible_{segment.collectibleType}";
-    //    }
-    //}
-
-    //private void ConfigurePickup(RingSegment ringSegment, SegmentConfiguration segment)
-    //{
-    //    if (segment.pickupType == PickupType.None || ringSegment.SlotPickup == null) return;
-
-    //    GameObject prefab = prefabLibrary.GetPickupPrefab(segment.pickupType);
-    //    if (prefab != null)
-    //    {
-    //        GameObject go = (GameObject)PrefabUtility.InstantiatePrefab(prefab);
-    //        go.transform.SetParent(ringSegment.SlotPickup, false);
-    //        go.name = $"Pickup_{segment.pickupType}";
-    //    }
-    //}
-
-    //private void ConfigureHazard(RingSegment ringSegment, SegmentConfiguration segment)
-    //{
-    //    if (segment.hazardType == HazardType.None || ringSegment.SlotHazard == null) return;
-
-    //    GameObject prefab = prefabLibrary.GetHazardPrefab(segment.hazardType);
-    //    if (prefab != null)
-    //    {
-    //        GameObject go = (GameObject)PrefabUtility.InstantiatePrefab(prefab);
-    //        go.transform.SetParent(ringSegment.SlotHazard, false);
-    //        go.name = $"Hazard_{segment.hazardType}";
-    //    }
-    //}
-
-    //private void ConfigurePortal(RingSegment ringSegment, SegmentConfiguration segment)
-    //{
-    //    if (!segment.hasPortal || ringSegment.SlotPortal == null) return;
-
-    //    GameObject prefab = prefabLibrary.portalPrefab;
-    //    if (prefab != null)
-    //    {
-    //        GameObject go = (GameObject)PrefabUtility.InstantiatePrefab(prefab);
-    //        go.transform.SetParent(ringSegment.SlotPortal, false);
-    //        go.name = "Portal";
-    //    }
-    //}
-
-    //private void ConfigureEnemy(RingSegment ringSegment, SegmentConfiguration segment)
-    //{
-    //    if (segment.enemyType == EnemyType.None || ringSegment.SlotEnemy == null) return;
-
-    //    GameObject prefab = prefabLibrary.GetEnemyPrefab(segment.enemyType);
-    //    if (prefab != null)
-    //    {
-    //        GameObject go = (GameObject)PrefabUtility.InstantiatePrefab(prefab);
-    //        go.transform.SetParent(ringSegment.SlotEnemy, false);
-    //        go.name = $"Enemy_{segment.enemyType}";
-    //    }
-    //}
-
-    //private void ConfigureCheckpoint(RingSegment ringSegment, SegmentConfiguration segment)
-    //{
-    //    if (!segment.hasCheckpoint || ringSegment.SlotCheckpoint == null) return;
-
-    //    GameObject prefab = prefabLibrary.checkpointPrefab;
-    //    if (prefab != null)
-    //    {
-    //        GameObject go = (GameObject)PrefabUtility.InstantiatePrefab(prefab);
-    //        go.transform.SetParent(ringSegment.SlotCheckpoint, false);
-    //        go.name = "Checkpoint";
-    //    }
-    //}
+   
 
     private Transform GetOrCreatePreviewRoot()
     {

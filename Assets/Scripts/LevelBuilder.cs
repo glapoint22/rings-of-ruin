@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System;
+using System.Collections.Generic;
+using UnityEngine;
 
 public class LevelBuilder : MonoBehaviour
 {
@@ -10,6 +12,14 @@ public class LevelBuilder : MonoBehaviour
     [Header("Prefab Library Reference")]
     [SerializeField]
     private LevelPrefabLibrary prefabLibrary;
+
+
+    private GameObject portalA;
+    private GameObject portalB;
+
+
+    public static Dictionary<int, Transform> RingRoots = new Dictionary<int, Transform>();
+
 
     /// <summary>
     /// Entry point for building a level from data.
@@ -23,14 +33,17 @@ public class LevelBuilder : MonoBehaviour
             return;
         }
 
-       
 
+        LevelBuilder.RingRoots.Clear();
 
         foreach (var ring in levelData.rings)
         {
             BuildRing(ring, parentRoot);
         }
+
+        setPortals();
     }
+
 
 
 
@@ -38,34 +51,57 @@ public class LevelBuilder : MonoBehaviour
     {
         float radius = RingConstants.BaseRadius + ring.ringIndex * RingConstants.RingSpacing;
 
+        // 🔧 Create a parent object for this ring
+        GameObject ringRoot = new GameObject($"Ring_{ring.ringIndex}");
+        ringRoot.transform.SetParent(parentRoot);
+        ringRoot.transform.localPosition = Vector3.zero;
+        ringRoot.transform.localRotation = Quaternion.identity;
+
+        
+        RingRoots[ring.ringIndex] = ringRoot.transform;
+
+
+        // Attach RotatingRing if needed
+        if (ring.rotation != RingRotationDirection.None)
+        {
+            var rotator = ringRoot.AddComponent<RotatingRing>();
+            rotator.SetRotationDirection(ring.rotation); // injects rotation from data
+        }
+
         for (int i = 0; i < ring.segments.Count; i++)
         {
             SegmentConfiguration segment = ring.segments[i];
 
-            // Calculate angle around the circle
             float angle = -i * Mathf.PI * 2f / RingConstants.SegmentCount + Mathf.PI / 2f;
             Vector3 position = new Vector3(Mathf.Cos(angle), 0, Mathf.Sin(angle)) * radius;
             Quaternion rotation = Quaternion.Euler(0, -angle * Mathf.Rad2Deg, 0);
 
-            // Choose prefab based on segment type
             GameObject prefab = GetSegmentPrefab(ring.ringIndex, segment.segmentType);
-            if (prefab == null)
-            {
-                continue;
-            }
+            if (prefab == null) continue;
 
-            GameObject segmentGO = Instantiate(prefab, position, rotation, parentRoot);
+            // 💡 Instantiate under the new ringRoot
+            GameObject segmentGO = Instantiate(prefab, position, rotation, ringRoot.transform);
             segmentGO.name = $"Ring{ring.ringIndex}_Seg{i}";
 
             RingSegment ringSegment = segmentGO.GetComponent<RingSegment>();
             if (ringSegment != null)
             {
                 ConfigureSegment(ringSegment, segment);
+                ringSegment.SetSegment(ring.ringIndex, i);
             }
-
         }
     }
 
+
+
+
+
+    private void setPortals()
+    {
+        if (portalA == null || portalB == null) return;
+        portalA.GetComponent<Portal>().linkedPortal = portalB.GetComponent<Portal>();
+        portalB.GetComponent<Portal>().linkedPortal = portalA.GetComponent<Portal>();
+    }
 
     private GameObject GetSegmentPrefab(int ringIndex, SegmentType segmentType)
     {
@@ -155,14 +191,28 @@ public class LevelBuilder : MonoBehaviour
 
     private void ConfigurePortal(RingSegment ringSegment, SegmentConfiguration config)
     {
-        if (!config.hasPortal || ringSegment.SlotPortal == null)
+        if (config.portalType == PortalType.None || ringSegment.SlotPortal == null)
             return;
 
-        GameObject prefab = prefabLibrary.portalPrefab;
+        GameObject prefab = config.portalType == PortalType.PortalA ?
+            prefabLibrary.portalAPrefab :
+            prefabLibrary.portalBPrefab;
+
         if (prefab != null)
         {
-            Instantiate(prefab, ringSegment.SlotPortal.position, ringSegment.SlotPortal.rotation, ringSegment.SlotPortal)
-                .name = $"Portal";
+            GameObject portal = Instantiate(prefab, ringSegment.SlotPortal.position, ringSegment.SlotPortal.rotation, ringSegment.SlotPortal);
+
+            portal.name = $"Portal_{config.portalType}";
+
+            if (config.portalType == PortalType.PortalA)
+            {
+                portalA = portal;
+            }
+            else
+            {
+                portalB = portal;
+            }
+
         }
     }
 

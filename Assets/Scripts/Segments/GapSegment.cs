@@ -1,14 +1,14 @@
 using UnityEngine;
 
 [RequireComponent(typeof(Collider))]
-public class GapSegment : SegmentBehaviorBase
+public class GapSegment : MonoBehaviour
 {
     private void Reset()
     {
         GetComponent<Collider>().isTrigger = true;
     }
 
-    public override void OnPlayerStep(PlayerState player)
+    public void OnPlayerStep(PlayerState player)
     {
         Debug.Log("[GapSegment] Player fell into a gap!");
 

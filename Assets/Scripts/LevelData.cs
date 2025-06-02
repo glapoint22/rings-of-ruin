@@ -51,8 +51,8 @@ public class SegmentConfiguration
     [Tooltip("Type of segment")]
     public SegmentType segmentType = SegmentType.Normal;
 
-    [Tooltip("Whether this segment contains a portal")]
-    public bool hasPortal;
+    [Tooltip("Type of portal on this segment, if any")]
+    public PortalType portalType = PortalType.None;
 
     [Tooltip("Type of hazard on this segment, if any")]
     public HazardType hazardType = HazardType.None;
@@ -117,7 +117,7 @@ public enum SegmentType
 public enum HazardType
 {
     None,
-    Crusher,
+    Spike,
     Catapult
 }
 
@@ -166,6 +166,16 @@ public enum CollectibleType
     None,
     Gem,
     Coin
+}
+
+/// <summary>
+/// Types of portals that can be placed on segments.
+/// </summary>
+public enum PortalType
+{
+    None,
+    PortalA,
+    PortalB
 }
 
 #endregion

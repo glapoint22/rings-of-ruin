@@ -13,6 +13,11 @@ public class PlayerController : MonoBehaviour
     [Header("Movement Settings")]
     [SerializeField] private float moveSpeed = 4f; // Full ring = 24 "units" per second
 
+
+    [Header("Rotation Influence Settings")]
+    [SerializeField] private float clockwiseBoost = 0.7f;
+    [SerializeField] private float counterClockwiseDrag = 1.2f;
+
     // Current angle in degrees (0 to 360)
     private float currentAngle = 0f;
     private Vector3 previousPosition;
@@ -51,11 +56,40 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     private void UpdateAutomaticMovement()
     {
+        float rotationMultiplier = GetRingRotationSpeedMultiplier();
+
         float circumference = 2 * Mathf.PI * currentRingRadius;
-        float degreesPerSecond = (moveSpeed / circumference) * 360f;
+        float degreesPerSecond = (moveSpeed * rotationMultiplier / circumference) * 360f;
+
         currentAngle += degreesPerSecond * Time.deltaTime;
-        currentAngle %= 360f; // Wrap around to keep within 0-360 degrees
+        currentAngle %= 360f;
     }
+
+
+
+    private float GetRingRotationSpeedMultiplier()
+    {
+        // Default multiplier is neutral
+        float multiplier = 1f;
+
+        // Try to get the ring root transform
+        if (LevelBuilder.RingRoots.TryGetValue(ringIndex, out Transform ringRoot))
+        {
+            RotatingRing rotatingRing = ringRoot.GetComponent<RotatingRing>();
+            if (rotatingRing != null)
+            {
+                RingRotationDirection direction = rotatingRing.GetDirection();
+
+                if (direction == RingRotationDirection.Clockwise)
+                    multiplier = clockwiseBoost; // Boost
+                else if (direction == RingRotationDirection.CounterClockwise)
+                    multiplier = counterClockwiseDrag; // Drag
+            }
+        }
+
+        return multiplier;
+    }
+
 
     /// <summary>
     /// Updates the player's position based on the current angle and ring radius.
@@ -114,29 +148,31 @@ public class PlayerController : MonoBehaviour
     private IEnumerator SmoothRingTransition(int direction)
     {
         int targetRing = ringIndex + direction;
-        if (targetRing < 0 || targetRing > 3) yield break;
+
+        // Prevent transition if target ring doesn't exist
+        if (!RingExists(targetRing))
+        {
+            yield break;
+        }
 
         isTransitioning = true;
 
-        // Calculate start and end radii for the transition
         float startRadius = currentRingRadius;
         float endRadius = RingConstants.BaseRadius + targetRing * RingConstants.RingSpacing;
         float duration = 0.5f;
         float elapsed = 0f;
 
-        // Smoothly interpolate between rings
         while (elapsed < duration)
         {
             elapsed += Time.deltaTime;
             float t = elapsed / duration;
             float easedT = EaseInOut(t);
             float currentRadius = Mathf.Lerp(startRadius, endRadius, easedT);
-            
+
             transform.position = CalculatePositionAtRadius(currentRadius);
             yield return null;
         }
 
-        // Finalize the transition
         ringIndex = targetRing;
         currentRingRadius = endRadius;
         transform.position = CalculatePositionAtRadius(currentRingRadius);
@@ -145,6 +181,16 @@ public class PlayerController : MonoBehaviour
         UpdateRotation();
         isTransitioning = false;
     }
+
+
+
+    private bool RingExists(int index)
+    {
+        return LevelBuilder.RingRoots.ContainsKey(index);
+    }
+
+
+
 
     /// <summary>
     /// Applies smoothstep easing to the transition.
@@ -170,4 +216,18 @@ public class PlayerController : MonoBehaviour
             rb.isKinematic = false;
         }
     }
+
+
+
+    public void SetPositionOnRing(int ring, int segment)
+    {
+        ringIndex = ring;
+        currentRingRadius = RingConstants.BaseRadius + ringIndex * RingConstants.RingSpacing;
+
+        float anglePerSegment = 360f / RingConstants.SegmentCount;
+        currentAngle = segment * anglePerSegment;
+
+        UpdatePosition();
+    }
+
 }

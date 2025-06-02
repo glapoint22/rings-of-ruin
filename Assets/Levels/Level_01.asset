@@ -20,7 +20,7 @@ MonoBehaviour:
     - segmentIndex: 0
       isLocked: 0
       segmentType: 0
-      hasPortal: 0
+      portalType: 0
       hazardType: 0
       pickupType: 0
       enemyType: 0
@@ -29,7 +29,7 @@ MonoBehaviour:
     - segmentIndex: 1
       isLocked: 0
       segmentType: 0
-      hasPortal: 0
+      portalType: 0
       hazardType: 0
       pickupType: 0
       enemyType: 0
@@ -38,7 +38,7 @@ MonoBehaviour:
     - segmentIndex: 2
       isLocked: 0
       segmentType: 0
-      hasPortal: 0
+      portalType: 0
       hazardType: 0
       pickupType: 0
       enemyType: 0
@@ -47,7 +47,7 @@ MonoBehaviour:
     - segmentIndex: 3
       isLocked: 0
       segmentType: 0
-      hasPortal: 0
+      portalType: 0
       hazardType: 0
       pickupType: 0
       enemyType: 0
@@ -56,7 +56,7 @@ MonoBehaviour:
     - segmentIndex: 4
       isLocked: 0
       segmentType: 0
-      hasPortal: 0
+      portalType: 0
       hazardType: 0
       pickupType: 0
       enemyType: 0
@@ -65,7 +65,7 @@ MonoBehaviour:
     - segmentIndex: 5
       isLocked: 0
       segmentType: 0
-      hasPortal: 0
+      portalType: 0
       hazardType: 0
       pickupType: 0
       enemyType: 0
@@ -74,7 +74,7 @@ MonoBehaviour:
     - segmentIndex: 6
       isLocked: 0
       segmentType: 0
-      hasPortal: 0
+      portalType: 0
       hazardType: 0
       pickupType: 0
       enemyType: 0
@@ -83,7 +83,7 @@ MonoBehaviour:
     - segmentIndex: 7
       isLocked: 0
       segmentType: 0
-      hasPortal: 0
+      portalType: 0
       hazardType: 0
       pickupType: 0
       enemyType: 0
@@ -92,7 +92,7 @@ MonoBehaviour:
     - segmentIndex: 8
       isLocked: 0
       segmentType: 0
-      hasPortal: 0
+      portalType: 0
       hazardType: 0
       pickupType: 0
       enemyType: 0
@@ -101,7 +101,7 @@ MonoBehaviour:
     - segmentIndex: 9
       isLocked: 0
       segmentType: 0
-      hasPortal: 0
+      portalType: 0
       hazardType: 0
       pickupType: 0
       enemyType: 0
@@ -110,7 +110,7 @@ MonoBehaviour:
     - segmentIndex: 10
       isLocked: 0
       segmentType: 0
-      hasPortal: 0
+      portalType: 0
       hazardType: 0
       pickupType: 0
       enemyType: 0
@@ -119,7 +119,7 @@ MonoBehaviour:
     - segmentIndex: 11
       isLocked: 0
       segmentType: 0
-      hasPortal: 0
+      portalType: 0
       hazardType: 0
       pickupType: 0
       enemyType: 0
@@ -127,8 +127,8 @@ MonoBehaviour:
       hasCheckpoint: 0
     - segmentIndex: 12
       isLocked: 0
-      segmentType: 1
-      hasPortal: 0
+      segmentType: 0
+      portalType: 0
       hazardType: 0
       pickupType: 0
       enemyType: 0
@@ -137,7 +137,7 @@ MonoBehaviour:
     - segmentIndex: 13
       isLocked: 0
       segmentType: 0
-      hasPortal: 0
+      portalType: 0
       hazardType: 0
       pickupType: 0
       enemyType: 0
@@ -146,7 +146,7 @@ MonoBehaviour:
     - segmentIndex: 14
       isLocked: 0
       segmentType: 0
-      hasPortal: 0
+      portalType: 0
       hazardType: 0
       pickupType: 0
       enemyType: 0
@@ -155,7 +155,7 @@ MonoBehaviour:
     - segmentIndex: 15
       isLocked: 0
       segmentType: 0
-      hasPortal: 0
+      portalType: 0
       hazardType: 0
       pickupType: 0
       enemyType: 0
@@ -164,7 +164,7 @@ MonoBehaviour:
     - segmentIndex: 16
       isLocked: 0
       segmentType: 0
-      hasPortal: 0
+      portalType: 0
       hazardType: 0
       pickupType: 0
       enemyType: 0
@@ -173,7 +173,7 @@ MonoBehaviour:
     - segmentIndex: 17
       isLocked: 0
       segmentType: 0
-      hasPortal: 0
+      portalType: 0
       hazardType: 0
       pickupType: 0
       enemyType: 0
@@ -182,7 +182,7 @@ MonoBehaviour:
     - segmentIndex: 18
       isLocked: 0
       segmentType: 0
-      hasPortal: 0
+      portalType: 0
       hazardType: 0
       pickupType: 0
       enemyType: 0
@@ -191,7 +191,7 @@ MonoBehaviour:
     - segmentIndex: 19
       isLocked: 0
       segmentType: 0
-      hasPortal: 0
+      portalType: 0
       hazardType: 0
       pickupType: 0
       enemyType: 0
@@ -200,7 +200,7 @@ MonoBehaviour:
     - segmentIndex: 20
       isLocked: 0
       segmentType: 0
-      hasPortal: 0
+      portalType: 0
       hazardType: 0
       pickupType: 0
       enemyType: 0
@@ -209,7 +209,7 @@ MonoBehaviour:
     - segmentIndex: 21
       isLocked: 0
       segmentType: 0
-      hasPortal: 0
+      portalType: 0
       hazardType: 0
       pickupType: 0
       enemyType: 0
@@ -218,7 +218,7 @@ MonoBehaviour:
     - segmentIndex: 22
       isLocked: 0
       segmentType: 0
-      hasPortal: 0
+      portalType: 0
       hazardType: 0
       pickupType: 0
       enemyType: 0
@@ -227,7 +227,7 @@ MonoBehaviour:
     - segmentIndex: 23
       isLocked: 0
       segmentType: 0
-      hasPortal: 0
+      portalType: 0
       hazardType: 0
       pickupType: 0
       enemyType: 0

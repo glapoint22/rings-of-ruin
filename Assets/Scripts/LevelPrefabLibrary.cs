@@ -23,7 +23,7 @@ public class LevelPrefabLibrary : ScriptableObject
     public GameObject keyPrefab;
 
     [Header("Hazards")]
-    public GameObject crusherPrefab;
+    public GameObject SpikePrefab;
     public GameObject catapultPrefab;
     public GameObject crumblingPlatformPrefab;
 
@@ -36,7 +36,9 @@ public class LevelPrefabLibrary : ScriptableObject
     public GameObject checkpointPrefab;
 
     [Header("Portal")]
-    public GameObject portalPrefab;
+    public GameObject portalAPrefab;
+    public GameObject portalBPrefab;
+
 
     private Dictionary<CollectibleType, GameObject> collectiblePrefabs;
     private Dictionary<PickupType, GameObject> pickupPrefabs;
@@ -70,7 +72,7 @@ public class LevelPrefabLibrary : ScriptableObject
 
         hazardPrefabs = new Dictionary<HazardType, GameObject>
         {
-            { HazardType.Crusher, crusherPrefab },
+            { HazardType.Spike, SpikePrefab },
             { HazardType.Catapult, catapultPrefab }
         };
 
