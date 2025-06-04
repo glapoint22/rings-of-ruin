@@ -53,8 +53,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 1.48, y: 1, z: 3.91}
+  m_Center: {x: -0.27, y: 0, z: -1.96}
 --- !u!114 &-7618547440681078764
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -118,6 +118,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 0a8cd696ea172744998642b3cb5fae4f, type: 3}
       propertyPath: m_Name
       value: Ring4_Gap
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 0a8cd696ea172744998642b3cb5fae4f, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

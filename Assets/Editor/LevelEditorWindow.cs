@@ -54,11 +54,13 @@ public class LevelEditorWindow : EditorWindow
         if (selectedLevelData != null)
         {
             DrawAltarSettings();
+            DrawGlobalHazardSettings();
             DrawRingControls();
             DrawRingLayout();
             GUILayout.Space(750);
             DrawSegmentDetails();
             DrawPreviewControls();
+            
         }
     }
 
@@ -225,6 +227,9 @@ public class LevelEditorWindow : EditorWindow
         selectedLevelIndex = allLevels.IndexOf(selectedLevelData);
     }
 
+
+
+
     private LevelData CreateLevelAsset(int levelId)
     {
         var newLevel = ScriptableObject.CreateInstance<LevelData>();
@@ -292,7 +297,7 @@ public class LevelEditorWindow : EditorWindow
     private void DrawRingLayout()
     {
         float viewWidth = position.width;
-        Vector2 ringCenter = new Vector2(viewWidth / 2f, 550f);
+        Vector2 ringCenter = new Vector2(viewWidth / 2f, 590f);
 
         Handles.BeginGUI();
 
@@ -449,7 +454,23 @@ public class LevelEditorWindow : EditorWindow
 
 
 
-   
+
+    private void DrawGlobalHazardSettings()
+    {
+
+        selectedLevelData.hasRuneflareHazard = EditorGUILayout.Toggle("Enable Runeflares", selectedLevelData.hasRuneflareHazard);
+
+        if (selectedLevelData.hasRuneflareHazard)
+        {
+            selectedLevelData.runeflareFrequency = EditorGUILayout.FloatField("Spawn Interval (sec)", selectedLevelData.runeflareFrequency);
+        }
+
+        EditorGUILayout.Space(10);
+    }
+
+
+
+
 
     private Transform GetOrCreatePreviewRoot()
     {

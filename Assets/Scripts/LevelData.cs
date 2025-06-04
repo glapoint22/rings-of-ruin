@@ -18,6 +18,15 @@ public class LevelData : ScriptableObject
     
     [Tooltip("Whether the altar requires a key to unlock")]
     public bool isAltarLockedByKey = false;
+
+    [Header("Runeflare Settings")]
+
+    [Tooltip("Enable Runeflare hazard in this level")]
+    public bool hasRuneflareHazard = false;
+
+    [Tooltip("Time interval (in seconds) between Runeflare spawns. Lower = more frequent.")]
+    public float runeflareFrequency = 6f;
+
 }
 
 /// <summary>

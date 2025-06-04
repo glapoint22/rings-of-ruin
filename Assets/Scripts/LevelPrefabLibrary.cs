@@ -24,8 +24,9 @@ public class LevelPrefabLibrary : ScriptableObject
 
     [Header("Hazards")]
     public GameObject SpikePrefab;
-    public GameObject catapultPrefab;
-    public GameObject crumblingPlatformPrefab;
+    //public GameObject catapultPrefab;
+    public GameObject runeflarePrefab;
+    public GameObject[] crumblingPlatformPrefabs = new GameObject[4];
 
     [Header("Enemies")]
     public GameObject ruinwalkerPrefab;
@@ -73,7 +74,7 @@ public class LevelPrefabLibrary : ScriptableObject
         hazardPrefabs = new Dictionary<HazardType, GameObject>
         {
             { HazardType.Spike, SpikePrefab },
-            { HazardType.Catapult, catapultPrefab }
+            //{ HazardType.Catapult, catapultPrefab }
         };
 
         enemyPrefabs = new Dictionary<EnemyType, GameObject>

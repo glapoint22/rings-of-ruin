@@ -13,10 +13,7 @@ public class GapSegment : MonoBehaviour
         Debug.Log("[GapSegment] Player fell into a gap!");
 
         var controller = player.GetComponent<PlayerController>();
-        if (controller != null)
-        {
-            controller.FallIntoGap();
-        }
+        controller?.TriggerFall();
     }
 
     private void OnTriggerEnter(Collider other)

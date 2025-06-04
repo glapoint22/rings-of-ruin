@@ -11,6 +11,9 @@ public class LevelLoader : MonoBehaviour
     [Header("Build Root")]
     [SerializeField] private Transform levelRoot;
 
+    [SerializeField] private RuneflareManager runeflareManager;
+
+
     private LevelData currentLevel;
 
     private void Awake()
@@ -34,6 +37,9 @@ public class LevelLoader : MonoBehaviour
 
         levelBuilder.BuildLevel(levelData, levelRoot);
         //Debug.Log($"[LevelLoader] Loaded Level {levelData.levelID}");
+
+        runeflareManager.InitializeFromLevel(levelData);
+
     }
 
     private void ClearLevel()

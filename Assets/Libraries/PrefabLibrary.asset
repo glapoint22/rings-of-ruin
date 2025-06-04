@@ -33,8 +33,12 @@ MonoBehaviour:
   spellPrefab: {fileID: 4799016877198760528, guid: 6ae96f66658755247a8cce2b15b1d0d5, type: 3}
   keyPrefab: {fileID: 366851444705759479, guid: be6aaecb2f22df6409e3b3b7dfb677d0, type: 3}
   SpikePrefab: {fileID: 5399516538709543198, guid: e66437bcb4507af4ab719ea76e7584ec, type: 3}
-  catapultPrefab: {fileID: 5580114535029454179, guid: b01e9bd22b01bb6428b032d11302d137, type: 3}
-  crumblingPlatformPrefab: {fileID: 3286068841890438987, guid: ff20c6cb2c72eff42a9fb091022f1181, type: 3}
+  runeflarePrefab: {fileID: 7780937622634698963, guid: 247d232bde2c78543acbbfbfff13e5c2, type: 3}
+  crumblingPlatformPrefabs:
+  - {fileID: 2235975708072195948, guid: c60143f13f1d6dd41bd0985e2580de15, type: 3}
+  - {fileID: 5859960933196909592, guid: b22f17254e0a7804ea64c0054b5d6010, type: 3}
+  - {fileID: 3557702605399015103, guid: c270b0572f632e543bbac62e8ac51487, type: 3}
+  - {fileID: 4696534980819948806, guid: ccc82fc92eb457f4096887e2b8daf201, type: 3}
   ruinwalkerPrefab: {fileID: 94538880463379437, guid: d61b32293d6434d4aac3e96affb18e1d, type: 3}
   gravecallerPrefab: {fileID: 4730132979662416648, guid: c55e863a62e5aa34d80f8229f5b5d698, type: 3}
   bloodseekerPrefab: {fileID: 1332851432689936905, guid: 674a88931e07a9745a3ca9a3156514a9, type: 3}

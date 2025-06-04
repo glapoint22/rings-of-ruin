@@ -235,3 +235,5 @@ MonoBehaviour:
       hasCheckpoint: 0
   enemies: []
   isAltarLockedByKey: 0
+  hasRuneflareHazard: 0
+  runeflareFrequency: 6

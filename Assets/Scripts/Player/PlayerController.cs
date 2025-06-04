@@ -23,7 +23,8 @@ public class PlayerController : MonoBehaviour
     private Vector3 previousPosition;
     private bool isTransitioning = false;
     private float currentRingRadius;
-    
+    private bool isGameStarted = false;
+
     // Cached vectors to reduce garbage collection
     private Vector3 currentPosition = Vector3.zero;
     private Vector3 moveDirection = Vector3.zero;
@@ -44,11 +45,25 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     private void Update()
     {
+        if (!isGameStarted) return;
         UpdateAutomaticMovement();
         UpdatePosition();
         UpdateRotation();
         HandleInput();
     }
+
+
+
+    public void StartGame()
+    {
+        isGameStarted = true;
+    }
+
+    public void StopGame()
+    {
+        isGameStarted = false;
+    }
+
 
     /// <summary>
     /// Handles the automatic clockwise movement around the current ring.
@@ -98,7 +113,6 @@ public class PlayerController : MonoBehaviour
     {
         currentPosition = CalculatePositionAtRadius(currentRingRadius);
         transform.position = currentPosition;
-        previousPosition = currentPosition;
     }
 
     /// <summary>
@@ -113,6 +127,9 @@ public class PlayerController : MonoBehaviour
         {
             transform.rotation = Quaternion.LookRotation(moveDirection);
         }
+
+        // Update the previous position *after* rotation is calculated
+        previousPosition = currentPosition;
     }
 
     /// <summary>
@@ -201,9 +218,9 @@ public class PlayerController : MonoBehaviour
     }
 
 
-    public void FallIntoGap()
+    public void TriggerFall()
     {
-        Debug.Log("[PlayerController] Falling into gap...");
+        Debug.Log("[PlayerController] Triggering fall...");
 
         // Stop movement
         enabled = false;
@@ -216,6 +233,7 @@ public class PlayerController : MonoBehaviour
             rb.isKinematic = false;
         }
     }
+
 
 
 

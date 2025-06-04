@@ -103,25 +103,35 @@ public class LevelBuilder : MonoBehaviour
         portalB.GetComponent<Portal>().linkedPortal = portalA.GetComponent<Portal>();
     }
 
+
+
+
+
+
     private GameObject GetSegmentPrefab(int ringIndex, SegmentType segmentType)
     {
-        if (segmentType == SegmentType.Gap)
+        switch (segmentType)
         {
-            if (ringIndex >= 0 && ringIndex < prefabLibrary.gapSegmentPrefabs.Length)
-            {
-                return prefabLibrary.gapSegmentPrefabs[ringIndex];
-            }
-        }
-        else
-        {
-            if (ringIndex >= 0 && ringIndex < prefabLibrary.normalSegmentPrefabs.Length)
-            {
-                return prefabLibrary.normalSegmentPrefabs[ringIndex];
-            }
+            case SegmentType.Gap:
+                if (ringIndex >= 0 && ringIndex < prefabLibrary.gapSegmentPrefabs.Length)
+                    return prefabLibrary.gapSegmentPrefabs[ringIndex];
+                break;
+
+            case SegmentType.Crumbling:
+                if (ringIndex >= 0 && ringIndex < prefabLibrary.crumblingPlatformPrefabs.Length)
+                    return prefabLibrary.crumblingPlatformPrefabs[ringIndex];
+                break;
+
+            case SegmentType.Normal:
+            default:
+                if (ringIndex >= 0 && ringIndex < prefabLibrary.normalSegmentPrefabs.Length)
+                    return prefabLibrary.normalSegmentPrefabs[ringIndex];
+                break;
         }
 
         return null;
     }
+
 
 
 
