@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class LevelBuilder : MonoBehaviour
@@ -34,7 +33,7 @@ public class LevelBuilder : MonoBehaviour
         }
 
 
-        LevelBuilder.RingRoots.Clear();
+        RingRoots.Clear();
 
         foreach (var ring in levelData.rings)
         {

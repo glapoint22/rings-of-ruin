@@ -26,6 +26,8 @@ public class LevelEditorWindow : EditorWindow
     private int selectedRingIndex = 0;
     private int selectedSegmentIndex = -1;
 
+
+
     [MenuItem("Window/Rings of Ruin/Level Editor")]
     public static void ShowWindow()
     {
@@ -33,10 +35,14 @@ public class LevelEditorWindow : EditorWindow
         window.minSize = new Vector2(MIN_WINDOW_WIDTH, MIN_WINDOW_HEIGHT);
     }
 
+
+
     private void OnEnable()
     {
         LoadAllLevels();
     }
+
+
 
     private void OnGUI()
     {
@@ -57,7 +63,7 @@ public class LevelEditorWindow : EditorWindow
             DrawGlobalHazardSettings();
             DrawRingControls();
             DrawRingLayout();
-            GUILayout.Space(750);
+            GUILayout.Space(800);
             DrawSegmentDetails();
             DrawPreviewControls();
             
@@ -297,7 +303,7 @@ public class LevelEditorWindow : EditorWindow
     private void DrawRingLayout()
     {
         float viewWidth = position.width;
-        Vector2 ringCenter = new Vector2(viewWidth / 2f, 590f);
+        Vector2 ringCenter = new Vector2(viewWidth / 2f, 650f);
 
         Handles.BeginGUI();
 
@@ -421,6 +427,7 @@ public class LevelEditorWindow : EditorWindow
     private void DrawAltarSettings()
     {
         selectedLevelData.isAltarLockedByKey = EditorGUILayout.Toggle("Altar Locked", selectedLevelData.isAltarLockedByKey);
+        EditorUtility.SetDirty(selectedLevelData);
     }
     #endregion
 
@@ -462,8 +469,13 @@ public class LevelEditorWindow : EditorWindow
 
         if (selectedLevelData.hasRuneflareHazard)
         {
-            selectedLevelData.runeflareFrequency = EditorGUILayout.FloatField("Spawn Interval (sec)", selectedLevelData.runeflareFrequency);
+            EditorGUILayout.LabelField("Runeflare Spawn Interval (sec)", EditorStyles.boldLabel);
+            selectedLevelData.runeflareIntervalRange = EditorGUILayout.Vector2Field("Min / Max", selectedLevelData.runeflareIntervalRange);
+
+            selectedLevelData.maxConcurrentRuneflares = EditorGUILayout.IntField("Max Concurrent Runeflares", selectedLevelData.maxConcurrentRuneflares);
         }
+
+        EditorUtility.SetDirty(selectedLevelData);
 
         EditorGUILayout.Space(10);
     }

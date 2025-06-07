@@ -1,17 +1,22 @@
+using System;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
 public class RuneflareProjectile : MonoBehaviour
 {
     [Header("Launch Settings")]
-    [SerializeField] private float launchForceMin = 10f;
-    [SerializeField] private float launchForceMax = 16f;
-    [SerializeField] private float upwardBias = 1.5f;
-    [SerializeField] private float impactRadius = 1.5f;
+    //[SerializeField] private float launchForceMin = 10f;
+    //[SerializeField] private float launchForceMax = 16f;
+    //[SerializeField] private float upwardBias = 1.5f;
+    //[SerializeField] private float impactRadius = 1.5f;
     //[SerializeField] private GameObject impactVFX;
 
     private Rigidbody rb;
     private bool hasLaunched = false;
+    private float spawnTimer;
+
+    public event EventHandler OnRuneflareDestroyed;
+    public float SpawnTimer => spawnTimer;
 
     private void Awake()
     {
@@ -19,27 +24,34 @@ public class RuneflareProjectile : MonoBehaviour
         //rb.useGravity = true;
     }
 
+    public void UpdateSpawnTimer(float newTimer)
+    {
+        spawnTimer = newTimer;
+    }
+
+    public void DecreaseSpawnTimer(float deltaTime)
+    {
+        spawnTimer -= deltaTime;
+    }
+
     public void Launch(Vector3 from, Vector3 to)
     {
         transform.position = from;
         hasLaunched = true;
 
-        float arcTime = Random.Range(2.5f, 3.0f);
+        float arcTime = UnityEngine.Random.Range(2.5f, 3.0f);
 
         Vector3 velocity = CalculateLaunchVelocity(from, to, arcTime);
         rb.linearVelocity = velocity;
     }
-
-
 
     private void OnCollisionEnter(Collision collision)
     {
         if (!hasLaunched) return;
 
         hasLaunched = false;
-        //Explode();
+        OnRuneflareDestroyed?.Invoke(this, EventArgs.Empty);
     }
-
 
     private Vector3 CalculateLaunchVelocity(Vector3 from, Vector3 to, float arcTime)
     {
@@ -62,7 +74,6 @@ public class RuneflareProjectile : MonoBehaviour
 
         return velocity;
     }
-
 
     //private void Explode()
     //{

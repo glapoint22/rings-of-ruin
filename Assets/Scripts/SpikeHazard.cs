@@ -12,13 +12,18 @@ public class SpikeHazard : MonoBehaviour
 
     private Vector3 retractedPosition;
     private Vector3 extendedPosition;
+    private Coroutine cycleSpikesRoutine;
+
 
     private void Start()
     {
         retractedPosition = spikeGroup.localPosition;
         extendedPosition = retractedPosition + Vector3.up * extendOffset;
 
-        StartCoroutine(CycleSpikes());
+        if (cycleSpikesRoutine == null)
+        {
+            cycleSpikesRoutine = StartCoroutine(CycleSpikes());
+        }
     }
 
     private IEnumerator CycleSpikes()

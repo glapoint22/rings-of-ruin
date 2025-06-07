@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class LevelLoader : MonoBehaviour
@@ -13,10 +14,19 @@ public class LevelLoader : MonoBehaviour
 
     [SerializeField] private RuneflareManager runeflareManager;
 
+    public event EventHandler<LevelData> OnLevelLoaded;
+    public static LevelLoader instance;
+
 
     private LevelData currentLevel;
 
     private void Awake()
+    {
+        instance = this;
+    }
+
+
+    private void Start()
     {
         if (initialLevel != null)
         {
@@ -36,9 +46,10 @@ public class LevelLoader : MonoBehaviour
         }
 
         levelBuilder.BuildLevel(levelData, levelRoot);
-        //Debug.Log($"[LevelLoader] Loaded Level {levelData.levelID}");
 
-        runeflareManager.InitializeFromLevel(levelData);
+        //runeflareManager.InitializeFromLevel(levelData);
+
+        OnLevelLoaded?.Invoke(this, levelData);
 
     }
 

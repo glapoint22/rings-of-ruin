@@ -11,14 +11,23 @@ public class RotatingRing : MonoBehaviour
     [SerializeField]
     private float rotationSpeed = 10f; // Degrees per second
 
-    private void Update()
+
+
+   
+
+    public void Update()
     {
         if (rotationDirection == RingRotationDirection.None)
             return;
 
-        float directionMultiplier = (rotationDirection == RingRotationDirection.Clockwise) ? -1f : 1f;
-        transform.Rotate(Vector3.up, directionMultiplier * rotationSpeed * Time.deltaTime);
+        float modifier = 1.0f;//TimeDilationSystem.Instance.GetRotationMultiplier(); // e.g., 1.0f normally, 0.5f if slowed
+        float directionMultiplier = (rotationDirection == RingRotationDirection.Clockwise) ? 1f : -1f;
+        transform.Rotate(Vector3.up, directionMultiplier * rotationSpeed * modifier * Time.deltaTime);
     }
+
+
+
+
 
     /// <summary>
     /// Injected by LevelBuilder after reading RingConfiguration.

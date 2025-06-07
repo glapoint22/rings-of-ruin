@@ -15,19 +15,26 @@ public class PlayerController : MonoBehaviour
 
 
     [Header("Rotation Influence Settings")]
-    [SerializeField] private float clockwiseBoost = 0.7f;
-    [SerializeField] private float counterClockwiseDrag = 1.2f;
+    [SerializeField] private float clockwiseBoost = 1.2f;
+    [SerializeField] private float counterClockwiseDrag = 0.7f;
 
     // Current angle in degrees (0 to 360)
     private float currentAngle = 0f;
     private Vector3 previousPosition;
     private bool isTransitioning = false;
     private float currentRingRadius;
-    private bool isGameStarted = false;
 
     // Cached vectors to reduce garbage collection
     private Vector3 currentPosition = Vector3.zero;
     private Vector3 moveDirection = Vector3.zero;
+
+
+
+
+
+
+
+
 
     /// <summary>
     /// Initializes the player's position on the starting ring.
@@ -43,26 +50,14 @@ public class PlayerController : MonoBehaviour
     /// <summary>
     /// Updates player movement, position, rotation, and handles input each frame.
     /// </summary>
-    private void Update()
+    public void Update()
     {
-        if (!isGameStarted) return;
         UpdateAutomaticMovement();
         UpdatePosition();
         UpdateRotation();
         HandleInput();
     }
 
-
-
-    public void StartGame()
-    {
-        isGameStarted = true;
-    }
-
-    public void StopGame()
-    {
-        isGameStarted = false;
-    }
 
 
     /// <summary>
@@ -247,5 +242,4 @@ public class PlayerController : MonoBehaviour
 
         UpdatePosition();
     }
-
 }
