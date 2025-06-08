@@ -2,9 +2,9 @@ using UnityEngine;
 
 public class CloakPickup : InteractableBase
 {
-    public override void Interact(PlayerState player)
+    public override void Interact()
     {
-        Debug.Log("[CloakPickup] Cloak collected!");
-        Destroy(gameObject);
+        InteractEventManager.Pickup(PickupType.Cloak);
+        base.Interact();
     }
 }

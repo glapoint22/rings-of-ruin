@@ -9,6 +9,7 @@ public class SpikeHazard : MonoBehaviour
     [SerializeField] private float moveSpeed = 5f;
     [SerializeField] private float activeDuration = 0.5f;
     [SerializeField] private float cycleDelay = 2.0f;
+    [SerializeField] private int damageAmount = 10;
 
     private Vector3 retractedPosition;
     private Vector3 extendedPosition;
@@ -59,8 +60,15 @@ public class SpikeHazard : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            Debug.Log("[SpikeHazard] Player hit by spike!");
-            // Later: apply damage, trigger shield, etc.
+            DamageInfo damageInfo = new DamageInfo
+            {
+                Amount = damageAmount,
+                Source = gameObject,
+                DamageType = DamageType.Spike,
+                CanBeBlockedByShield = true
+            };
+
+            DamageEventManager.DealDamage(damageInfo);
         }
     }
 

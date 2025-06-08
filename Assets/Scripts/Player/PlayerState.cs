@@ -1,37 +1,227 @@
 using UnityEngine;
+using System;
 
-/// <summary>
-/// Holds the player’s state during gameplay — health, pickups, collected items, etc.
-/// </summary>
 public class PlayerState : MonoBehaviour
 {
+    [SerializeField] private int maxHealth = 100;
+    private int currentHealth;
     private int gemsCollected = 0;
+    private int coinsCollected = 0;
 
     public int GemsCollected => gemsCollected;
+    public int CurrentHealth => currentHealth;
+    public int MaxHealth => maxHealth;
 
-    /// <summary>
-    /// Called when the player collects a gem in the level.
-    /// </summary>
+    public static event Action<int> OnGemCollected;
+    public static event Action<int> OnCoinCollected;
+    public static event Action<PickupType> OnBuffActivated;
+    public static event Action<PickupType> OnBuffDeactivated;
+
+
+    private int shieldHp = 35;
+    private bool isShieldActive = false;
+
+    private void OnEnable()
+    {
+        DamageEventManager.OnDamageDealt += HandleDamage;
+        InteractEventManager.OnCollect += OnCollect;
+        InteractEventManager.OnPickup += OnPickup;
+    }
+
+    private void OnPickup(PickupType pickupType)
+    {
+        switch (pickupType)
+        {
+            case PickupType.Health:
+                OnHeal(10);
+                break;
+            case PickupType.Shield:
+                OnShieldPickup();
+                break;
+            case PickupType.Key:
+                OnKeyPickup();
+                break;
+            case PickupType.TimeDilation:
+                OnTimeDilationPickup();
+                break;
+            case PickupType.Cloak:
+                OnCloakPickup();
+                break;
+            case PickupType.Pathmaker:
+                OnPathmakerPickup();
+                break;
+            case PickupType.Decoy:
+                OnDecoyPickup();
+                break;
+            case PickupType.Stormbolt:
+                OnStormboltPickup();
+                break;
+            case PickupType.Bloodroot:
+                OnBloodrootPickup();
+                break;
+            case PickupType.Fireball:
+                OnFireballPickup();
+                break;
+        }
+    }
+
+    private void OnShieldPickup()
+    {
+        isShieldActive = true;
+        Debug.Log("[PlayerState] Shield picked up");
+        OnBuffActivated?.Invoke(PickupType.Shield);
+    }
+
+    private void OnKeyPickup()
+    {
+        Debug.Log("[PlayerState] Key picked up");
+        OnBuffActivated?.Invoke(PickupType.Key);
+    }
+
+    private void OnTimeDilationPickup()
+    {
+        Debug.Log("[PlayerState] Time dilation picked up");
+        OnBuffActivated?.Invoke(PickupType.TimeDilation);
+    }
+
+    private void OnCloakPickup()
+    {
+        Debug.Log("[PlayerState] Cloak picked up");
+        OnBuffActivated?.Invoke(PickupType.Cloak);
+    }
+
+    private void OnPathmakerPickup()
+    {
+        Debug.Log("[PlayerState] Pathmaker picked up");
+        OnBuffActivated?.Invoke(PickupType.Pathmaker);
+    }
+
+    private void OnDecoyPickup()
+    {
+        Debug.Log("[PlayerState] Decoy picked up");
+        OnBuffActivated?.Invoke(PickupType.Decoy);
+    }
+
+    private void OnStormboltPickup()
+    {
+        Debug.Log("[PlayerState] Stormbolt picked up");
+        OnBuffActivated?.Invoke(PickupType.Stormbolt);
+    }
+
+    private void OnBloodrootPickup()
+    {
+        Debug.Log("[PlayerState] Bloodroot picked up");
+        OnBuffActivated?.Invoke(PickupType.Bloodroot);
+    }
+
+    private void OnFireballPickup()
+    {
+        Debug.Log("[PlayerState] Fireball picked up");
+        OnBuffActivated?.Invoke(PickupType.Fireball);
+    }
+
+    private void OnCollect(CollectibleType collectibleType)
+    {
+        switch (collectibleType)
+        {
+            case CollectibleType.Gem:
+                AddGem();
+                break;
+            case CollectibleType.Coin:
+                CollectCoin();
+                break;
+        }
+    }
+
+    private void OnHeal(int amount)
+    {
+        if (amount <= 0) return;
+
+        currentHealth = Mathf.Min(maxHealth, currentHealth + amount);
+        Debug.Log($"[PlayerState] Health: {currentHealth}/{maxHealth}");
+    }
+
+    private void Start()
+    {
+        currentHealth = maxHealth;
+    }
+
     public void AddGem()
     {
         gemsCollected++;
-        Debug.Log($"[PlayerState] Gems Collected: {gemsCollected}");
-        // TODO: Update UI, notify level progress tracker
+        OnGemCollected?.Invoke(gemsCollected);
     }
 
-    /// <summary>
-    /// Called when the player collects a coin.
-    /// </summary>
     public void CollectCoin()
     {
-        // We'll later move this to GameManager if coins are persistent
-        Debug.Log("[PlayerState] Coin collected!");
-        // TODO: Replace with GameManager.Instance.AddCoin(1);
+        coinsCollected++;
+        OnCoinCollected?.Invoke(coinsCollected);
     }
 
     public void ResetLevelStats()
     {
         gemsCollected = 0;
+        currentHealth = maxHealth; // Reset health when starting a new level
+        Debug.Log($"[PlayerState] Health reset to: {currentHealth}/{maxHealth}");
         // Reset other temporary states like shields, cloak, spell, etc. as we add them
+    }
+
+    public void HandleDamage(DamageInfo damageInfo)
+    {
+        if (damageInfo.Amount > 0)
+        {
+            if (isShieldActive)
+            {
+                int remainingDamage = OnShieldHit(damageInfo.Amount);
+                if (remainingDamage > 0)
+                {
+                    // Apply remaining damage to player
+                    currentHealth = Mathf.Max(0, currentHealth - remainingDamage);
+                    Debug.Log($"[PlayerState] currentHealth: {currentHealth}");
+                    
+                }
+                return;
+            }
+
+            Debug.Log("Damage Taken");
+            currentHealth = Mathf.Max(0, currentHealth - damageInfo.Amount);
+            
+        }
+
+        if (currentHealth <= 0 || damageInfo.DamageType == DamageType.Fall)
+        {
+            DamageEventManager.PlayerDied();
+        }
+    }
+
+    public int OnShieldHit(int amount)
+    {
+        int remainingDamage = 0;
+        
+        if (amount > shieldHp)
+        {
+            // Calculate remaining damage that will spill over
+            remainingDamage = amount - shieldHp;
+            shieldHp = 0;
+        }
+        else
+        {
+            shieldHp -= amount;
+        }
+
+        Debug.Log($"[PlayerState] Shield HP: {shieldHp}");
+        
+        if (shieldHp <= 0)
+        {
+            isShieldActive = false;
+            OnBuffDeactivated?.Invoke(PickupType.Shield);
+        }
+
+        return remainingDamage;
+    }
+
+    private void OnDisable()
+    {
+        DamageEventManager.OnDamageDealt -= HandleDamage;
     }
 }

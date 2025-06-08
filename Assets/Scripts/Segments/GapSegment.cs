@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.InputSystem.XR;
 
 [RequireComponent(typeof(Collider))]
 public class GapSegment : MonoBehaviour
@@ -8,22 +9,15 @@ public class GapSegment : MonoBehaviour
         GetComponent<Collider>().isTrigger = true;
     }
 
-    public void OnPlayerStep(PlayerState player)
-    {
-        Debug.Log("[GapSegment] Player fell into a gap!");
-
-        var controller = player.GetComponent<PlayerController>();
-        controller?.TriggerFall();
-    }
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
         {
-            PlayerState playerState = other.GetComponent<PlayerState>();
-            if (playerState != null)
+            PlayerController player = other.GetComponent<PlayerController>();
+            if (player != null)
             {
-                OnPlayerStep(playerState);
+                player?.TriggerFall();
             }
         }
     }

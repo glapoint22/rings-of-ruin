@@ -100,7 +100,9 @@ public enum PickupType
     Health,
     Decoy,
     Pathmaker,
-    Spell,
+    Stormbolt,
+    Bloodroot,
+    Fireball,
     Key
 }
 

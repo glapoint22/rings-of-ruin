@@ -19,7 +19,9 @@ public class LevelPrefabLibrary : ScriptableObject
     public GameObject healthPrefab;
     public GameObject decoyPrefab;
     public GameObject pathmakerPrefab;
-    public GameObject spellPrefab;
+    public GameObject fireballPrefab;
+    public GameObject stormboltPrefab;
+    public GameObject bloodrootPrefab;
     public GameObject keyPrefab;
 
     [Header("Hazards")]
@@ -67,7 +69,9 @@ public class LevelPrefabLibrary : ScriptableObject
             { PickupType.Health, healthPrefab },
             { PickupType.Decoy, decoyPrefab },
             { PickupType.Pathmaker, pathmakerPrefab },
-            { PickupType.Spell, spellPrefab },
+            { PickupType.Stormbolt, stormboltPrefab },
+            { PickupType.Bloodroot, bloodrootPrefab },
+            { PickupType.Fireball, fireballPrefab },
             { PickupType.Key, keyPrefab }
         };
 

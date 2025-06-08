@@ -2,9 +2,9 @@ using UnityEngine;
 
 public class DecoyPickup : InteractableBase
 {
-    public override void Interact(PlayerState player)
+    public override void Interact()
     {
-        Debug.Log("[DecoyPickup] Decoy clone triggered!");
-        Destroy(gameObject);
+        InteractEventManager.Pickup(PickupType.Decoy);
+        base.Interact();
     }
 }

@@ -10,9 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 2317251443277299173}
   - component: {fileID: -2297359261540322559}
-  - component: {fileID: -2372330007344933500}
+  - component: {fileID: -672495153336414319}
   m_Layer: 0
-  m_Name: Spell
+  m_Name: Bloodroot_Pickup
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -55,7 +55,7 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &-2372330007344933500
+--- !u!114 &-672495153336414319
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -64,7 +64,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 4799016877198760528}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 291519e2c0098d04886dabf43af89aee, type: 3}
+  m_Script: {fileID: 11500000, guid: 56b833df6e59a7f42b93c15bab4d6847, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1001 &5402557365834791566

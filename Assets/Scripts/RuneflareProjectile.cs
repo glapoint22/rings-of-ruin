@@ -4,12 +4,7 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody))]
 public class RuneflareProjectile : MonoBehaviour
 {
-    [Header("Launch Settings")]
-    //[SerializeField] private float launchForceMin = 10f;
-    //[SerializeField] private float launchForceMax = 16f;
-    //[SerializeField] private float upwardBias = 1.5f;
-    //[SerializeField] private float impactRadius = 1.5f;
-    //[SerializeField] private GameObject impactVFX;
+    [SerializeField] private int damageAmount = 10;
 
     private Rigidbody rb;
     private bool hasLaunched = false;
@@ -51,6 +46,23 @@ public class RuneflareProjectile : MonoBehaviour
 
         hasLaunched = false;
         OnRuneflareDestroyed?.Invoke(this, EventArgs.Empty);
+
+
+        if (collision.collider.CompareTag("Player"))
+        {
+
+            DamageInfo damageInfo = new DamageInfo
+            {
+                Amount = damageAmount,
+                Source = gameObject,
+                DamageType = DamageType.Runeflare,
+                CanBeBlockedByShield = true
+            };
+
+            DamageEventManager.DealDamage(damageInfo);
+        }
+
+        
     }
 
     private Vector3 CalculateLaunchVelocity(Vector3 from, Vector3 to, float arcTime)

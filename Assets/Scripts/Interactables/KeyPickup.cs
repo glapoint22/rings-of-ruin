@@ -2,9 +2,9 @@ using UnityEngine;
 
 public class KeyPickup : InteractableBase
 {
-    public override void Interact(PlayerState player)
+    public override void Interact()
     {
-        Debug.Log("[KeyPickup] Key collected!");
-        Destroy(gameObject);
+        InteractEventManager.Pickup(PickupType.Key);
+        base.Interact();
     }
 }

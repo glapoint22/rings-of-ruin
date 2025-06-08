@@ -30,7 +30,9 @@ MonoBehaviour:
   healthPrefab: {fileID: 4311258303650999628, guid: 62bc426a24b13ec4998f2dfa1e75b453, type: 3}
   decoyPrefab: {fileID: 49177663287305275, guid: d4a58f95a66c59f4b80fc94edb3f220c, type: 3}
   pathmakerPrefab: {fileID: 4237826271509774255, guid: 3ccccef47c85e864bbd9e52c32ae1f8b, type: 3}
-  spellPrefab: {fileID: 4799016877198760528, guid: 6ae96f66658755247a8cce2b15b1d0d5, type: 3}
+  fireballPrefab: {fileID: 4799016877198760528, guid: 6ae96f66658755247a8cce2b15b1d0d5, type: 3}
+  stormboltPrefab: {fileID: 4799016877198760528, guid: c25dd7bbb00fd5b4eb529cdb1209bf03, type: 3}
+  bloodrootPrefab: {fileID: 4799016877198760528, guid: 823792d3ea7b2dd4faf93518da651a4e, type: 3}
   keyPrefab: {fileID: 366851444705759479, guid: be6aaecb2f22df6409e3b3b7dfb677d0, type: 3}
   SpikePrefab: {fileID: 5399516538709543198, guid: e66437bcb4507af4ab719ea76e7584ec, type: 3}
   runeflarePrefab: {fileID: 7780937622634698963, guid: 247d232bde2c78543acbbfbfff13e5c2, type: 3}

@@ -215,7 +215,6 @@ public class PlayerController : MonoBehaviour
 
     public void TriggerFall()
     {
-        Debug.Log("[PlayerController] Triggering fall...");
 
         // Stop movement
         enabled = false;

@@ -2,9 +2,9 @@ using UnityEngine;
 
 public class TimeDilationPickup : InteractableBase
 {
-    public override void Interact(PlayerState player)
+    public override void Interact()
     {
-        Debug.Log("[TimeDilationPickup] Time dilation activated!");
-        Destroy(gameObject);
+        InteractEventManager.Pickup(PickupType.TimeDilation);
+        base.Interact();
     }
 }

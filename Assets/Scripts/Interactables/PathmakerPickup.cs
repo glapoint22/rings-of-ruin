@@ -2,9 +2,9 @@ using UnityEngine;
 
 public class PathmakerPickup : InteractableBase
 {
-    public override void Interact(PlayerState player)
+    public override void Interact()
     {
-        Debug.Log("[PathmakerPickup] Pathmaker bridge activated!");
-        Destroy(gameObject);
+        InteractEventManager.Pickup(PickupType.Pathmaker);
+        base.Interact();
     }
 }
