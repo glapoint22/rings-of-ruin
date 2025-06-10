@@ -35,7 +35,6 @@ public class RingConfiguration
 public class SegmentConfiguration
 {
     public int segmentIndex;
-    public bool isLocked = false;
     public SegmentType segmentType = SegmentType.Normal;
     public PortalType portalType = PortalType.None;
     public HazardType hazardType = HazardType.None;
@@ -84,8 +83,7 @@ public enum SegmentType
 public enum HazardType
 {
     None,
-    Spike,
-    Catapult
+    Spike
 }
 
 /// <summary>
@@ -98,11 +96,6 @@ public enum PickupType
     Cloak,
     TimeDilation,
     Health,
-    Decoy,
-    Pathmaker,
-    Stormbolt,
-    Bloodroot,
-    Fireball,
     Key
 }
 

@@ -21,6 +21,7 @@ public class LevelEditorWindow : EditorWindow
     // State variables for the editor
     private List<LevelData> allLevels = new List<LevelData>();
     private LevelPrefabLibrary prefabLibrary;
+    private SegmentIconLibrary segmentIconLibrary;
     private LevelData selectedLevelData;
     private int selectedLevelIndex = 0;
     private int selectedRingIndex = 0;
@@ -326,12 +327,57 @@ public class LevelEditorWindow : EditorWindow
         SegmentConfiguration segment = selectedLevelData.rings[selectedRingIndex].segments[segmentIndex];
         SetSegmentButtonColor(segment.segmentType);
 
-        string label = BuildSegmentLabel(segmentIndex, segment);
-
-        if (GUI.Button(buttonRect, label))
+        // Draw the button without text
+        if (GUI.Button(buttonRect, ""))
         {
             selectedSegmentIndex = segmentIndex;
             EditorUtility.SetDirty(selectedLevelData);
+        }
+
+        // Draw the segment number centered at the top with padding
+        float topPadding = 8f;
+        float numberHeight = 15f;
+        GUI.Label(new Rect(buttonRect.x, buttonRect.y + topPadding, buttonRect.width, numberHeight), segmentIndex.ToString(), new GUIStyle(GUI.skin.label) { alignment = TextAnchor.UpperCenter });
+
+        // Draw the appropriate icon if it's a normal segment
+        if (segment.segmentType == SegmentType.Normal)
+        {
+            Sprite icon = null;
+            
+            // Get the appropriate icon based on what's on the segment
+            if (segment.collectibleType == CollectibleType.Gem)
+                icon = segmentIconLibrary.GetCollectibleIcon(CollectibleType.Gem);
+            else if (segment.collectibleType == CollectibleType.Coin)
+                icon = segmentIconLibrary.GetCollectibleIcon(CollectibleType.Coin);
+            else if (segment.hazardType != HazardType.None)
+                icon = segmentIconLibrary.spikeIcon;
+            else if (segment.portalType == PortalType.PortalA)
+                icon = segmentIconLibrary.GetPortalIcon(PortalType.PortalA);
+            else if (segment.portalType == PortalType.PortalB)
+                icon = segmentIconLibrary.GetPortalIcon(PortalType.PortalB);
+            else if (segment.enemyType != EnemyType.None)
+                icon = segmentIconLibrary.GetEnemyIcon(segment.enemyType);
+            else if (segment.pickupType != PickupType.None)
+                icon = segmentIconLibrary.GetPickupIcon(segment.pickupType);
+            else if (segment.hasCheckpoint)
+                icon = segmentIconLibrary.checkpointIcon;
+
+            // Draw the icon if we have one
+            if (icon != null)
+            {
+                float iconSize = 20f;
+                float spacing = 16f; // Much larger gap between number and icon
+                
+                GUI.DrawTexture(
+                    new Rect(
+                        buttonRect.x + (buttonRect.width - iconSize) / 2,
+                        buttonRect.y + numberHeight + spacing, // Position well below the segment number
+                        iconSize,
+                        iconSize
+                    ),
+                    icon.texture
+                );
+            }
         }
 
         // Draw selection outline
@@ -368,26 +414,6 @@ public class LevelEditorWindow : EditorWindow
         }
     }
 
-    private string BuildSegmentLabel(int index, SegmentConfiguration segment)
-    {
-        string label = index.ToString();
-        if (segment.segmentType == SegmentType.Normal)
-        {
-            if (segment.collectibleType == CollectibleType.Gem)
-                label += "\n💎";
-            else if (segment.collectibleType == CollectibleType.Coin)
-                label += "\n🪙";
-            if (segment.hazardType != HazardType.None) label += "\n⚠️";
-            if (segment.portalType == PortalType.PortalA) label += "\n🎯";
-            if (segment.portalType == PortalType.PortalB) label += "\n🎲";
-            if (segment.enemyType != EnemyType.None) label += "\n👹";
-            if (segment.pickupType != PickupType.None) label += "\n✋";
-            if (segment.hasCheckpoint) label += "\n🚩";
-            if (segment.isLocked) label += "\n🔒";
-        }
-        return label;
-    }
-
     private void DrawSegmentDetails()
     {
         if (selectedSegmentIndex < 0 || selectedRingIndex >= selectedLevelData.rings.Count)
@@ -419,7 +445,6 @@ public class LevelEditorWindow : EditorWindow
         segment.portalType = (PortalType)EditorGUILayout.EnumPopup("Portal", segment.portalType);
         segment.hasCheckpoint = EditorGUILayout.Toggle("Checkpoint", segment.hasCheckpoint);
         segment.enemyType = (EnemyType)EditorGUILayout.EnumPopup("Enemy", segment.enemyType);
-        segment.isLocked = EditorGUILayout.Toggle("Locked Gate", segment.isLocked);
 
         EditorGUI.EndDisabledGroup();
     }
@@ -506,7 +531,7 @@ public class LevelEditorWindow : EditorWindow
     // Helper methods for common operations
     private void LoadPrefabLibrary()
     {
-        if (prefabLibrary != null) return;
+        if (prefabLibrary != null && segmentIconLibrary != null) return;
 
         string[] guids = AssetDatabase.FindAssets("t:LevelPrefabLibrary");
         if (guids.Length > 0)
@@ -515,9 +540,21 @@ public class LevelEditorWindow : EditorWindow
             prefabLibrary = AssetDatabase.LoadAssetAtPath<LevelPrefabLibrary>(path);
         }
 
+        guids = AssetDatabase.FindAssets("t:SegmentIconLibrary");
+        if (guids.Length > 0)
+        {
+            string path = AssetDatabase.GUIDToAssetPath(guids[0]);
+            segmentIconLibrary = AssetDatabase.LoadAssetAtPath<SegmentIconLibrary>(path);
+        }
+
         if (prefabLibrary == null)
         {
             Debug.LogWarning("No LevelPrefabLibrary asset found. Please create one via 'Create > Rings of Ruin > Prefab Library'.");
+        }
+
+        if (segmentIconLibrary == null)
+        {
+            Debug.LogWarning("No SegmentIconLibrary asset found. Please create one via 'Create > Rings of Ruin > Segment Icon Library'.");
         }
     }
 

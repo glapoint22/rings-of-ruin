@@ -23,11 +23,5 @@ MonoBehaviour:
     icon: {fileID: 21300000, guid: 6d7192a966e96c341a8aacdabc161ca1, type: 3}
   - buffType: 6
     icon: {fileID: 21300000, guid: 98ce679235a489b4f9abedd7cb45356c, type: 3}
-  - buffType: 7
-    icon: {fileID: 21300000, guid: 874a2088d37ca644e813d3238114bccd, type: 3}
-  - buffType: 8
-    icon: {fileID: 21300000, guid: 00de9adfd7bf9db44a882038ea4ff43b, type: 3}
-  - buffType: 9
-    icon: {fileID: 21300000, guid: c92764af4fc0af64cb3bc41f09ee421f, type: 3}
   - buffType: 10
     icon: {fileID: 21300000, guid: e9f171ab4f66a6244b9438bf3f8bea05, type: 3}

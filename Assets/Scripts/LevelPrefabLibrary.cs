@@ -17,16 +17,14 @@ public class LevelPrefabLibrary : ScriptableObject
     public GameObject cloakPrefab;
     public GameObject timeDilationPrefab;
     public GameObject healthPrefab;
-    public GameObject decoyPrefab;
-    public GameObject pathmakerPrefab;
-    public GameObject fireballPrefab;
-    public GameObject stormboltPrefab;
-    public GameObject bloodrootPrefab;
+    // public GameObject pathmakerPrefab;
+    // public GameObject fireballPrefab;
+    // public GameObject stormboltPrefab;
+    // public GameObject bloodrootPrefab;
     public GameObject keyPrefab;
 
     [Header("Hazards")]
     public GameObject SpikePrefab;
-    //public GameObject catapultPrefab;
     public GameObject runeflarePrefab;
     public GameObject[] crumblingPlatformPrefabs = new GameObject[4];
 
@@ -67,18 +65,12 @@ public class LevelPrefabLibrary : ScriptableObject
             { PickupType.Cloak, cloakPrefab },
             { PickupType.TimeDilation, timeDilationPrefab },
             { PickupType.Health, healthPrefab },
-            { PickupType.Decoy, decoyPrefab },
-            { PickupType.Pathmaker, pathmakerPrefab },
-            { PickupType.Stormbolt, stormboltPrefab },
-            { PickupType.Bloodroot, bloodrootPrefab },
-            { PickupType.Fireball, fireballPrefab },
             { PickupType.Key, keyPrefab }
         };
 
         hazardPrefabs = new Dictionary<HazardType, GameObject>
         {
-            { HazardType.Spike, SpikePrefab },
-            //{ HazardType.Catapult, catapultPrefab }
+            { HazardType.Spike, SpikePrefab }
         };
 
         enemyPrefabs = new Dictionary<EnemyType, GameObject>

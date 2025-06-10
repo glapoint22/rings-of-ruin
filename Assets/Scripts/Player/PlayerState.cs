@@ -47,21 +47,6 @@ public class PlayerState : MonoBehaviour
             case PickupType.Cloak:
                 OnCloakPickup();
                 break;
-            case PickupType.Pathmaker:
-                OnPathmakerPickup();
-                break;
-            case PickupType.Decoy:
-                OnDecoyPickup();
-                break;
-            case PickupType.Stormbolt:
-                OnStormboltPickup();
-                break;
-            case PickupType.Bloodroot:
-                OnBloodrootPickup();
-                break;
-            case PickupType.Fireball:
-                OnFireballPickup();
-                break;
         }
     }
 
@@ -90,35 +75,6 @@ public class PlayerState : MonoBehaviour
         OnBuffActivated?.Invoke(PickupType.Cloak);
     }
 
-    private void OnPathmakerPickup()
-    {
-        Debug.Log("[PlayerState] Pathmaker picked up");
-        OnBuffActivated?.Invoke(PickupType.Pathmaker);
-    }
-
-    private void OnDecoyPickup()
-    {
-        Debug.Log("[PlayerState] Decoy picked up");
-        OnBuffActivated?.Invoke(PickupType.Decoy);
-    }
-
-    private void OnStormboltPickup()
-    {
-        Debug.Log("[PlayerState] Stormbolt picked up");
-        OnBuffActivated?.Invoke(PickupType.Stormbolt);
-    }
-
-    private void OnBloodrootPickup()
-    {
-        Debug.Log("[PlayerState] Bloodroot picked up");
-        OnBuffActivated?.Invoke(PickupType.Bloodroot);
-    }
-
-    private void OnFireballPickup()
-    {
-        Debug.Log("[PlayerState] Fireball picked up");
-        OnBuffActivated?.Invoke(PickupType.Fireball);
-    }
 
     private void OnCollect(CollectibleType collectibleType)
     {
