@@ -1,5 +1,3 @@
-using UnityEngine;
-
 public class ShieldPickup : InteractableBase
 {
     public override void Interact()

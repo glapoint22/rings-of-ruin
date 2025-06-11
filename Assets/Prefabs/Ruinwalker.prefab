@@ -46,7 +46,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a51f71f3ed7ac7d44b8d2f57bcef00c0, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 0.7
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a51f71f3ed7ac7d44b8d2f57bcef00c0, type: 3}
       propertyPath: m_LocalPosition.z
@@ -80,6 +80,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: a51f71f3ed7ac7d44b8d2f57bcef00c0, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: d869759de7a01c44eb741002d9d8dee5, type: 2}
     - target: {fileID: 919132149155446097, guid: a51f71f3ed7ac7d44b8d2f57bcef00c0, type: 3}
       propertyPath: m_Name
       value: Ruinwalker

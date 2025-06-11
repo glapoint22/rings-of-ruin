@@ -1,5 +1,3 @@
-using UnityEngine;
-
 public class TimeDilationPickup : InteractableBase
 {
     public override void Interact()

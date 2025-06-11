@@ -56,7 +56,7 @@ public class LevelBuilder : MonoBehaviour
         ringRoot.transform.localPosition = Vector3.zero;
         ringRoot.transform.localRotation = Quaternion.identity;
 
-        
+
         RingRoots[ring.ringIndex] = ringRoot.transform;
 
 
@@ -121,6 +121,11 @@ public class LevelBuilder : MonoBehaviour
                     return prefabLibrary.crumblingPlatformPrefabs[ringIndex];
                 break;
 
+            case SegmentType.Spike:
+                if (ringIndex >= 0 && ringIndex < prefabLibrary.spikePlatformPrefabs.Length)
+                    return prefabLibrary.spikePlatformPrefabs[ringIndex];
+                break;
+
             case SegmentType.Normal:
             default:
                 if (ringIndex >= 0 && ringIndex < prefabLibrary.normalSegmentPrefabs.Length)
@@ -136,106 +141,120 @@ public class LevelBuilder : MonoBehaviour
 
     private void ConfigureSegment(RingSegment ringSegment, SegmentConfiguration config)
     {
-        ConfigureCollectible(ringSegment, config);
-        ConfigurePickup(ringSegment, config);
-        ConfigureHazard(ringSegment, config);
-        ConfigureEnemy(ringSegment, config);
-        ConfigurePortal(ringSegment, config);
-        ConfigureCheckpoint(ringSegment, config);
+        // First check for float slot (pickup)
+        if (config.pickupType != PickupType.None)
+        {
+            ConfigureSlotFloat(ringSegment, config);
+            return; // If we have a pickup, we don't check for ground elements
+        }
+
+        // If no pickup, check for ground elements
+        ConfigureSlotGround(ringSegment, config);
     }
 
-
-
-    private void ConfigureCollectible(RingSegment ringSegment, SegmentConfiguration config)
+    private void ConfigureSlotGround(RingSegment ringSegment, SegmentConfiguration config)
     {
-        if (config.collectibleType == CollectibleType.None || ringSegment.SlotCollectible == null)
+        if (ringSegment.SlotGround == null)
             return;
 
-        GameObject prefab = prefabLibrary.GetCollectiblePrefab(config.collectibleType);
-        if (prefab != null)
+        // Only one of these will be true at a time
+        if (config.collectibleType != CollectibleType.None)
         {
-            Instantiate(prefab, ringSegment.SlotCollectible.position, ringSegment.SlotCollectible.rotation, ringSegment.SlotCollectible)
-                .name = $"Collectible_{config.collectibleType}";
+            GameObject prefab = prefabLibrary.GetCollectiblePrefab(config.collectibleType);
+            if (prefab != null)
+            {
+                Instantiate(prefab, ringSegment.SlotGround.position, ringSegment.SlotGround.rotation, ringSegment.SlotGround)
+                    .name = $"Collectible_{config.collectibleType}";
+            }
+        }
+        else if (config.enemyType != EnemyType.None)
+        {
+            GameObject prefab = prefabLibrary.GetEnemyPrefab(config.enemyType);
+            if (prefab != null)
+            {
+                Instantiate(prefab, ringSegment.SlotGround.position, ringSegment.SlotGround.rotation, ringSegment.SlotGround)
+                    .name = $"Enemy_{config.enemyType}";
+            }
+        }
+        else if (config.portalType != PortalType.None)
+        {
+            GameObject prefab = config.portalType == PortalType.PortalA ?
+                prefabLibrary.portalAPrefab :
+                prefabLibrary.portalBPrefab;
+
+            if (prefab != null)
+            {
+                GameObject portal = Instantiate(prefab, ringSegment.SlotGround.position, ringSegment.SlotGround.rotation, ringSegment.SlotGround);
+                portal.name = $"Portal_{config.portalType}";
+
+                if (config.portalType == PortalType.PortalA)
+                {
+                    portalA = portal;
+                }
+                else
+                {
+                    portalB = portal;
+                }
+            }
+        }
+        else if (config.hasCheckpoint)
+        {
+            GameObject prefab = prefabLibrary.checkpointPrefab;
+            if (prefab != null)
+            {
+                Instantiate(prefab, ringSegment.SlotGround.position, ringSegment.SlotGround.rotation, ringSegment.SlotGround)
+                    .name = "Checkpoint";
+            }
         }
     }
 
-    private void ConfigurePickup(RingSegment ringSegment, SegmentConfiguration config)
+    private void ConfigureSlotFloat(RingSegment ringSegment, SegmentConfiguration config)
     {
-        if (config.pickupType == PickupType.None || ringSegment.SlotPickup == null)
+        if (ringSegment.SlotFloat == null)
             return;
 
         GameObject prefab = prefabLibrary.GetPickupPrefab(config.pickupType);
         if (prefab != null)
         {
-            Instantiate(prefab, ringSegment.SlotPickup.position, ringSegment.SlotPickup.rotation, ringSegment.SlotPickup)
+            Instantiate(prefab, ringSegment.SlotFloat.position, ringSegment.SlotFloat.rotation, ringSegment.SlotFloat)
                 .name = $"Pickup_{config.pickupType}";
         }
     }
 
-    private void ConfigureHazard(RingSegment ringSegment, SegmentConfiguration config)
-    {
-        if (config.hazardType == HazardType.None || ringSegment.SlotHazard == null)
-            return;
 
-        GameObject prefab = prefabLibrary.GetHazardPrefab(config.hazardType);
-        if (prefab != null)
-        {
-            Instantiate(prefab, ringSegment.SlotHazard.position, ringSegment.SlotHazard.rotation, ringSegment.SlotHazard)
-                .name = $"Hazard_{config.hazardType}";
-        }
-    }
 
-    private void ConfigureEnemy(RingSegment ringSegment, SegmentConfiguration config)
-    {
-        if (config.enemyType == EnemyType.None || ringSegment.SlotEnemy == null)
-            return;
 
-        GameObject prefab = prefabLibrary.GetEnemyPrefab(config.enemyType);
-        if (prefab != null)
-        {
-            Instantiate(prefab, ringSegment.SlotEnemy.position, ringSegment.SlotEnemy.rotation, ringSegment.SlotEnemy)
-                .name = $"Enemy_{config.enemyType}";
-        }
-    }
+    // private void ConfigureSegment(RingSegment ringSegment, SegmentConfiguration config)
+    // {
+    //     ConfigureSlotGround(ringSegment, config);
+    //     ConfigureSlotFloat(ringSegment, config);
+    // }
 
-    private void ConfigurePortal(RingSegment ringSegment, SegmentConfiguration config)
-    {
-        if (config.portalType == PortalType.None || ringSegment.SlotPortal == null)
-            return;
 
-        GameObject prefab = config.portalType == PortalType.PortalA ?
-            prefabLibrary.portalAPrefab :
-            prefabLibrary.portalBPrefab;
 
-        if (prefab != null)
-        {
-            GameObject portal = Instantiate(prefab, ringSegment.SlotPortal.position, ringSegment.SlotPortal.rotation, ringSegment.SlotPortal);
+    // private void ConfigureSlotGround(RingSegment ringSegment, SegmentConfiguration config)
+    // {
+    //     if (config.collectibleType == CollectibleType.None || ringSegment.SlotGround == null)
+    //         return;
 
-            portal.name = $"Portal_{config.portalType}";
+    //     GameObject prefab = prefabLibrary.GetCollectiblePrefab(config.collectibleType);
+    //     if (prefab != null)
+    //     {
+    //         Instantiate(prefab, ringSegment.SlotGround.position, ringSegment.SlotGround.rotation, ringSegment.SlotGround)
+    //             .name = $"Collectible_{config.collectibleType}";
+    //     }
+    // }
 
-            if (config.portalType == PortalType.PortalA)
-            {
-                portalA = portal;
-            }
-            else
-            {
-                portalB = portal;
-            }
+    // private void ConfigureSlotFloat(RingSegment ringSegment, SegmentConfiguration config)
+    // {
+    //     if (config.pickupType == PickupType.None || ringSegment.SlotFloat == null)
+    //         return;
 
-        }
-    }
-
-    private void ConfigureCheckpoint(RingSegment ringSegment, SegmentConfiguration config)
-    {
-        if (!config.hasCheckpoint || ringSegment.SlotCheckpoint == null)
-            return;
-
-        GameObject prefab = prefabLibrary.checkpointPrefab;
-        if (prefab != null)
-        {
-            Instantiate(prefab, ringSegment.SlotCheckpoint.position, ringSegment.SlotCheckpoint.rotation, ringSegment.SlotCheckpoint)
-                .name = $"Checkpoint";
-        }
-    }
-
+    //     GameObject prefab = prefabLibrary.GetPickupPrefab(config.pickupType);
+    //     if (prefab != null)
+    //     {
+    //         Instantiate(prefab, ringSegment.SlotFloat.position, ringSegment.SlotFloat.rotation, ringSegment.SlotFloat)
+    //             .name = $"Pickup_{config.pickupType}";
+    //     }
+    // }
 }

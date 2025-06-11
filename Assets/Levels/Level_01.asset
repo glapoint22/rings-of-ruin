@@ -20,7 +20,6 @@ MonoBehaviour:
     - segmentIndex: 0
       segmentType: 0
       portalType: 0
-      hazardType: 0
       pickupType: 0
       enemyType: 0
       collectibleType: 0
@@ -28,7 +27,6 @@ MonoBehaviour:
     - segmentIndex: 1
       segmentType: 0
       portalType: 0
-      hazardType: 0
       pickupType: 0
       enemyType: 0
       collectibleType: 0
@@ -36,7 +34,6 @@ MonoBehaviour:
     - segmentIndex: 2
       segmentType: 0
       portalType: 0
-      hazardType: 0
       pickupType: 0
       enemyType: 0
       collectibleType: 0
@@ -44,7 +41,6 @@ MonoBehaviour:
     - segmentIndex: 3
       segmentType: 0
       portalType: 0
-      hazardType: 0
       pickupType: 0
       enemyType: 0
       collectibleType: 0
@@ -52,7 +48,6 @@ MonoBehaviour:
     - segmentIndex: 4
       segmentType: 0
       portalType: 0
-      hazardType: 0
       pickupType: 0
       enemyType: 0
       collectibleType: 0
@@ -60,7 +55,6 @@ MonoBehaviour:
     - segmentIndex: 5
       segmentType: 0
       portalType: 0
-      hazardType: 0
       pickupType: 0
       enemyType: 0
       collectibleType: 0
@@ -68,7 +62,6 @@ MonoBehaviour:
     - segmentIndex: 6
       segmentType: 0
       portalType: 0
-      hazardType: 0
       pickupType: 0
       enemyType: 0
       collectibleType: 0
@@ -76,7 +69,6 @@ MonoBehaviour:
     - segmentIndex: 7
       segmentType: 0
       portalType: 0
-      hazardType: 0
       pickupType: 0
       enemyType: 0
       collectibleType: 0
@@ -84,7 +76,6 @@ MonoBehaviour:
     - segmentIndex: 8
       segmentType: 0
       portalType: 0
-      hazardType: 0
       pickupType: 0
       enemyType: 0
       collectibleType: 0
@@ -92,7 +83,6 @@ MonoBehaviour:
     - segmentIndex: 9
       segmentType: 0
       portalType: 0
-      hazardType: 0
       pickupType: 0
       enemyType: 0
       collectibleType: 0
@@ -100,7 +90,6 @@ MonoBehaviour:
     - segmentIndex: 10
       segmentType: 0
       portalType: 0
-      hazardType: 0
       pickupType: 0
       enemyType: 0
       collectibleType: 0
@@ -108,7 +97,6 @@ MonoBehaviour:
     - segmentIndex: 11
       segmentType: 0
       portalType: 0
-      hazardType: 0
       pickupType: 0
       enemyType: 0
       collectibleType: 0
@@ -116,7 +104,6 @@ MonoBehaviour:
     - segmentIndex: 12
       segmentType: 0
       portalType: 0
-      hazardType: 0
       pickupType: 0
       enemyType: 0
       collectibleType: 0
@@ -124,7 +111,6 @@ MonoBehaviour:
     - segmentIndex: 13
       segmentType: 0
       portalType: 0
-      hazardType: 0
       pickupType: 0
       enemyType: 0
       collectibleType: 0
@@ -132,7 +118,6 @@ MonoBehaviour:
     - segmentIndex: 14
       segmentType: 0
       portalType: 0
-      hazardType: 0
       pickupType: 0
       enemyType: 0
       collectibleType: 0
@@ -140,7 +125,6 @@ MonoBehaviour:
     - segmentIndex: 15
       segmentType: 0
       portalType: 0
-      hazardType: 0
       pickupType: 0
       enemyType: 0
       collectibleType: 0
@@ -148,7 +132,6 @@ MonoBehaviour:
     - segmentIndex: 16
       segmentType: 0
       portalType: 0
-      hazardType: 0
       pickupType: 0
       enemyType: 0
       collectibleType: 0
@@ -156,7 +139,6 @@ MonoBehaviour:
     - segmentIndex: 17
       segmentType: 0
       portalType: 0
-      hazardType: 0
       pickupType: 0
       enemyType: 0
       collectibleType: 0
@@ -164,7 +146,6 @@ MonoBehaviour:
     - segmentIndex: 18
       segmentType: 0
       portalType: 0
-      hazardType: 0
       pickupType: 0
       enemyType: 0
       collectibleType: 0
@@ -172,7 +153,6 @@ MonoBehaviour:
     - segmentIndex: 19
       segmentType: 0
       portalType: 0
-      hazardType: 0
       pickupType: 0
       enemyType: 0
       collectibleType: 0
@@ -180,7 +160,6 @@ MonoBehaviour:
     - segmentIndex: 20
       segmentType: 0
       portalType: 0
-      hazardType: 0
       pickupType: 0
       enemyType: 0
       collectibleType: 0
@@ -188,7 +167,6 @@ MonoBehaviour:
     - segmentIndex: 21
       segmentType: 0
       portalType: 0
-      hazardType: 0
       pickupType: 0
       enemyType: 0
       collectibleType: 0
@@ -196,7 +174,6 @@ MonoBehaviour:
     - segmentIndex: 22
       segmentType: 0
       portalType: 0
-      hazardType: 0
       pickupType: 0
       enemyType: 0
       collectibleType: 0
@@ -204,7 +181,348 @@ MonoBehaviour:
     - segmentIndex: 23
       segmentType: 0
       portalType: 0
-      hazardType: 0
+      pickupType: 0
+      enemyType: 0
+      collectibleType: 0
+      hasCheckpoint: 0
+  - ringIndex: 1
+    rotation: 0
+    segments:
+    - segmentIndex: 0
+      segmentType: 0
+      portalType: 0
+      pickupType: 0
+      enemyType: 0
+      collectibleType: 0
+      hasCheckpoint: 0
+    - segmentIndex: 1
+      segmentType: 0
+      portalType: 0
+      pickupType: 0
+      enemyType: 0
+      collectibleType: 0
+      hasCheckpoint: 0
+    - segmentIndex: 2
+      segmentType: 0
+      portalType: 0
+      pickupType: 0
+      enemyType: 0
+      collectibleType: 0
+      hasCheckpoint: 0
+    - segmentIndex: 3
+      segmentType: 0
+      portalType: 0
+      pickupType: 0
+      enemyType: 0
+      collectibleType: 0
+      hasCheckpoint: 0
+    - segmentIndex: 4
+      segmentType: 0
+      portalType: 0
+      pickupType: 0
+      enemyType: 0
+      collectibleType: 0
+      hasCheckpoint: 0
+    - segmentIndex: 5
+      segmentType: 0
+      portalType: 0
+      pickupType: 0
+      enemyType: 0
+      collectibleType: 0
+      hasCheckpoint: 0
+    - segmentIndex: 6
+      segmentType: 0
+      portalType: 0
+      pickupType: 0
+      enemyType: 0
+      collectibleType: 0
+      hasCheckpoint: 0
+    - segmentIndex: 7
+      segmentType: 0
+      portalType: 0
+      pickupType: 0
+      enemyType: 0
+      collectibleType: 0
+      hasCheckpoint: 0
+    - segmentIndex: 8
+      segmentType: 0
+      portalType: 0
+      pickupType: 0
+      enemyType: 0
+      collectibleType: 0
+      hasCheckpoint: 0
+    - segmentIndex: 9
+      segmentType: 0
+      portalType: 0
+      pickupType: 0
+      enemyType: 0
+      collectibleType: 0
+      hasCheckpoint: 0
+    - segmentIndex: 10
+      segmentType: 0
+      portalType: 0
+      pickupType: 0
+      enemyType: 0
+      collectibleType: 0
+      hasCheckpoint: 0
+    - segmentIndex: 11
+      segmentType: 0
+      portalType: 0
+      pickupType: 0
+      enemyType: 0
+      collectibleType: 0
+      hasCheckpoint: 0
+    - segmentIndex: 12
+      segmentType: 0
+      portalType: 0
+      pickupType: 0
+      enemyType: 0
+      collectibleType: 0
+      hasCheckpoint: 0
+    - segmentIndex: 13
+      segmentType: 0
+      portalType: 0
+      pickupType: 0
+      enemyType: 0
+      collectibleType: 0
+      hasCheckpoint: 0
+    - segmentIndex: 14
+      segmentType: 0
+      portalType: 0
+      pickupType: 0
+      enemyType: 0
+      collectibleType: 0
+      hasCheckpoint: 0
+    - segmentIndex: 15
+      segmentType: 0
+      portalType: 0
+      pickupType: 0
+      enemyType: 0
+      collectibleType: 0
+      hasCheckpoint: 0
+    - segmentIndex: 16
+      segmentType: 0
+      portalType: 0
+      pickupType: 0
+      enemyType: 0
+      collectibleType: 0
+      hasCheckpoint: 0
+    - segmentIndex: 17
+      segmentType: 0
+      portalType: 0
+      pickupType: 0
+      enemyType: 0
+      collectibleType: 0
+      hasCheckpoint: 0
+    - segmentIndex: 18
+      segmentType: 0
+      portalType: 0
+      pickupType: 0
+      enemyType: 0
+      collectibleType: 0
+      hasCheckpoint: 0
+    - segmentIndex: 19
+      segmentType: 0
+      portalType: 0
+      pickupType: 0
+      enemyType: 0
+      collectibleType: 0
+      hasCheckpoint: 0
+    - segmentIndex: 20
+      segmentType: 0
+      portalType: 0
+      pickupType: 0
+      enemyType: 0
+      collectibleType: 0
+      hasCheckpoint: 0
+    - segmentIndex: 21
+      segmentType: 0
+      portalType: 0
+      pickupType: 0
+      enemyType: 0
+      collectibleType: 0
+      hasCheckpoint: 0
+    - segmentIndex: 22
+      segmentType: 0
+      portalType: 0
+      pickupType: 0
+      enemyType: 0
+      collectibleType: 0
+      hasCheckpoint: 0
+    - segmentIndex: 23
+      segmentType: 0
+      portalType: 0
+      pickupType: 0
+      enemyType: 0
+      collectibleType: 0
+      hasCheckpoint: 0
+  - ringIndex: 2
+    rotation: 0
+    segments:
+    - segmentIndex: 0
+      segmentType: 0
+      portalType: 0
+      pickupType: 0
+      enemyType: 0
+      collectibleType: 0
+      hasCheckpoint: 0
+    - segmentIndex: 1
+      segmentType: 0
+      portalType: 0
+      pickupType: 0
+      enemyType: 0
+      collectibleType: 0
+      hasCheckpoint: 0
+    - segmentIndex: 2
+      segmentType: 0
+      portalType: 0
+      pickupType: 0
+      enemyType: 0
+      collectibleType: 0
+      hasCheckpoint: 0
+    - segmentIndex: 3
+      segmentType: 0
+      portalType: 0
+      pickupType: 0
+      enemyType: 0
+      collectibleType: 0
+      hasCheckpoint: 0
+    - segmentIndex: 4
+      segmentType: 0
+      portalType: 0
+      pickupType: 0
+      enemyType: 0
+      collectibleType: 0
+      hasCheckpoint: 0
+    - segmentIndex: 5
+      segmentType: 0
+      portalType: 0
+      pickupType: 0
+      enemyType: 0
+      collectibleType: 0
+      hasCheckpoint: 0
+    - segmentIndex: 6
+      segmentType: 0
+      portalType: 0
+      pickupType: 0
+      enemyType: 0
+      collectibleType: 0
+      hasCheckpoint: 0
+    - segmentIndex: 7
+      segmentType: 0
+      portalType: 0
+      pickupType: 0
+      enemyType: 0
+      collectibleType: 0
+      hasCheckpoint: 0
+    - segmentIndex: 8
+      segmentType: 0
+      portalType: 0
+      pickupType: 0
+      enemyType: 0
+      collectibleType: 0
+      hasCheckpoint: 0
+    - segmentIndex: 9
+      segmentType: 0
+      portalType: 0
+      pickupType: 0
+      enemyType: 0
+      collectibleType: 0
+      hasCheckpoint: 0
+    - segmentIndex: 10
+      segmentType: 0
+      portalType: 0
+      pickupType: 0
+      enemyType: 0
+      collectibleType: 0
+      hasCheckpoint: 0
+    - segmentIndex: 11
+      segmentType: 0
+      portalType: 0
+      pickupType: 0
+      enemyType: 0
+      collectibleType: 0
+      hasCheckpoint: 0
+    - segmentIndex: 12
+      segmentType: 0
+      portalType: 0
+      pickupType: 0
+      enemyType: 0
+      collectibleType: 0
+      hasCheckpoint: 0
+    - segmentIndex: 13
+      segmentType: 0
+      portalType: 0
+      pickupType: 0
+      enemyType: 0
+      collectibleType: 0
+      hasCheckpoint: 0
+    - segmentIndex: 14
+      segmentType: 0
+      portalType: 0
+      pickupType: 0
+      enemyType: 0
+      collectibleType: 0
+      hasCheckpoint: 0
+    - segmentIndex: 15
+      segmentType: 0
+      portalType: 0
+      pickupType: 0
+      enemyType: 0
+      collectibleType: 0
+      hasCheckpoint: 0
+    - segmentIndex: 16
+      segmentType: 0
+      portalType: 0
+      pickupType: 0
+      enemyType: 0
+      collectibleType: 0
+      hasCheckpoint: 0
+    - segmentIndex: 17
+      segmentType: 0
+      portalType: 0
+      pickupType: 0
+      enemyType: 0
+      collectibleType: 0
+      hasCheckpoint: 0
+    - segmentIndex: 18
+      segmentType: 0
+      portalType: 0
+      pickupType: 0
+      enemyType: 0
+      collectibleType: 0
+      hasCheckpoint: 0
+    - segmentIndex: 19
+      segmentType: 0
+      portalType: 0
+      pickupType: 0
+      enemyType: 0
+      collectibleType: 0
+      hasCheckpoint: 0
+    - segmentIndex: 20
+      segmentType: 0
+      portalType: 0
+      pickupType: 0
+      enemyType: 0
+      collectibleType: 0
+      hasCheckpoint: 0
+    - segmentIndex: 21
+      segmentType: 0
+      portalType: 0
+      pickupType: 0
+      enemyType: 0
+      collectibleType: 0
+      hasCheckpoint: 0
+    - segmentIndex: 22
+      segmentType: 0
+      portalType: 0
+      pickupType: 0
+      enemyType: 0
+      collectibleType: 0
+      hasCheckpoint: 0
+    - segmentIndex: 23
+      segmentType: 0
+      portalType: 0
       pickupType: 0
       enemyType: 0
       collectibleType: 0

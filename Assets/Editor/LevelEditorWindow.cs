@@ -64,7 +64,7 @@ public class LevelEditorWindow : EditorWindow
             DrawGlobalHazardSettings();
             DrawRingControls();
             DrawRingLayout();
-            GUILayout.Space(800);
+            GUILayout.Space(150);
             DrawSegmentDetails();
             DrawPreviewControls();
             
@@ -200,6 +200,7 @@ public class LevelEditorWindow : EditorWindow
 
     private void DrawPreviewControls()
     {
+        EditorGUILayout.Space(20);
         GUILayout.BeginHorizontal();
         if (GUILayout.Button("🛠 Build Preview")) BuildPreview();
         if (GUILayout.Button("🧹 Clear Preview")) ClearPreview();
@@ -304,7 +305,8 @@ public class LevelEditorWindow : EditorWindow
     private void DrawRingLayout()
     {
         float viewWidth = position.width;
-        Vector2 ringCenter = new Vector2(viewWidth / 2f, 650f);
+        Rect layoutRect = GUILayoutUtility.GetRect(viewWidth, 600f);
+        Vector2 ringCenter = new Vector2(layoutRect.x + viewWidth / 2f, layoutRect.y + 375f);
 
         Handles.BeginGUI();
 
@@ -349,8 +351,6 @@ public class LevelEditorWindow : EditorWindow
                 icon = segmentIconLibrary.GetCollectibleIcon(CollectibleType.Gem);
             else if (segment.collectibleType == CollectibleType.Coin)
                 icon = segmentIconLibrary.GetCollectibleIcon(CollectibleType.Coin);
-            else if (segment.hazardType != HazardType.None)
-                icon = segmentIconLibrary.spikeIcon;
             else if (segment.portalType == PortalType.PortalA)
                 icon = segmentIconLibrary.GetPortalIcon(PortalType.PortalA);
             else if (segment.portalType == PortalType.PortalB)
@@ -406,10 +406,13 @@ public class LevelEditorWindow : EditorWindow
         switch (segmentType)
         {
             case SegmentType.Gap:
-                GUI.color = Color.red;
+                GUI.color = Color.darkGray;
                 break;
             case SegmentType.Crumbling:
                 GUI.color = new Color(1f, 0.6f, 0.1f);
+                break;
+            case SegmentType.Spike:
+                GUI.color = Color.red;
                 break;
         }
     }
@@ -436,14 +439,15 @@ public class LevelEditorWindow : EditorWindow
     private void DrawSegmentProperties(SegmentConfiguration segment)
     {
         segment.segmentType = (SegmentType)EditorGUILayout.EnumPopup("Segment Type", segment.segmentType);
+        EditorGUILayout.Space(5);
 
         EditorGUI.BeginDisabledGroup(segment.segmentType != SegmentType.Normal);
 
+        segment.hasCheckpoint = EditorGUILayout.Toggle("Checkpoint", segment.hasCheckpoint);
         segment.collectibleType = (CollectibleType)EditorGUILayout.EnumPopup("Collectable", segment.collectibleType);
-        segment.hazardType = (HazardType)EditorGUILayout.EnumPopup("Hazard Type", segment.hazardType);
         segment.pickupType = (PickupType)EditorGUILayout.EnumPopup("Pickup Type", segment.pickupType);
         segment.portalType = (PortalType)EditorGUILayout.EnumPopup("Portal", segment.portalType);
-        segment.hasCheckpoint = EditorGUILayout.Toggle("Checkpoint", segment.hasCheckpoint);
+        
         segment.enemyType = (EnemyType)EditorGUILayout.EnumPopup("Enemy", segment.enemyType);
 
         EditorGUI.EndDisabledGroup();

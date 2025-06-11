@@ -16,6 +16,9 @@ public class SegmentIconLibrary : ScriptableObject
     public Sprite timeDilationIcon;
     public Sprite healthIcon;
     public Sprite keyIcon;
+    public Sprite stormboltIcon;
+    public Sprite bloodrootIcon;
+    public Sprite fireballIcon;
 
     [Header("Enemies")]
     public Sprite ruinwalkerIcon;
@@ -49,6 +52,9 @@ public class SegmentIconLibrary : ScriptableObject
             PickupType.TimeDilation => timeDilationIcon,
             PickupType.Health => healthIcon,
             PickupType.Key => keyIcon,
+            PickupType.Stormbolt => stormboltIcon,
+            PickupType.Bloodroot => bloodrootIcon,
+            PickupType.Fireball => fireballIcon,
             _ => null
         };
     }

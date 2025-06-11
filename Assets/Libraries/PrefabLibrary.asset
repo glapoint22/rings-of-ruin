@@ -28,7 +28,6 @@ MonoBehaviour:
   cloakPrefab: {fileID: 4973491188983367704, guid: 54f70e3948ba0354aa28843f623948ec, type: 3}
   timeDilationPrefab: {fileID: 641186488462051596, guid: 0bff36ada604d314ab06f32ff09dfa13, type: 3}
   healthPrefab: {fileID: 4311258303650999628, guid: 62bc426a24b13ec4998f2dfa1e75b453, type: 3}
-  decoyPrefab: {fileID: 49177663287305275, guid: d4a58f95a66c59f4b80fc94edb3f220c, type: 3}
   pathmakerPrefab: {fileID: 4237826271509774255, guid: 3ccccef47c85e864bbd9e52c32ae1f8b, type: 3}
   fireballPrefab: {fileID: 4799016877198760528, guid: 6ae96f66658755247a8cce2b15b1d0d5, type: 3}
   stormboltPrefab: {fileID: 4799016877198760528, guid: c25dd7bbb00fd5b4eb529cdb1209bf03, type: 3}
@@ -41,6 +40,11 @@ MonoBehaviour:
   - {fileID: 5859960933196909592, guid: b22f17254e0a7804ea64c0054b5d6010, type: 3}
   - {fileID: 3557702605399015103, guid: c270b0572f632e543bbac62e8ac51487, type: 3}
   - {fileID: 4696534980819948806, guid: ccc82fc92eb457f4096887e2b8daf201, type: 3}
+  spikePlatformPrefabs:
+  - {fileID: 2235975708072195948, guid: ca464a5654a67ed4488d5bc21a9b069c, type: 3}
+  - {fileID: 5859960933196909592, guid: 1bcb4c97201059347984d4d4f4b39f15, type: 3}
+  - {fileID: 3557702605399015103, guid: f7aef67dc97741c40a3194cc8f4a23ba, type: 3}
+  - {fileID: 4696534980819948806, guid: 1a8f93d2bfbf30441a85ebb836ef0998, type: 3}
   ruinwalkerPrefab: {fileID: 94538880463379437, guid: d61b32293d6434d4aac3e96affb18e1d, type: 3}
   gravecallerPrefab: {fileID: 4730132979662416648, guid: c55e863a62e5aa34d80f8229f5b5d698, type: 3}
   bloodseekerPrefab: {fileID: 1332851432689936905, guid: 674a88931e07a9745a3ca9a3156514a9, type: 3}

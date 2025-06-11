@@ -1,5 +1,3 @@
-using UnityEngine;
-
 public class KeyPickup : InteractableBase
 {
     public override void Interact()

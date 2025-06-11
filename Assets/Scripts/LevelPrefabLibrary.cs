@@ -17,16 +17,17 @@ public class LevelPrefabLibrary : ScriptableObject
     public GameObject cloakPrefab;
     public GameObject timeDilationPrefab;
     public GameObject healthPrefab;
-    // public GameObject pathmakerPrefab;
-    // public GameObject fireballPrefab;
-    // public GameObject stormboltPrefab;
-    // public GameObject bloodrootPrefab;
+    public GameObject pathmakerPrefab;
+    public GameObject fireballPrefab;
+    public GameObject stormboltPrefab;   
+    public GameObject bloodrootPrefab;
     public GameObject keyPrefab;
 
     [Header("Hazards")]
     public GameObject SpikePrefab;
     public GameObject runeflarePrefab;
     public GameObject[] crumblingPlatformPrefabs = new GameObject[4];
+    public GameObject[] spikePlatformPrefabs = new GameObject[4];
 
     [Header("Enemies")]
     public GameObject ruinwalkerPrefab;
@@ -43,7 +44,6 @@ public class LevelPrefabLibrary : ScriptableObject
 
     private Dictionary<CollectibleType, GameObject> collectiblePrefabs;
     private Dictionary<PickupType, GameObject> pickupPrefabs;
-    private Dictionary<HazardType, GameObject> hazardPrefabs;
     private Dictionary<EnemyType, GameObject> enemyPrefabs;
 
     private void OnEnable()
@@ -65,13 +65,12 @@ public class LevelPrefabLibrary : ScriptableObject
             { PickupType.Cloak, cloakPrefab },
             { PickupType.TimeDilation, timeDilationPrefab },
             { PickupType.Health, healthPrefab },
-            { PickupType.Key, keyPrefab }
+            { PickupType.Key, keyPrefab },
+            { PickupType.Stormbolt, stormboltPrefab },
+            { PickupType.Bloodroot, bloodrootPrefab },
+            { PickupType.Fireball, fireballPrefab }
         };
 
-        hazardPrefabs = new Dictionary<HazardType, GameObject>
-        {
-            { HazardType.Spike, SpikePrefab }
-        };
 
         enemyPrefabs = new Dictionary<EnemyType, GameObject>
         {
@@ -101,15 +100,6 @@ public class LevelPrefabLibrary : ScriptableObject
         return null;
     }
 
-    public GameObject GetHazardPrefab(HazardType hazardType)
-    {
-        if (hazardPrefabs.TryGetValue(hazardType, out GameObject prefab))
-        {
-            return prefab;
-        }
-        Debug.LogWarning($"No prefab found for hazard type: {hazardType}");
-        return null;
-    }
 
     public GameObject GetEnemyPrefab(EnemyType enemyType)
     {
