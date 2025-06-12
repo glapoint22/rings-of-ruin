@@ -14,7 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gemIcon: {fileID: 21300000, guid: b305218784c542f49ac1178a54dda4df, type: 3}
   coinIcon: {fileID: 21300000, guid: 715ac311aa0675d4da17cd4532196d85, type: 3}
-  spikeIcon: {fileID: 21300000, guid: a9336c64839cc7640bed924488109d69, type: 3}
+  gapIcon: {fileID: 21300000, guid: 13068eec5f3359540b5a440414b61f00, type: 3}
+  crumblingIcon: {fileID: 21300000, guid: e545f83229239a64ab37a5e1a3cbc7b2, type: 3}
+  spikeIcon: {fileID: 21300000, guid: 18e8ac028d0151b489c8e932d6f49f6c, type: 3}
   shieldIcon: {fileID: 21300000, guid: 2e33064a73a0f0844b6430374e4781db, type: 3}
   cloakIcon: {fileID: 21300000, guid: a86b504355f691c4591f5b31abd6279f, type: 3}
   timeDilationIcon: {fileID: 21300000, guid: 8c94266805be0c645beef8f95d8a9f2d, type: 3}

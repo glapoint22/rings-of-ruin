@@ -327,19 +327,45 @@ public class LevelEditorWindow : EditorWindow
         Rect buttonRect = new Rect(buttonCenter.x - BUTTON_SIZE / 2, buttonCenter.y - BUTTON_SIZE / 2, BUTTON_SIZE, BUTTON_SIZE);
 
         SegmentConfiguration segment = selectedLevelData.rings[selectedRingIndex].segments[segmentIndex];
-        SetSegmentButtonColor(segment.segmentType);
-
-        // Draw the button without text
+        
+        // Draw the button with white background
+        GUI.color = Color.white;
         if (GUI.Button(buttonRect, ""))
         {
             selectedSegmentIndex = segmentIndex;
             EditorUtility.SetDirty(selectedLevelData);
         }
 
-        // Draw the segment number centered at the top with padding
+        // Draw segment type icon if not normal
+        if (segment.segmentType != SegmentType.Normal)
+        {
+            Sprite typeIcon = segmentIconLibrary.GetSegmentTypeIcon(segment.segmentType);
+            if (typeIcon != null)
+            {
+                // Draw the icon at full button size
+                GUI.color = Color.white;
+                GUI.DrawTexture(buttonRect, typeIcon.texture, ScaleMode.ScaleToFit);
+            }
+        }
+
+        // Draw the segment number
         float topPadding = 8f;
         float numberHeight = 15f;
-        GUI.Label(new Rect(buttonRect.x, buttonRect.y + topPadding, buttonRect.width, numberHeight), segmentIndex.ToString(), new GUIStyle(GUI.skin.label) { alignment = TextAnchor.UpperCenter });
+        float numberWidth = 30f;
+        Rect numberRect = new Rect(
+            buttonRect.x + (buttonRect.width - numberWidth) / 2,
+            buttonRect.y + topPadding,
+            numberWidth,
+            numberHeight
+        );
+
+        // Draw the number in white
+        GUI.color = Color.white;
+        GUI.Label(numberRect, segmentIndex.ToString(), new GUIStyle(GUI.skin.label) 
+        { 
+            alignment = TextAnchor.UpperCenter,
+            normal = { textColor = Color.white }
+        });
 
         // Draw the appropriate icon if it's a normal segment
         if (segment.segmentType == SegmentType.Normal)
@@ -366,12 +392,12 @@ public class LevelEditorWindow : EditorWindow
             if (icon != null)
             {
                 float iconSize = 20f;
-                float spacing = 16f; // Much larger gap between number and icon
+                float spacing = 16f;
                 
                 GUI.DrawTexture(
                     new Rect(
                         buttonRect.x + (buttonRect.width - iconSize) / 2,
-                        buttonRect.y + numberHeight + spacing, // Position well below the segment number
+                        buttonRect.y + numberHeight + spacing,
                         iconSize,
                         iconSize
                     ),
@@ -399,22 +425,6 @@ public class LevelEditorWindow : EditorWindow
         }
 
         GUI.color = Color.white;
-    }
-
-    private void SetSegmentButtonColor(SegmentType segmentType)
-    {
-        switch (segmentType)
-        {
-            case SegmentType.Gap:
-                GUI.color = Color.darkGray;
-                break;
-            case SegmentType.Crumbling:
-                GUI.color = new Color(1f, 0.6f, 0.1f);
-                break;
-            case SegmentType.Spike:
-                GUI.color = Color.red;
-                break;
-        }
     }
 
     private void DrawSegmentDetails()

@@ -2,11 +2,11 @@ using UnityEngine;
 
 public class SpikeTrigger : MonoBehaviour
 {
-    private SpikeHazard spike;
+    private SpikeSegment spike;
 
     private void Start()
     {
-        spike = GetComponentInParent<SpikeHazard>();
+        spike = GetComponentInParent<SpikeSegment>();
     }
 
     private void OnTriggerEnter(Collider other)

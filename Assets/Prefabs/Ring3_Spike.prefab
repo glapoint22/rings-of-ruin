@@ -223,7 +223,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 7a6cd2bae44f76b49815a71ac0343dac, type: 3}
       propertyPath: m_Name
-      value: Ring3_Norm
+      value: Ring3_Spike_Segment
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

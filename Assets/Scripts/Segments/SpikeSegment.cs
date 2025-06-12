@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections;
 
-public class SpikeHazard : MonoBehaviour
+public class SpikeSegment : MonoBehaviour
 {
     [Header("Spike Settings")]
     [SerializeField] private Transform spikeGroup; // The moving spike mesh

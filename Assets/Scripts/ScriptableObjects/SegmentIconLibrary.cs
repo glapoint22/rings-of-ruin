@@ -7,7 +7,9 @@ public class SegmentIconLibrary : ScriptableObject
     public Sprite gemIcon;
     public Sprite coinIcon;
 
-    [Header("Hazards")]
+    [Header("Segment Types")]
+    public Sprite gapIcon;
+    public Sprite crumblingIcon;
     public Sprite spikeIcon;
 
     [Header("Pickups")]
@@ -76,6 +78,17 @@ public class SegmentIconLibrary : ScriptableObject
         {
             PortalType.PortalA => portalAIcon,
             PortalType.PortalB => portalBIcon,
+            _ => null
+        };
+    }
+
+    public Sprite GetSegmentTypeIcon(SegmentType type)
+    {
+        return type switch
+        {
+            SegmentType.Gap => gapIcon,
+            SegmentType.Crumbling => crumblingIcon,
+            SegmentType.Spike => spikeIcon,
             _ => null
         };
     }

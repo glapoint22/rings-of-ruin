@@ -2,7 +2,7 @@ using System.Collections;
 using UnityEngine;
 
 [RequireComponent(typeof(Collider))]
-public class CrumblingPlatform : MonoBehaviour
+public class CrumblingSegment : MonoBehaviour
 {
     [SerializeField] private float crumbleDelay = 1.25f;
 

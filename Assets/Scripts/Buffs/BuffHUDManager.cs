@@ -4,7 +4,7 @@ using System.Collections.Generic;
 public class BuffHUDManager : MonoBehaviour
 {
     [SerializeField] private BuffUIPool buffUIPool;
-    [SerializeField] private BuffIconLibrary buffIconLibrary;
+    [SerializeField] private HudIconLibrary hudIconLibrary;
 
     private Dictionary<PickupType, BuffUI> activeBuffs = new Dictionary<PickupType, BuffUI>();
 
@@ -31,7 +31,7 @@ public class BuffHUDManager : MonoBehaviour
         BuffUI buffUI = buffUIPool.Get();
         if (buffUI != null)
         {
-            buffUI.SetIcon(buffIconLibrary.GetIcon(buffType));
+            buffUI.SetIcon(hudIconLibrary.GetIcon(buffType));
             activeBuffs.Add(buffType, buffUI);
         }
     }
