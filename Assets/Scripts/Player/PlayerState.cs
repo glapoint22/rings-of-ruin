@@ -24,7 +24,8 @@ public class PlayerState : MonoBehaviour
     private void OnEnable()
     {
         DamageEventManager.OnDamageDealt += HandleDamage;
-        InteractEventManager.OnCollect += OnCollect;
+        InteractEventManager.OnCollectGem += OnGemCollect;
+        InteractEventManager.OnCollectCoin += OnCoinCollect;
         InteractEventManager.OnPickup += OnPickup;
     }
 
@@ -49,6 +50,14 @@ public class PlayerState : MonoBehaviour
                 break;
         }
     }
+
+
+    private void Start()
+    {
+        currentHealth = maxHealth;
+    }
+
+
 
     private void OnShieldPickup()
     {
@@ -76,17 +85,16 @@ public class PlayerState : MonoBehaviour
     }
 
 
-    private void OnCollect(CollectibleType collectibleType)
+    private void OnGemCollect()
     {
-        switch (collectibleType)
-        {
-            case CollectibleType.Gem:
-                AddGem();
-                break;
-            case CollectibleType.Coin:
-                CollectCoin();
-                break;
-        }
+        gemsCollected++;
+        OnGemCollected?.Invoke(gemsCollected);
+    }
+
+    private void OnCoinCollect(int amount)
+    {
+        coinsCollected += amount;
+        OnCoinCollected?.Invoke(coinsCollected);
     }
 
     private void OnHeal(int amount)
@@ -97,22 +105,9 @@ public class PlayerState : MonoBehaviour
         Debug.Log($"[PlayerState] Health: {currentHealth}/{maxHealth}");
     }
 
-    private void Start()
-    {
-        currentHealth = maxHealth;
-    }
+    
 
-    public void AddGem()
-    {
-        gemsCollected++;
-        OnGemCollected?.Invoke(gemsCollected);
-    }
-
-    public void CollectCoin()
-    {
-        coinsCollected++;
-        OnCoinCollected?.Invoke(coinsCollected);
-    }
+   
 
     public void ResetLevelStats()
     {
@@ -134,14 +129,14 @@ public class PlayerState : MonoBehaviour
                     // Apply remaining damage to player
                     currentHealth = Mathf.Max(0, currentHealth - remainingDamage);
                     Debug.Log($"[PlayerState] currentHealth: {currentHealth}");
-                    
+
                 }
                 return;
             }
 
             Debug.Log("Damage Taken");
             currentHealth = Mathf.Max(0, currentHealth - damageInfo.Amount);
-            
+
         }
 
         if (currentHealth <= 0 || damageInfo.DamageType == DamageType.Fall)
@@ -153,7 +148,7 @@ public class PlayerState : MonoBehaviour
     public int OnShieldHit(int amount)
     {
         int remainingDamage = 0;
-        
+
         if (amount > shieldHp)
         {
             // Calculate remaining damage that will spill over
@@ -166,7 +161,7 @@ public class PlayerState : MonoBehaviour
         }
 
         Debug.Log($"[PlayerState] Shield HP: {shieldHp}");
-        
+
         if (shieldHp <= 0)
         {
             isShieldActive = false;
@@ -179,5 +174,8 @@ public class PlayerState : MonoBehaviour
     private void OnDisable()
     {
         DamageEventManager.OnDamageDealt -= HandleDamage;
+        InteractEventManager.OnCollectGem -= OnGemCollect;
+        InteractEventManager.OnCollectCoin -= OnCoinCollect;
+        InteractEventManager.OnPickup -= OnPickup;
     }
 }

@@ -3,7 +3,7 @@ public class GemCollect : InteractableBase
 
     public override void Interact()
     {
-        InteractEventManager.Collect(CollectibleType.Gem);
+        InteractEventManager.CollectGem();
         base.Interact();
     }
 }

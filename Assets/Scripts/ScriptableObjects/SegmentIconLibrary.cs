@@ -6,6 +6,7 @@ public class SegmentIconLibrary : ScriptableObject
     [Header("Collectibles")]
     public Sprite gemIcon;
     public Sprite coinIcon;
+    public Sprite treasureChestIcon;
 
     [Header("Segment Types")]
     public Sprite gapIcon;
@@ -21,6 +22,7 @@ public class SegmentIconLibrary : ScriptableObject
     public Sprite stormboltIcon;
     public Sprite bloodrootIcon;
     public Sprite fireballIcon;
+    
 
     [Header("Enemies")]
     public Sprite ruinwalkerIcon;
@@ -40,6 +42,7 @@ public class SegmentIconLibrary : ScriptableObject
         {
             CollectibleType.Gem => gemIcon,
             CollectibleType.Coin => coinIcon,
+            CollectibleType.TreasureChest => treasureChestIcon,
             _ => null
         };
     }

@@ -25,6 +25,7 @@ MonoBehaviour:
   stormboltIcon: {fileID: 21300000, guid: 273b54617e9b69e4a91c81a374d8a073, type: 3}
   bloodrootIcon: {fileID: 21300000, guid: 17e9b2e4da088b241bad27c54735ab0e, type: 3}
   fireballIcon: {fileID: 21300000, guid: 807b31a08620f3c499237b465b1f05fc, type: 3}
+  treasureChestIcon: {fileID: 21300000, guid: 5e41d0a4ff421b64e9b1f95bc8c3a2de, type: 3}
   ruinwalkerIcon: {fileID: 21300000, guid: 3568c44289f78bb46b866e4c06409186, type: 3}
   gravecallerIcon: {fileID: 21300000, guid: 568c892dccbac304fb92afad18a822eb, type: 3}
   bloodseekerIcon: {fileID: 21300000, guid: 6e65bc84cfe2b8b4e892ce5a6fddf69d, type: 3}

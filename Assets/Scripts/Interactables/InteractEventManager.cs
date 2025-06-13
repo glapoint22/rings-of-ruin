@@ -3,14 +3,19 @@ using UnityEngine;
 
 public class InteractEventManager
 {
-    public static event Action<CollectibleType> OnCollect;
+    public static event Action OnCollectGem;
+    public static event Action<int> OnCollectCoin;
     public static event Action<PickupType> OnPickup;
 
-    public static void Collect(CollectibleType collectibleType)
+    public static void CollectGem()
     {
-        OnCollect?.Invoke(collectibleType);
+        OnCollectGem?.Invoke();
     }
 
+    public static void CollectCoin(int amount)
+    {
+        OnCollectCoin?.Invoke(amount);
+    }
 
     public static void Pickup(PickupType pickupType)
     {

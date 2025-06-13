@@ -24,6 +24,7 @@ MonoBehaviour:
   - {fileID: 8665015893421046531, guid: 73fe91cb3b09a4347ac2ce8f81f6f95b, type: 3}
   gemPrefab: {fileID: 1330952793056581977, guid: 21b70fda3216c4143acc6763d40ffc20, type: 3}
   coinPrefab: {fileID: 3045200245669249379, guid: b6a82ed13bc494e4588d1e53a6dfcfc7, type: 3}
+  treasureChestPrefab: {fileID: 1474903583431706141, guid: ce81e27667d8bbd43aad1b79ecae648a, type: 3}
   shieldPrefab: {fileID: 8136413537345762719, guid: a7b07f4daf0b6c84ab1c479658b22dfc, type: 3}
   cloakPrefab: {fileID: 4973491188983367704, guid: 54f70e3948ba0354aa28843f623948ec, type: 3}
   timeDilationPrefab: {fileID: 641186488462051596, guid: 0bff36ada604d314ab06f32ff09dfa13, type: 3}

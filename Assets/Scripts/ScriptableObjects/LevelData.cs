@@ -38,6 +38,7 @@ public class SegmentConfiguration
     public EnemyType enemyType = EnemyType.None;
     public CollectibleType collectibleType = CollectibleType.None;
     public bool hasCheckpoint;
+    public int treasureChestCoinCount = 1;
 }
 
 

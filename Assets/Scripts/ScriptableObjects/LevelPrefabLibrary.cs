@@ -11,6 +11,7 @@ public class LevelPrefabLibrary : ScriptableObject
     [Header("Collectibles")]
     public GameObject gemPrefab;
     public GameObject coinPrefab;
+    public GameObject treasureChestPrefab;
 
     [Header("Pickups")]
     public GameObject shieldPrefab;
@@ -56,7 +57,8 @@ public class LevelPrefabLibrary : ScriptableObject
         collectiblePrefabs = new Dictionary<CollectibleType, GameObject>
         {
             { CollectibleType.Gem, gemPrefab },
-            { CollectibleType.Coin, coinPrefab }
+            { CollectibleType.Coin, coinPrefab },
+            { CollectibleType.TreasureChest, treasureChestPrefab }
         };
 
         pickupPrefabs = new Dictionary<PickupType, GameObject>

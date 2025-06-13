@@ -157,14 +157,23 @@ public class LevelBuilder : MonoBehaviour
         if (ringSegment.SlotGround == null)
             return;
 
-        // Only one of these will be true at a time
         if (config.collectibleType != CollectibleType.None)
         {
             GameObject prefab = prefabLibrary.GetCollectiblePrefab(config.collectibleType);
             if (prefab != null)
             {
-                Instantiate(prefab, ringSegment.SlotGround.position, ringSegment.SlotGround.rotation, ringSegment.SlotGround)
-                    .name = $"Collectible_{config.collectibleType}";
+                GameObject collectible = Instantiate(prefab, ringSegment.SlotGround.position, ringSegment.SlotGround.rotation, ringSegment.SlotGround);
+                collectible.name = $"Collectible_{config.collectibleType}";
+
+                // Set coin count for treasure chests
+                if (config.collectibleType == CollectibleType.TreasureChest)
+                {
+                    var treasureChest = collectible.GetComponent<TreasureChestCollect>();
+                    if (treasureChest != null)
+                    {
+                        treasureChest.SetCoinCount(config.treasureChestCoinCount);
+                    }
+                }
             }
         }
         else if (config.enemyType != EnemyType.None)
@@ -220,41 +229,4 @@ public class LevelBuilder : MonoBehaviour
                 .name = $"Pickup_{config.pickupType}";
         }
     }
-
-
-
-
-    // private void ConfigureSegment(RingSegment ringSegment, SegmentConfiguration config)
-    // {
-    //     ConfigureSlotGround(ringSegment, config);
-    //     ConfigureSlotFloat(ringSegment, config);
-    // }
-
-
-
-    // private void ConfigureSlotGround(RingSegment ringSegment, SegmentConfiguration config)
-    // {
-    //     if (config.collectibleType == CollectibleType.None || ringSegment.SlotGround == null)
-    //         return;
-
-    //     GameObject prefab = prefabLibrary.GetCollectiblePrefab(config.collectibleType);
-    //     if (prefab != null)
-    //     {
-    //         Instantiate(prefab, ringSegment.SlotGround.position, ringSegment.SlotGround.rotation, ringSegment.SlotGround)
-    //             .name = $"Collectible_{config.collectibleType}";
-    //     }
-    // }
-
-    // private void ConfigureSlotFloat(RingSegment ringSegment, SegmentConfiguration config)
-    // {
-    //     if (config.pickupType == PickupType.None || ringSegment.SlotFloat == null)
-    //         return;
-
-    //     GameObject prefab = prefabLibrary.GetPickupPrefab(config.pickupType);
-    //     if (prefab != null)
-    //     {
-    //         Instantiate(prefab, ringSegment.SlotFloat.position, ringSegment.SlotFloat.rotation, ringSegment.SlotFloat)
-    //             .name = $"Pickup_{config.pickupType}";
-    //     }
-    // }
 }

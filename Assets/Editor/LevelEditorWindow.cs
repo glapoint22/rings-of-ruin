@@ -377,6 +377,8 @@ public class LevelEditorWindow : EditorWindow
                 icon = segmentIconLibrary.GetCollectibleIcon(CollectibleType.Gem);
             else if (segment.collectibleType == CollectibleType.Coin)
                 icon = segmentIconLibrary.GetCollectibleIcon(CollectibleType.Coin);
+            else if (segment.collectibleType == CollectibleType.TreasureChest)
+                icon = segmentIconLibrary.GetCollectibleIcon(CollectibleType.TreasureChest);
             else if (segment.portalType == PortalType.PortalA)
                 icon = segmentIconLibrary.GetPortalIcon(PortalType.PortalA);
             else if (segment.portalType == PortalType.PortalB)
@@ -387,6 +389,7 @@ public class LevelEditorWindow : EditorWindow
                 icon = segmentIconLibrary.GetPickupIcon(segment.pickupType);
             else if (segment.hasCheckpoint)
                 icon = segmentIconLibrary.checkpointIcon;
+           
 
             // Draw the icon if we have one
             if (icon != null)
@@ -455,9 +458,17 @@ public class LevelEditorWindow : EditorWindow
 
         segment.hasCheckpoint = EditorGUILayout.Toggle("Checkpoint", segment.hasCheckpoint);
         segment.collectibleType = (CollectibleType)EditorGUILayout.EnumPopup("Collectable", segment.collectibleType);
+        
+        // Add the coin count field when treasure chest is selected
+        if (segment.collectibleType == CollectibleType.TreasureChest)
+        {
+            EditorGUI.indentLevel++;
+            segment.treasureChestCoinCount = EditorGUILayout.IntField("Coin Count", segment.treasureChestCoinCount);
+            EditorGUI.indentLevel--;
+        }
+        
         segment.pickupType = (PickupType)EditorGUILayout.EnumPopup("Pickup Type", segment.pickupType);
         segment.portalType = (PortalType)EditorGUILayout.EnumPopup("Portal", segment.portalType);
-        
         segment.enemyType = (EnemyType)EditorGUILayout.EnumPopup("Enemy", segment.enemyType);
 
         EditorGUI.EndDisabledGroup();
