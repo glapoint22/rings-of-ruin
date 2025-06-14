@@ -1,5 +1,6 @@
 using UnityEngine;
 using System;
+using System.Collections;
 
 public class PlayerState : MonoBehaviour
 {
@@ -20,6 +21,11 @@ public class PlayerState : MonoBehaviour
 
     private int shieldHp = 35;
     private bool isShieldActive = false;
+
+    private float timeDilationDuration = 10f; // Duration in seconds
+    private float cloakDuration = 15f; // Duration in seconds
+    private Coroutine timeDilationCoroutine;
+    private Coroutine cloakCoroutine;
 
     private void OnEnable()
     {
@@ -76,14 +82,45 @@ public class PlayerState : MonoBehaviour
     {
         Debug.Log("[PlayerState] Time dilation picked up");
         OnBuffActivated?.Invoke(PickupType.TimeDilation);
+        
+        // Stop existing coroutine if it's running
+        if (timeDilationCoroutine != null)
+        {
+            StopCoroutine(timeDilationCoroutine);
+        }
+        
+        // Start new coroutine
+        timeDilationCoroutine = StartCoroutine(TimeDilationTimer());
     }
 
     private void OnCloakPickup()
     {
         Debug.Log("[PlayerState] Cloak picked up");
         OnBuffActivated?.Invoke(PickupType.Cloak);
+        
+        // Stop existing coroutine if it's running
+        if (cloakCoroutine != null)
+        {
+            StopCoroutine(cloakCoroutine);
+        }
+        
+        // Start new coroutine
+        cloakCoroutine = StartCoroutine(CloakTimer());
     }
 
+    private IEnumerator TimeDilationTimer()
+    {
+        yield return new WaitForSeconds(timeDilationDuration);
+        OnBuffDeactivated?.Invoke(PickupType.TimeDilation);
+        Debug.Log("[PlayerState] Time dilation ended");
+    }
+
+    private IEnumerator CloakTimer()
+    {
+        yield return new WaitForSeconds(cloakDuration);
+        OnBuffDeactivated?.Invoke(PickupType.Cloak);
+        Debug.Log("[PlayerState] Cloak ended");
+    }
 
     private void OnGemCollect()
     {
@@ -91,10 +128,16 @@ public class PlayerState : MonoBehaviour
         OnGemCollected?.Invoke(gemsCollected);
     }
 
-    private void OnCoinCollect(int amount)
+    private void OnCoinCollect(int amount, CollectibleType collectibleType)
     {
         coinsCollected += amount;
         OnCoinCollected?.Invoke(coinsCollected);
+
+        if (collectibleType == CollectibleType.TreasureChest)
+        {
+            OnBuffDeactivated?.Invoke(PickupType.Key);
+            
+        }
     }
 
     private void OnHeal(int amount)
@@ -116,6 +159,9 @@ public class PlayerState : MonoBehaviour
         Debug.Log($"[PlayerState] Health reset to: {currentHealth}/{maxHealth}");
         // Reset other temporary states like shields, cloak, spell, etc. as we add them
     }
+
+
+
 
     public void HandleDamage(DamageInfo damageInfo)
     {
