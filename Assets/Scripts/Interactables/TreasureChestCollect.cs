@@ -9,7 +9,7 @@ public class TreasureChestCollect : InteractableBase
 
     public override void Interact()
     {
-        InteractEventManager.CollectCoin(coinCount, CollectibleType.TreasureChest);
+        Collect(CollectibleType.TreasureChest, coinCount);
         base.Interact();
     }
 }

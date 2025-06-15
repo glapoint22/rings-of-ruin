@@ -7,12 +7,7 @@ public class FallTrigger : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            DamageInfo damageInfo = new DamageInfo
-            {
-                DamageType = DamageType.Fall,
-            };
-
-            DamageEventManager.DealDamage(damageInfo);
+            DamageManager.UpdateDamage(100);
         }
     }
 }

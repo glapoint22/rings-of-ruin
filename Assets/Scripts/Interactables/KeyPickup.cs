@@ -2,7 +2,7 @@ public class KeyPickup : InteractableBase
 {
     public override void Interact()
     {
-        InteractEventManager.Pickup(PickupType.Key);
+        Pickup(PickupType.Key);
         base.Interact();
     }
 }

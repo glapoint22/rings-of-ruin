@@ -1,8 +1,8 @@
 using UnityEngine;
 
 [System.Serializable]
-public struct HudIconEntry
+public struct UIIconImage
 {
-    public PickupType buffType;
+    public PickupType pickupType;
     public Sprite icon;
 }

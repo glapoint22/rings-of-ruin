@@ -1,7 +1,7 @@
 using UnityEngine;
 using TMPro;
 
-public class UIManager : MonoBehaviour
+public class CollectibleUIManager : MonoBehaviour
 {
     private GameObject activePanel;
     [SerializeField] private GameObject mainMenuPanel;
@@ -18,8 +18,8 @@ public class UIManager : MonoBehaviour
 
     private void OnEnable()
     {
-        PlayerState.OnGemCollected += OnGemCollected;
-        PlayerState.OnCoinCollected += OnCoinCollected;
+        InteractableManager.OnGemCollected += OnGemCollected;
+        InteractableManager.OnCoinCollected += OnCoinCollected;
     }
 
 
@@ -55,7 +55,7 @@ public class UIManager : MonoBehaviour
 
     private void OnDisable()
     {
-        PlayerState.OnGemCollected -= OnGemCollected;
-        PlayerState.OnCoinCollected -= OnCoinCollected;
+        InteractableManager.OnGemCollected -= OnGemCollected;
+        InteractableManager.OnCoinCollected -= OnCoinCollected;
     }
 }

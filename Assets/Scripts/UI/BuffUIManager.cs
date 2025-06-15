@@ -1,23 +1,23 @@
 using UnityEngine;
 using System.Collections.Generic;
 
-public class BuffHUDManager : MonoBehaviour
+public class BuffUIManager : MonoBehaviour
 {
     [SerializeField] private BuffUIPool buffUIPool;
-    [SerializeField] private HudIconLibrary hudIconLibrary;
+    [SerializeField] private UIIconLibrary hudIconLibrary;
 
-    private Dictionary<PickupType, BuffUI> activeBuffs = new Dictionary<PickupType, BuffUI>();
+    private Dictionary<PickupType, UIIcon> activeBuffs = new Dictionary<PickupType, UIIcon>();
 
     private void OnEnable()
     {
-        PlayerState.OnBuffActivated += AddBuff;
-        PlayerState.OnBuffDeactivated += RemoveBuff;
+        InteractableManager.OnBuffActivated += AddBuff;
+        InteractableManager.OnBuffDeactivated += RemoveBuff;
     }
 
     private void OnDisable()
     {
-        PlayerState.OnBuffActivated -= AddBuff;
-        PlayerState.OnBuffDeactivated -= RemoveBuff;
+        InteractableManager.OnBuffActivated -= AddBuff;
+        InteractableManager.OnBuffDeactivated -= RemoveBuff;
     }
 
     private void AddBuff(PickupType buffType)
@@ -28,7 +28,7 @@ public class BuffHUDManager : MonoBehaviour
             return;
         }
 
-        BuffUI buffUI = buffUIPool.Get();
+        UIIcon buffUI = buffUIPool.Get();
         if (buffUI != null)
         {
             buffUI.SetIcon(hudIconLibrary.GetIcon(buffType));
@@ -38,7 +38,7 @@ public class BuffHUDManager : MonoBehaviour
 
     private void RemoveBuff(PickupType buffType)
     {
-        if (activeBuffs.TryGetValue(buffType, out BuffUI buffUI))
+        if (activeBuffs.TryGetValue(buffType, out UIIcon buffUI))
         {
             buffUIPool.Return(buffUI);
             activeBuffs.Remove(buffType);

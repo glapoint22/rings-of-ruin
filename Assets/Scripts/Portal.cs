@@ -33,9 +33,8 @@ public class Portal : MonoBehaviour
     }
 
 
-    public void OnPlayerStep(PlayerState player)
+    public void OnPlayerStep(PlayerController controller)
     {
-        PlayerController controller = player.GetComponent<PlayerController>();
         if (controller != null)
         {
             controller.SetPositionOnRing(linkedPortal.TargetRingIndex, linkedPortal.TargetSegmentIndex);
@@ -47,11 +46,11 @@ public class Portal : MonoBehaviour
         if (hasPorted) return;
         if (other.CompareTag("Player"))
         {
-            PlayerState player = other.GetComponent<PlayerState>();
-            if (player != null)
+            PlayerController controller = other.GetComponent<PlayerController>();
+            if (controller != null)
             {
                 linkedPortal.hasPorted = true;
-                OnPlayerStep(player);
+                OnPlayerStep(controller);
             }
         }
     }

@@ -51,15 +51,9 @@ public class RuneflareProjectile : MonoBehaviour
         if (collision.collider.CompareTag("Player"))
         {
 
-            DamageInfo damageInfo = new DamageInfo
-            {
-                Amount = damageAmount,
-                Source = gameObject,
-                DamageType = DamageType.Runeflare,
-                CanBeBlockedByShield = true
-            };
 
-            DamageEventManager.DealDamage(damageInfo);
+
+            DamageManager.UpdateDamage(damageAmount);
         }
 
         

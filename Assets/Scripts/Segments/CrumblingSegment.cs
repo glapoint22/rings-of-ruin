@@ -18,17 +18,17 @@ public class CrumblingSegment : MonoBehaviour
         GetComponent<Collider>().isTrigger = true;
     }
 
-    public void OnPlayerStep(PlayerState player)
+    public void OnPlayerStep(PlayerController controller)
     {
         if (hasStartedCrumble) return;
 
         hasStartedCrumble = true;
         playerOnPlatform = true;
 
-        StartCoroutine(CrumbleRoutine(player));
+        StartCoroutine(CrumbleRoutine(controller));
     }
 
-    private IEnumerator CrumbleRoutine(PlayerState player)
+    private IEnumerator CrumbleRoutine(PlayerController controller)
     {
         Debug.Log("[CrumblingPlatform] Crumbling in " + crumbleDelay + "s...");
 
@@ -41,9 +41,8 @@ public class CrumblingSegment : MonoBehaviour
             Destroy(visualMesh);
         }
 
-        if (playerOnPlatform && player != null)
+        if (playerOnPlatform && controller != null)
         {
-            PlayerController controller = player.GetComponent<PlayerController>();
             controller?.TriggerFall();
         }
 
@@ -55,8 +54,8 @@ public class CrumblingSegment : MonoBehaviour
     {
         if (!other.CompareTag("Player")) return;
 
-        PlayerState player = other.GetComponent<PlayerState>();
-        if (player == null) return;
+        PlayerController controller = other.GetComponent<PlayerController>();
+        if (controller == null) return;
 
         Collider triggerCollider = GetComponent<Collider>();
         Collider playerCollider = other.GetComponent<Collider>();
@@ -65,14 +64,14 @@ public class CrumblingSegment : MonoBehaviour
 
         if (hasCrumbled)
         {
-            PlayerController controller = player.GetComponent<PlayerController>();
+           
             controller?.TriggerFall();
         }
         else
         {
             // While intact: begin crumble logic
             playerOnPlatform = true;
-            OnPlayerStep(player);
+            OnPlayerStep(controller);
         }
     }
 

@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class BuffUI : MonoBehaviour
+public class UIIcon : MonoBehaviour
 {
     [SerializeField] private Image iconImage;
 

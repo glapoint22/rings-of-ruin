@@ -1,9 +1,12 @@
+using UnityEngine;
+
 public class CoinCollect : InteractableBase
 {
+    [SerializeField] private int coinValue = 1;
 
     public override void Interact()
     {
-        InteractEventManager.CollectCoin(1, CollectibleType.Coin);
+        Collect(CollectibleType.Coin, coinValue);
         base.Interact();
     }
 }
