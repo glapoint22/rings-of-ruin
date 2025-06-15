@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 2915977592254208716}
   - component: {fileID: 5758950035420536398}
   m_Layer: 5
-  m_Name: BuffUI
+  m_Name: Buff Icon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

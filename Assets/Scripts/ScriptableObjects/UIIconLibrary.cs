@@ -30,4 +30,9 @@ public class UIIconLibrary : ScriptableObject
         
         return iconDictionary.TryGetValue(type, out Sprite icon) ? icon : null;
     }
+
+    public int GetIconCount()
+    {
+        return UIIcons.Length;
+    }
 }

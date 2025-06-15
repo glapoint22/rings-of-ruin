@@ -8,7 +8,8 @@ public class InteractableManager : MonoBehaviour
     public static event Action<int> OnCoinCollected;
     public static event Action<PickupType> OnBuffActivated;
     public static event Action<PickupType> OnBuffDeactivated;
-    
+    public static event Action<PickupType> OnSpellActivated;
+    // public static event Action<PickupType> OnSpellDeactivated;
 
     private void OnEnable()
     {
@@ -67,19 +68,19 @@ public class InteractableManager : MonoBehaviour
 
     private void OnBloodrootPickup()
     {
-
+        OnSpellActivated?.Invoke(PickupType.Bloodroot);
     }
 
 
 
     private void OnFireballPickup()
     {
-
+        OnSpellActivated?.Invoke(PickupType.Fireball);
     }
 
     private void OnStormboltPickup()
     {
-
+        OnSpellActivated?.Invoke(PickupType.Stormbolt);
     }
 
 

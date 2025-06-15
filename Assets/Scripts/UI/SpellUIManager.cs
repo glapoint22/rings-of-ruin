@@ -1,16 +1,14 @@
-using UnityEngine;
-
-public class SpellUIManager : MonoBehaviour
+public class SpellUIManager : BaseUIManager
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    protected override void SubscribeToEvents()
     {
-        
+        InteractableManager.OnSpellActivated += AddIcon;
+        // InteractableManager.OnSpellDeactivated += RemoveIcon;
     }
 
-    // Update is called once per frame
-    void Update()
+    protected override void UnsubscribeFromEvents()
     {
-        
+        InteractableManager.OnSpellActivated -= AddIcon;
+        // InteractableManager.OnSpellDeactivated -= RemoveIcon;
     }
 }
