@@ -5619,7 +5619,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   buffUIPool: {fileID: 1614975276}
-  hudIconLibrary: {fileID: 11400000, guid: fdadc74be6ee46b498105d4da3886035, type: 2}
+  UIIconLibrary: {fileID: 11400000, guid: fdadc74be6ee46b498105d4da3886035, type: 2}
 --- !u!1 &1660106656
 GameObject:
   m_ObjectHideFlags: 0

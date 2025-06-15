@@ -68,7 +68,7 @@ MonoBehaviour:
     - segmentIndex: 6
       segmentType: 0
       portalType: 0
-      pickupType: 8
+      pickupType: 1
       enemyType: 0
       collectibleType: 0
       hasCheckpoint: 0

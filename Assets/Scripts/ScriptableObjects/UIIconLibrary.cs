@@ -1,17 +1,33 @@
 using UnityEngine;
+using System.Collections.Generic;
 
 [CreateAssetMenu(menuName = "Rings of Ruin/UI Icon Library")]
 public class UIIconLibrary : ScriptableObject
 {
-    public UIIconImage[] UIIcons;
+    [SerializeField] private UIIconImage[] UIIcons;
+    private Dictionary<PickupType, Sprite> iconDictionary;
+
+    private void OnEnable()
+    {
+        InitializeDictionary();
+    }
+
+    private void InitializeDictionary()
+    {
+        iconDictionary = new Dictionary<PickupType, Sprite>();
+        foreach (var entry in UIIcons)
+        {
+            iconDictionary[entry.pickupType] = entry.icon;
+        }
+    }
 
     public Sprite GetIcon(PickupType type)
     {
-        foreach (var entry in UIIcons)
+        if (iconDictionary == null)
         {
-            if (entry.pickupType == type)
-                return entry.icon;
+            InitializeDictionary();
         }
-        return null;
+        
+        return iconDictionary.TryGetValue(type, out Sprite icon) ? icon : null;
     }
 }
