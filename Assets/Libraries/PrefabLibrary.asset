@@ -26,8 +26,8 @@ MonoBehaviour:
   coinPrefab: {fileID: 3045200245669249379, guid: b6a82ed13bc494e4588d1e53a6dfcfc7, type: 3}
   treasureChestPrefab: {fileID: 1474903583431706141, guid: ce81e27667d8bbd43aad1b79ecae648a, type: 3}
   shieldPrefab: {fileID: 8136413537345762719, guid: a7b07f4daf0b6c84ab1c479658b22dfc, type: 3}
-  cloakPrefab: {fileID: 4973491188983367704, guid: 54f70e3948ba0354aa28843f623948ec, type: 3}
-  timeDilationPrefab: {fileID: 641186488462051596, guid: 0bff36ada604d314ab06f32ff09dfa13, type: 3}
+  cloakPrefab: {fileID: 2350289288454457895, guid: 54f70e3948ba0354aa28843f623948ec, type: 3}
+  timeDilationPrefab: {fileID: 2671347860398254805, guid: fea074d86ede84442ab1067ea3f6bec1, type: 3}
   healthPrefab: {fileID: 4311258303650999628, guid: 62bc426a24b13ec4998f2dfa1e75b453, type: 3}
   pathmakerPrefab: {fileID: 4237826271509774255, guid: 3ccccef47c85e864bbd9e52c32ae1f8b, type: 3}
   fireballPrefab: {fileID: 4799016877198760528, guid: 6ae96f66658755247a8cce2b15b1d0d5, type: 3}

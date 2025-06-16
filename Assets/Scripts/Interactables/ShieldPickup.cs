@@ -1,8 +1,4 @@
-public class ShieldPickup : InteractableBase
+public class ShieldPickup : PickupInteractable
 {
-    public override void Interact()
-    {
-        Pickup(PickupType.Shield);
-        base.Interact();
-    }
+    protected override PickupType PickupType => PickupType.Shield;
 }

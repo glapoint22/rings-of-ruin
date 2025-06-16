@@ -68,7 +68,7 @@ MonoBehaviour:
     - segmentIndex: 6
       segmentType: 0
       portalType: 0
-      pickupType: 0
+      pickupType: 6
       enemyType: 0
       collectibleType: 0
       hasCheckpoint: 0
@@ -168,7 +168,7 @@ MonoBehaviour:
       enemyType: 0
       collectibleType: 0
       hasCheckpoint: 0
-      treasureChestCoinCount: 1
+      treasureChestCoinCount: 10
     - segmentIndex: 19
       segmentType: 0
       portalType: 0

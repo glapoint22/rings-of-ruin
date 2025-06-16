@@ -168,11 +168,11 @@ public class LevelBuilder : MonoBehaviour
                 // Set coin count for treasure chests
                 if (config.collectibleType == CollectibleType.TreasureChest)
                 {
-                    var treasureChest = collectible.GetComponent<TreasureChestCollect>();
-                    if (treasureChest != null)
-                    {
-                        treasureChest.SetCoinCount(config.treasureChestCoinCount);
-                    }
+                    //var treasureChest = collectible.GetComponent<TreasureChestCollect>();
+                    //if (treasureChest != null)
+                    //{
+                    //    treasureChest.SetCoinCount(config.treasureChestCoinCount);
+                    //}
                 }
             }
         }

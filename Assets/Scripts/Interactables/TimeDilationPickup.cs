@@ -1,8 +1,5 @@
-public class TimeDilationPickup : InteractableBase
+public class TimeDilationPickup : TimedInteractable
 {
-    public override void Interact()
-    {
-        Pickup(PickupType.TimeDilation);
-        base.Interact();
-    }
+    protected override PickupType PickupType => PickupType.TimeDilation;
+    
 }

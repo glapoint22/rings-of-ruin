@@ -1,8 +1,9 @@
-public class StormboltPickup : InteractableBase
+public class StormboltPickup : PickupInteractable
 {
-    public override void Interact()
-    {
-        Pickup(PickupType.Stormbolt);
-        base.Interact();
-    }
+   protected override PickupType PickupType => PickupType.Stormbolt;
+
+   protected override void OnInteract()
+   {
+       Remove();
+   }
 }

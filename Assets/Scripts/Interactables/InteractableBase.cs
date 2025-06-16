@@ -1,29 +1,20 @@
 using UnityEngine;
-using System;
 
-public class InteractableBase : MonoBehaviour
+public abstract class InteractableBase : MonoBehaviour
 {
-    public static event Action<CollectibleType, int> OnCollect;
-    public static event Action<PickupType> OnPickup;
-
-
     private void OnTriggerEnter(Collider other)
     {
-        Interact();
+        if (other.CompareTag("Player"))
+        {
+            OnInteract();
+        }
     }
 
-    public virtual void Interact()
-    {
+
+    protected void Remove() {
         Destroy(gameObject);
     }
+    
 
-    protected void Collect(CollectibleType collectibleType, int count = 1)
-    {
-        OnCollect?.Invoke(collectibleType, count);
-    }
-
-    protected void Pickup(PickupType pickupType)
-    {
-        OnPickup?.Invoke(pickupType);
-    }
+    protected abstract void OnInteract();
 }

@@ -1,15 +1,16 @@
-public class TreasureChestCollect : InteractableBase
+public class TreasureChestCollect : CollectibleInteractable
 {
-    private int coinCount; 
+   private int coinCount; 
 
-    public void SetCoinCount(int count)
-    {
-        coinCount = count;
-    }
+   public void SetCoinCount(int count)
+   {
+       coinCount = count;
+   }
 
-    public override void Interact()
-    {
-        Collect(CollectibleType.TreasureChest, coinCount);
-        base.Interact();
-    }
+   protected override CollectibleType CollectibleType => CollectibleType.TreasureChest;
+
+   protected override void OnInteract()
+   {
+       Remove();
+   }
 }

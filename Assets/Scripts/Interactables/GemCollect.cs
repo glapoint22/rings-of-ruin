@@ -1,9 +1,4 @@
-public class GemCollect : InteractableBase
+public class GemCollect : CollectibleInteractable
 {
-
-    public override void Interact()
-    {
-        Collect(CollectibleType.Gem);
-        base.Interact();
-    }
+    protected override CollectibleType CollectibleType => CollectibleType.Gem;
 }

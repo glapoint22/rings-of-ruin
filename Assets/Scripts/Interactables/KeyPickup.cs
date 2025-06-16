@@ -1,8 +1,4 @@
-public class KeyPickup : InteractableBase
+public class KeyPickup : PickupInteractable
 {
-    public override void Interact()
-    {
-        Pickup(PickupType.Key);
-        base.Interact();
-    }
+    protected override PickupType PickupType => PickupType.Key;
 }

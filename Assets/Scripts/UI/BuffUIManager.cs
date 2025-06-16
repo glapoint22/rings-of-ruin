@@ -2,13 +2,13 @@ public class BuffUIManager : BaseUIManager
 {
     protected override void SubscribeToEvents()
     {
-        InteractableManager.OnBuffActivated += AddIcon;
-        InteractableManager.OnBuffDeactivated += RemoveIcon;
+        PickupInteractable.OnBuffActivated += AddIcon;
+        PickupInteractable.OnBuffDeactivated += RemoveIcon;
     }
 
     protected override void UnsubscribeFromEvents()
     {
-        InteractableManager.OnBuffActivated -= AddIcon;
-        InteractableManager.OnBuffDeactivated -= RemoveIcon;
+        PickupInteractable.OnBuffActivated -= AddIcon;
+        PickupInteractable.OnBuffDeactivated -= RemoveIcon;
     }
 }

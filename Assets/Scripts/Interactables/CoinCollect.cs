@@ -1,12 +1,4 @@
-using UnityEngine;
-
-public class CoinCollect : InteractableBase
+public class CoinCollect : CollectibleInteractable
 {
-    [SerializeField] private int coinValue = 1;
-
-    public override void Interact()
-    {
-        Collect(CollectibleType.Coin, coinValue);
-        base.Interact();
-    }
+    protected override CollectibleType CollectibleType => CollectibleType.Coin;
 }

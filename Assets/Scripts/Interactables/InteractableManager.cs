@@ -11,11 +11,11 @@ public class InteractableManager : MonoBehaviour
     public static event Action<PickupType> OnSpellActivated;
     // public static event Action<PickupType> OnSpellDeactivated;
 
-    private void OnEnable()
-    {
-        InteractableBase.OnCollect += OnCollect;
-        InteractableBase.OnPickup += OnPickup;
-    }
+    // private void OnEnable()
+    // {
+    //     InteractableBase.OnCollect += OnCollect;
+    //     InteractableBase.OnPickup += OnPickup;
+    // }
 
 
     private void OnPickup(PickupType pickupType)
