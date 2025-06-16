@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections;
 
-public abstract class TimedInteractable : PickupInteractable
+public abstract class TimedInteractable : BuffPickupInteractable
 {
     [SerializeField] protected float duration = 10f;
     

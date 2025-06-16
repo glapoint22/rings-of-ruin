@@ -1,9 +1,4 @@
-public class StormboltPickup : PickupInteractable
+public class StormboltPickup : SpellPickupInteractable
 {
    protected override PickupType PickupType => PickupType.Stormbolt;
-
-   protected override void OnInteract()
-   {
-       Remove();
-   }
 }
