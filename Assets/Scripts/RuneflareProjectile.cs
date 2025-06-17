@@ -7,27 +7,33 @@ public class RuneflareProjectile : MonoBehaviour
     [SerializeField] private int damageAmount = 10;
 
     private Rigidbody rb;
-    private bool hasLaunched = false;
     private float spawnTimer;
-
-    public event EventHandler OnRuneflareDestroyed;
+    private bool hasLaunched = false;
     public float SpawnTimer => spawnTimer;
+    public event Action<RuneflareProjectile> OnRuneflareDestroyed;
+
+
 
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
-        //rb.useGravity = true;
     }
+
+
 
     public void UpdateSpawnTimer(float newTimer)
     {
         spawnTimer = newTimer;
     }
 
+
+
     public void DecreaseSpawnTimer(float deltaTime)
     {
         spawnTimer -= deltaTime;
     }
+
+
 
     public void Launch(Vector3 from, Vector3 to)
     {
@@ -40,24 +46,17 @@ public class RuneflareProjectile : MonoBehaviour
         rb.linearVelocity = velocity;
     }
 
+
+
     private void OnCollisionEnter(Collision collision)
     {
         if (!hasLaunched) return;
-
         hasLaunched = false;
-        OnRuneflareDestroyed?.Invoke(this, EventArgs.Empty);
-
-
-        if (collision.collider.CompareTag("Player"))
-        {
-
-
-
-            DamageManager.UpdateDamage(damageAmount);
-        }
-
-        
+        OnRuneflareDestroyed?.Invoke(this);
+        if (collision.collider.CompareTag("Player")) DamageManager.UpdateDamage(damageAmount);
     }
+
+
 
     private Vector3 CalculateLaunchVelocity(Vector3 from, Vector3 to, float arcTime)
     {
@@ -80,24 +79,4 @@ public class RuneflareProjectile : MonoBehaviour
 
         return velocity;
     }
-
-    //private void Explode()
-    //{
-    //    if (impactVFX != null)
-    //    {
-    //        Instantiate(impactVFX, transform.position, Quaternion.identity);
-    //    }
-
-    //    Collider[] hits = Physics.OverlapSphere(transform.position, impactRadius);
-    //    foreach (Collider col in hits)
-    //    {
-    //        if (col.CompareTag("Player"))
-    //        {
-    //            PlayerState player = col.GetComponent<PlayerState>();
-    //            player?.TakeDamage(25);
-    //        }
-    //    }
-
-    //    Destroy(gameObject); // To be pooled later
-    //}
 }

@@ -1,4 +1,7 @@
-public class FireballPickup : SpellPickupInteractable
+public class FireballPickup : InteractableBase
 {
-   protected override PickupType PickupType => PickupType.Fireball;
+    protected override void OnInteract()
+    {
+        GameEvents.RaiseFireballPickup();
+    }
 }

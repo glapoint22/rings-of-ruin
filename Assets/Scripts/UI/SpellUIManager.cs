@@ -2,13 +2,8 @@ public class SpellUIManager : BaseUIManager
 {
     protected override void SubscribeToEvents()
     {
-        SpellPickupInteractable.OnSpellActivated += AddIcon;
-        // InteractableManager.OnSpellDeactivated += RemoveIcon;
-    }
-
-    protected override void UnsubscribeFromEvents()
-    {
-        SpellPickupInteractable.OnSpellActivated -= AddIcon;
-        // InteractableManager.OnSpellDeactivated -= RemoveIcon;
+        GameEvents.OnFireballPickup += () => AddIcon(PickupType.Fireball);
+        GameEvents.OnStormboltPickup += () => AddIcon(PickupType.Stormbolt);
+        GameEvents.OnBloodrootPickup += () => AddIcon(PickupType.Bloodroot);
     }
 }

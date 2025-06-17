@@ -1,5 +1,7 @@
-public class TimeDilationPickup : TimedInteractable
+public class TimeDilationPickup : InteractableBase
 {
-    protected override PickupType PickupType => PickupType.TimeDilation;
-    
+    protected override void OnInteract()
+    {
+        GameEvents.RaiseTimeDilationPickup();
+    }
 }

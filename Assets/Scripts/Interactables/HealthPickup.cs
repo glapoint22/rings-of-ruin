@@ -1,9 +1,7 @@
-public class HealthPickup : PickupInteractable
+public class HealthPickup : InteractableBase
 {
-    protected override PickupType PickupType => PickupType.Health;
-
     protected override void OnInteract()
     {
-        Remove();
+        GameEvents.RaiseHealthPickup();
     }
 }

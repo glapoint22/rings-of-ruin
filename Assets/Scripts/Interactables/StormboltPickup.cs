@@ -1,4 +1,7 @@
-public class StormboltPickup : SpellPickupInteractable
+public class StormboltPickup : InteractableBase
 {
-   protected override PickupType PickupType => PickupType.Stormbolt;
+    protected override void OnInteract()
+    {
+        GameEvents.RaiseStormboltPickup();
+    }
 }

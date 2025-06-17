@@ -1,4 +1,7 @@
-public class CoinCollect : CollectibleInteractable
+public class CoinCollect : InteractableBase
 {
-    protected override CollectibleType CollectibleType => CollectibleType.Coin;
+    protected override void OnInteract()
+    {
+        GameEvents.RaiseCoinCollect();
+    }
 }

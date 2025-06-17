@@ -17,13 +17,8 @@ public abstract class BaseUIManager : MonoBehaviour
         SubscribeToEvents();
     }
 
-    protected virtual void OnDisable()
-    {
-        UnsubscribeFromEvents();
-    }
 
     protected abstract void SubscribeToEvents();
-    protected abstract void UnsubscribeFromEvents();
 
     protected void AddIcon(PickupType pickupType)
     {

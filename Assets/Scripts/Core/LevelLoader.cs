@@ -14,7 +14,7 @@ public class LevelLoader : MonoBehaviour
 
     [SerializeField] private RuneflareManager runeflareManager;
 
-    public event EventHandler<LevelData> OnLevelLoaded;
+    public event Action<LevelData> OnLevelLoaded;
     public static LevelLoader instance;
 
 
@@ -49,7 +49,7 @@ public class LevelLoader : MonoBehaviour
 
         //runeflareManager.InitializeFromLevel(levelData);
 
-        OnLevelLoaded?.Invoke(this, levelData);
+        OnLevelLoaded?.Invoke(levelData);
 
     }
 

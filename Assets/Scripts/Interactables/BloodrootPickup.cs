@@ -1,4 +1,7 @@
-public class BloodrootPickup : SpellPickupInteractable
+public class BloodrootPickup : InteractableBase
 {
-   protected override PickupType PickupType => PickupType.Bloodroot;
+    protected override void OnInteract()
+    {
+        GameEvents.RaiseBloodrootPickup();
+    }
 }

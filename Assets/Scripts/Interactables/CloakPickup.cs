@@ -1,4 +1,7 @@
-public class CloakPickup : TimedInteractable
+public class CloakPickup : InteractableBase
 {
-    protected override PickupType PickupType => PickupType.Cloak;
+    protected override void OnInteract()
+    {
+        GameEvents.RaiseCloakPickup();
+    }
 }

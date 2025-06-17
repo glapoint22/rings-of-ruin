@@ -3854,7 +3854,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 51e0b4f995b15c14986aec916f05f408, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  prefabLibrary: {fileID: 11400000, guid: 9349bc9932372d14ab15203af8eda10c, type: 2}
+  runeflarePool: {fileID: 11400000, guid: f750185b8def5da46a1fac1fd62cf857, type: 2}
 --- !u!1 &1014516305
 GameObject:
   m_ObjectHideFlags: 0

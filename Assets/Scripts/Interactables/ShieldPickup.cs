@@ -1,4 +1,7 @@
-public class ShieldPickup : BuffPickupInteractable
+public class ShieldPickup : InteractableBase
 {
-    protected override PickupType PickupType => PickupType.Shield;
+        protected override void OnInteract()
+        {
+            GameEvents.RaiseShieldPickup();
+        }
 }

@@ -1,4 +1,7 @@
-public class GemCollect : CollectibleInteractable
+public class GemCollect : InteractableBase
 {
-    protected override CollectibleType CollectibleType => CollectibleType.Gem;
+    protected override void OnInteract()
+    {
+        GameEvents.RaiseGemCollect();
+    }
 }

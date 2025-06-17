@@ -10,11 +10,5 @@ public abstract class InteractableBase : MonoBehaviour
         }
     }
 
-
-    protected void Remove() {
-        Destroy(gameObject);
-    }
-    
-
     protected abstract void OnInteract();
 }

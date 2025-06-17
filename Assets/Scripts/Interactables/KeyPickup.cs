@@ -1,4 +1,7 @@
-public class KeyPickup : BuffPickupInteractable
+public class KeyPickup : InteractableBase
 {
-    protected override PickupType PickupType => PickupType.Key;
+    protected override void OnInteract()
+    {
+        GameEvents.RaiseKeyPickup();
+    }
 }
