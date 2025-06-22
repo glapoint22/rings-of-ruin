@@ -63,7 +63,7 @@ public class RuneflareManager : MonoBehaviour
 
     private void SpawnRuneflare()
     {
-        RuneflareProjectile projectile = runeflarePool.Get();
+        RuneflareProjectile projectile = runeflarePool.Get() as RuneflareProjectile;
         if (projectile == null) return;
 
         Vector3 spawn = GetRandomPosition(true);

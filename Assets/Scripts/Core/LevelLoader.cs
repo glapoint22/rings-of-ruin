@@ -10,7 +10,7 @@ public class LevelLoader : MonoBehaviour
     [SerializeField] private LevelData initialLevel;
 
     [Header("Build Root")]
-    [SerializeField] private Transform levelRoot;
+    // [SerializeField] private Transform levelRoot;
 
     [SerializeField] private RuneflareManager runeflareManager;
 
@@ -36,16 +36,16 @@ public class LevelLoader : MonoBehaviour
 
     public void LoadLevel(LevelData levelData)
     {
-        ClearLevel();
+        // ClearLevel();
         currentLevel = levelData;
 
-        if (levelBuilder == null || levelRoot == null || levelData == null)
+        if (levelBuilder == null || levelData == null)
         {
             Debug.LogError("LevelLoader: Missing required references.");
             return;
         }
 
-        levelBuilder.BuildLevel(levelData, levelRoot);
+        levelBuilder.BuildLevel(levelData);
 
         //runeflareManager.InitializeFromLevel(levelData);
 
@@ -53,15 +53,15 @@ public class LevelLoader : MonoBehaviour
 
     }
 
-    private void ClearLevel()
-    {
-        if (levelRoot == null) return;
+    // private void ClearLevel()
+    // {
+    //     if (levelRoot == null) return;
 
-        foreach (Transform child in levelRoot)
-        {
-            Destroy(child.gameObject);
-        }
-    }
+    //     foreach (Transform child in levelRoot)
+    //     {
+    //         Destroy(child.gameObject);
+    //     }
+    // }
 
     public LevelData GetCurrentLevel()
     {

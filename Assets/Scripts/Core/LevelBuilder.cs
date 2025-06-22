@@ -12,6 +12,14 @@ public class LevelBuilder : MonoBehaviour
     [SerializeField]
     private LevelPrefabLibrary prefabLibrary;
 
+    [Header("Pool Reference")]
+    [SerializeField]
+    private MultiPrefabPool multiPrefabPool;
+
+
+
+     [SerializeField] private Transform levelRoot;
+
 
     private GameObject portalA;
     private GameObject portalB;
@@ -20,14 +28,16 @@ public class LevelBuilder : MonoBehaviour
     public static Dictionary<int, Transform> RingRoots = new Dictionary<int, Transform>();
 
 
-    /// <summary>
-    /// Entry point for building a level from data.
-    /// </summary>
-    /// <param name="levelData">The level definition to build from.</param>
-    /// <param name="parentRoot">The parent transform to build the level under.</param>
-    public void BuildLevel(LevelData levelData, Transform parentRoot)
+    private void Start()
     {
-        if (levelData == null || prefabLibrary == null || parentRoot == null)
+        multiPrefabPool.Initialize(levelRoot);
+    }
+
+
+    
+    public void BuildLevel(LevelData levelData)
+    {
+        if (levelData == null || prefabLibrary == null )
         {
             return;
         }
@@ -37,7 +47,7 @@ public class LevelBuilder : MonoBehaviour
 
         foreach (var ring in levelData.rings)
         {
-            BuildRing(ring, parentRoot);
+            BuildRing(ring);
         }
 
         setPortals();
@@ -46,13 +56,13 @@ public class LevelBuilder : MonoBehaviour
 
 
 
-    private void BuildRing(RingConfiguration ring, Transform parentRoot)
+    private void BuildRing(RingConfiguration ring)
     {
         float radius = RingConstants.BaseRadius + ring.ringIndex * RingConstants.RingSpacing;
 
         // 🔧 Create a parent object for this ring
         GameObject ringRoot = new GameObject($"Ring_{ring.ringIndex}");
-        ringRoot.transform.SetParent(parentRoot);
+        ringRoot.transform.SetParent(levelRoot);
         ringRoot.transform.localPosition = Vector3.zero;
         ringRoot.transform.localRotation = Quaternion.identity;
 
@@ -75,11 +85,13 @@ public class LevelBuilder : MonoBehaviour
             Vector3 position = new Vector3(Mathf.Cos(angle), 0, Mathf.Sin(angle)) * radius;
             Quaternion rotation = Quaternion.Euler(0, -angle * Mathf.Rad2Deg, 0);
 
-            GameObject prefab = GetSegmentPrefab(ring.ringIndex, segment.segmentType);
-            if (prefab == null) continue;
+            // Get from pool
+            MonoBehaviour pooledSegment = multiPrefabPool.Get(segment.segmentType);
+            if (pooledSegment == null) continue;
 
-            // 💡 Instantiate under the new ringRoot
-            GameObject segmentGO = Instantiate(prefab, position, rotation, ringRoot.transform);
+            GameObject segmentGO = pooledSegment.gameObject;
+            segmentGO.transform.SetPositionAndRotation(position, rotation);
+            segmentGO.transform.SetParent(ringRoot.transform);
             segmentGO.name = $"Ring{ring.ringIndex}_Seg{i}";
 
             RingSegment ringSegment = segmentGO.GetComponent<RingSegment>();

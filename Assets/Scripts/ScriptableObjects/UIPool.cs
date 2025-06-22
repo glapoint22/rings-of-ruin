@@ -1,23 +1,13 @@
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "Rings of Ruin/UI Pool")]
-public class UIPool : BasePool<UIIcon>
+public class UIPool : SinglePrefabPool          
 {
     [SerializeField] private UIIconLibrary iconLibrary;
 
-    public override void Initialize(Transform poolParent)
-    {
-        if (iconLibrary != null)
-        {
-            initialPoolSize = iconLibrary.GetIconCount();
-        }
-
-        base.Initialize(poolParent);
-    }
-
     public UIIcon GetWithIcon(PickupType pickupType)
     {
-        UIIcon icon = Get();
+        UIIcon icon = Get() as UIIcon;
         if (icon != null)
         {
             icon.SetIcon(iconLibrary.GetIcon(pickupType));

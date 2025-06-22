@@ -4984,6 +4984,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   prefabLibrary: {fileID: 11400000, guid: 9349bc9932372d14ab15203af8eda10c, type: 2}
+  multiPrefabPool: {fileID: 11400000, guid: bf4759443f19aaf439698e4eff13632a, type: 2}
+  levelRoot: {fileID: 894394372}
 --- !u!114 &1456701956
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4998,7 +5000,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   levelBuilder: {fileID: 1456701955}
   initialLevel: {fileID: 11400000, guid: d56e4fc654f138b4682d53e8e3b94213, type: 2}
-  levelRoot: {fileID: 894394372}
   runeflareManager: {fileID: 1012381399}
 --- !u!4 &1456701957
 Transform:

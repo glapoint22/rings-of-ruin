@@ -504,7 +504,7 @@ public class LevelEditorWindow : EditorWindow
         libProp.objectReferenceValue = prefabLibrary;
         so.ApplyModifiedProperties();
 
-        builder.BuildLevel(selectedLevelData, previewRoot);
+        builder.BuildLevel(selectedLevelData);
 
         Object.DestroyImmediate(tempGO);
     }
