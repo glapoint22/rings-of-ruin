@@ -12,5 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 454af150991c9dc46bbc51bd24227743, type: 3}
   m_Name: Runeflare Pool
   m_EditorClassIdentifier: 
-  prefab: {fileID: 6929409624770937012, guid: 247d232bde2c78543acbbfbfff13e5c2, type: 3}
-  initialPoolSize: 3
+  prefab: {fileID: 7780937622634698963, guid: 247d232bde2c78543acbbfbfff13e5c2, type: 3}

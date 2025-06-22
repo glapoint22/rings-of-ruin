@@ -3,10 +3,6 @@ using System.Linq;
 using UnityEditor;
 using UnityEngine;
 
-/// <summary>
-/// Custom editor window for creating and editing levels in Rings of Ruin.
-/// Provides a visual interface for configuring rings, segments, and their properties.
-/// </summary>
 public class LevelEditorWindow : EditorWindow
 {
     // Constants for UI layout and game configuration
@@ -20,7 +16,7 @@ public class LevelEditorWindow : EditorWindow
 
     // State variables for the editor
     private List<LevelData> allLevels = new List<LevelData>();
-    private LevelPrefabLibrary prefabLibrary;
+    private MultiPrefabPool multiPrefabPool;
     private SegmentIconLibrary segmentIconLibrary;
     private LevelData selectedLevelData;
     private int selectedLevelIndex = 0;
@@ -47,7 +43,7 @@ public class LevelEditorWindow : EditorWindow
 
     private void OnGUI()
     {
-        LoadPrefabLibrary();
+        LoadMultiPrefabPool();
         DrawHeader();
         DrawLevelSelection();
         DrawLevelControls();
@@ -379,16 +375,16 @@ public class LevelEditorWindow : EditorWindow
                 icon = segmentIconLibrary.GetCollectibleIcon(CollectibleType.Coin);
             else if (segment.collectibleType == CollectibleType.TreasureChest)
                 icon = segmentIconLibrary.GetCollectibleIcon(CollectibleType.TreasureChest);
-            else if (segment.portalType == PortalType.PortalA)
-                icon = segmentIconLibrary.GetPortalIcon(PortalType.PortalA);
-            else if (segment.portalType == PortalType.PortalB)
-                icon = segmentIconLibrary.GetPortalIcon(PortalType.PortalB);
+            else if (segment.interactableType == InteractableType.PortalA)
+                icon = segmentIconLibrary.GetInteractableIcon(InteractableType.PortalA);
+            else if (segment.interactableType == InteractableType.PortalB)
+                icon = segmentIconLibrary.GetInteractableIcon(InteractableType.PortalB);
+            else if (segment.interactableType == InteractableType.Checkpoint)
+                icon = segmentIconLibrary.GetInteractableIcon(InteractableType.Checkpoint);
             else if (segment.enemyType != EnemyType.None)
                 icon = segmentIconLibrary.GetEnemyIcon(segment.enemyType);
             else if (segment.pickupType != PickupType.None)
                 icon = segmentIconLibrary.GetPickupIcon(segment.pickupType);
-            else if (segment.hasCheckpoint)
-                icon = segmentIconLibrary.checkpointIcon;
            
 
             // Draw the icon if we have one
@@ -456,7 +452,6 @@ public class LevelEditorWindow : EditorWindow
 
         EditorGUI.BeginDisabledGroup(segment.segmentType != SegmentType.Normal);
 
-        segment.hasCheckpoint = EditorGUILayout.Toggle("Checkpoint", segment.hasCheckpoint);
         segment.collectibleType = (CollectibleType)EditorGUILayout.EnumPopup("Collectable", segment.collectibleType);
         
         // Add the coin count field when treasure chest is selected
@@ -468,7 +463,7 @@ public class LevelEditorWindow : EditorWindow
         }
         
         segment.pickupType = (PickupType)EditorGUILayout.EnumPopup("Pickup Type", segment.pickupType);
-        segment.portalType = (PortalType)EditorGUILayout.EnumPopup("Portal", segment.portalType);
+        segment.interactableType = (InteractableType)EditorGUILayout.EnumPopup("interactables", segment.interactableType);
         segment.enemyType = (EnemyType)EditorGUILayout.EnumPopup("Enemy", segment.enemyType);
 
         EditorGUI.EndDisabledGroup();
@@ -487,9 +482,9 @@ public class LevelEditorWindow : EditorWindow
     {
         ClearPreview();
 
-        if (selectedLevelData == null || prefabLibrary == null)
+        if (selectedLevelData == null || multiPrefabPool == null)
         {
-            Debug.LogWarning("Missing level data or prefab library.");
+            Debug.LogWarning("Missing level data or multi prefab pool.");
             return;
         }
 
@@ -498,11 +493,19 @@ public class LevelEditorWindow : EditorWindow
         var tempGO = new GameObject("EditorPreviewBuilder_TEMP");
         var builder = tempGO.AddComponent<LevelBuilder>();
 
-        // Inject prefab library
+        // Inject multi prefab pool
         var so = new SerializedObject(builder);
-        var libProp = so.FindProperty("prefabLibrary");
-        libProp.objectReferenceValue = prefabLibrary;
+        var poolProp = so.FindProperty("multiPrefabPool");
+        poolProp.objectReferenceValue = multiPrefabPool;
+        
+        // Set the level root
+        var levelRootProp = so.FindProperty("levelRoot");
+        levelRootProp.objectReferenceValue = previewRoot;
+        
         so.ApplyModifiedProperties();
+
+        // Initialize the pool manually (since Start() won't be called in editor)
+        multiPrefabPool.Initialize(previewRoot);
 
         builder.BuildLevel(selectedLevelData);
 
@@ -554,15 +557,15 @@ public class LevelEditorWindow : EditorWindow
 
     #region Utility Methods
     // Helper methods for common operations
-    private void LoadPrefabLibrary()
+    private void LoadMultiPrefabPool()
     {
-        if (prefabLibrary != null && segmentIconLibrary != null) return;
+        if (multiPrefabPool != null && segmentIconLibrary != null) return;
 
-        string[] guids = AssetDatabase.FindAssets("t:LevelPrefabLibrary");
+        string[] guids = AssetDatabase.FindAssets("t:MultiPrefabPool");
         if (guids.Length > 0)
         {
             string path = AssetDatabase.GUIDToAssetPath(guids[0]);
-            prefabLibrary = AssetDatabase.LoadAssetAtPath<LevelPrefabLibrary>(path);
+            multiPrefabPool = AssetDatabase.LoadAssetAtPath<MultiPrefabPool>(path);
         }
 
         guids = AssetDatabase.FindAssets("t:SegmentIconLibrary");
@@ -572,9 +575,9 @@ public class LevelEditorWindow : EditorWindow
             segmentIconLibrary = AssetDatabase.LoadAssetAtPath<SegmentIconLibrary>(path);
         }
 
-        if (prefabLibrary == null)
+        if (multiPrefabPool == null)
         {
-            Debug.LogWarning("No LevelPrefabLibrary asset found. Please create one via 'Create > Rings of Ruin > Prefab Library'.");
+            Debug.LogWarning("No MultiPrefabPool asset found. Please create one via 'Create > Rings of Ruin > Multi Prefab Pool'.");
         }
 
         if (segmentIconLibrary == null)

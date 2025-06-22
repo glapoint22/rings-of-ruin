@@ -7,11 +7,11 @@ public class UIPool : SinglePrefabPool
 
     public UIIcon GetWithIcon(PickupType pickupType)
     {
-        UIIcon icon = Get() as UIIcon;
+        GameObject icon = Get();
         if (icon != null)
         {
-            icon.SetIcon(iconLibrary.GetIcon(pickupType));
+            icon.GetComponent<UIIcon>().SetIcon(iconLibrary.GetIcon(pickupType));
         }
-        return icon;
+        return icon.GetComponent<UIIcon>();
     }
 }

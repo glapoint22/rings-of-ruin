@@ -12,6 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3894cdc67f082a840ad161c197ee41c1, type: 3}
   m_Name: Spell UI Pool
   m_EditorClassIdentifier: 
-  prefab: {fileID: 5758950035420536398, guid: 8245e75d8ff19cb499e68a302fecb823, type: 3}
-  initialPoolSize: 10
+  prefab: {fileID: 2160505105632877589, guid: 8245e75d8ff19cb499e68a302fecb823, type: 3}
   iconLibrary: {fileID: 11400000, guid: b7b4adad770e5024f9e0194fa10b6012, type: 2}

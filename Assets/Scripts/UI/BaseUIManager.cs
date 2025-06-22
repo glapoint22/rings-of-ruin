@@ -39,7 +39,7 @@ public abstract class BaseUIManager : MonoBehaviour
     {
         if (activeIcons.TryGetValue(pickupType, out UIIcon icon))
         {
-            uiPool.Return(icon);
+            uiPool.Return(icon.gameObject);
             activeIcons.Remove(pickupType);
         }
     }

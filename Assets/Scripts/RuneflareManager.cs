@@ -22,7 +22,7 @@ public class RuneflareManager : MonoBehaviour
 
     private void OnLevelLoaded(LevelData levelData)
     {
-        runeflarePool.InitializePool(poolParent, levelData.maxConcurrentRuneflares);
+        runeflarePool.Initialize(poolParent);
         if (!levelData.hasRuneflareHazard) return;
 
         currentLevelData = levelData;
@@ -30,6 +30,9 @@ public class RuneflareManager : MonoBehaviour
         float outerRadius = RingConstants.BaseRadius + (ringCount - 1) * RingConstants.RingSpacing;
         minRadius = outerRadius + 2f;
         maxRadius = outerRadius + 2f;
+
+        // Pre-populate the pool with the initial amount of runeflares
+        runeflarePool.PrePopulateRuneflarePool(currentLevelData.maxConcurrentRuneflares);
 
         // Assign event handler and spawn timer to each pooled runeflare
         foreach (var runeflare in runeflarePool.GetInactiveRuneflares())
@@ -63,17 +66,17 @@ public class RuneflareManager : MonoBehaviour
 
     private void SpawnRuneflare()
     {
-        RuneflareProjectile projectile = runeflarePool.Get() as RuneflareProjectile;
+        GameObject projectile = runeflarePool.Get();
         if (projectile == null) return;
 
         Vector3 spawn = GetRandomPosition(true);
         Vector3 target = GetRandomPosition(false);
 
-        projectile.gameObject.SetActive(true);
+        projectile.SetActive(true);
         projectile.transform.position = spawn;
-        projectile.Launch(spawn, target);
+        projectile.GetComponent<RuneflareProjectile>().Launch(spawn, target);
 
-        activeRuneflares.Add(projectile); // Track it as active
+        activeRuneflares.Add(projectile.GetComponent<RuneflareProjectile>()); // Track it as active
     }
 
 
@@ -102,7 +105,7 @@ public class RuneflareManager : MonoBehaviour
         if (activeRuneflares.Contains(runeflare))
         {
             activeRuneflares.Remove(runeflare);
-            runeflarePool.Return(runeflare);
+            runeflarePool.Return(runeflare.gameObject);
             AssignNewSpawnTimer(runeflare); // Reset timer for reuse
         }
     }

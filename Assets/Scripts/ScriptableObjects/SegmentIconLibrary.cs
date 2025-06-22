@@ -75,12 +75,13 @@ public class SegmentIconLibrary : ScriptableObject
         };
     }
 
-    public Sprite GetPortalIcon(PortalType type)
+    public Sprite GetInteractableIcon(InteractableType type)
     {
         return type switch
         {
-            PortalType.PortalA => portalAIcon,
-            PortalType.PortalB => portalBIcon,
+            InteractableType.PortalA => portalAIcon,
+            InteractableType.PortalB => portalBIcon,
+            InteractableType.Checkpoint => checkpointIcon,
             _ => null
         };
     }

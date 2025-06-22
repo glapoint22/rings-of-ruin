@@ -3,22 +3,13 @@ using UnityEngine;
 
 public class LevelBuilder : MonoBehaviour
 {
-    //private const int SEGMENT_COUNT = 24;
-    //private const float BASE_RADIUS = 5f;
-    //private const float RING_SPACING = 2.5f;
-
-
-    [Header("Prefab Library Reference")]
-    [SerializeField]
-    private LevelPrefabLibrary prefabLibrary;
-
     [Header("Pool Reference")]
     [SerializeField]
     private MultiPrefabPool multiPrefabPool;
 
 
 
-     [SerializeField] private Transform levelRoot;
+    [SerializeField] private Transform levelRoot;
 
 
     private GameObject portalA;
@@ -34,10 +25,10 @@ public class LevelBuilder : MonoBehaviour
     }
 
 
-    
+
     public void BuildLevel(LevelData levelData)
     {
-        if (levelData == null || prefabLibrary == null )
+        if (levelData == null)
         {
             return;
         }
@@ -86,10 +77,9 @@ public class LevelBuilder : MonoBehaviour
             Quaternion rotation = Quaternion.Euler(0, -angle * Mathf.Rad2Deg, 0);
 
             // Get from pool
-            MonoBehaviour pooledSegment = multiPrefabPool.Get(segment.segmentType);
-            if (pooledSegment == null) continue;
+            GameObject segmentGO = multiPrefabPool.Get(GetRingSegmentType(ring.ringIndex, segment.segmentType));
+            if (segmentGO == null) continue;
 
-            GameObject segmentGO = pooledSegment.gameObject;
             segmentGO.transform.SetPositionAndRotation(position, rotation);
             segmentGO.transform.SetParent(ringRoot.transform);
             segmentGO.name = $"Ring{ring.ringIndex}_Seg{i}";
@@ -103,7 +93,15 @@ public class LevelBuilder : MonoBehaviour
         }
     }
 
+    private RingSegmentType GetRingSegmentType(int ringIndex, SegmentType segmentType) {
+        // Each ring has 4 segment types (Normal, Gap, Crumbling, Spike)
+        // ringIndex is 0-based, but RingSegmentType enum is 1-based (Ring_1, Ring_2, etc.)
+        // Formula: ringIndex * 4 + (int)segmentType
+        return (RingSegmentType)(ringIndex * 4 + (int)segmentType);
+    }
 
+
+    
 
 
 
@@ -119,34 +117,7 @@ public class LevelBuilder : MonoBehaviour
 
 
 
-    private GameObject GetSegmentPrefab(int ringIndex, SegmentType segmentType)
-    {
-        switch (segmentType)
-        {
-            case SegmentType.Gap:
-                if (ringIndex >= 0 && ringIndex < prefabLibrary.gapSegmentPrefabs.Length)
-                    return prefabLibrary.gapSegmentPrefabs[ringIndex];
-                break;
-
-            case SegmentType.Crumbling:
-                if (ringIndex >= 0 && ringIndex < prefabLibrary.crumblingPlatformPrefabs.Length)
-                    return prefabLibrary.crumblingPlatformPrefabs[ringIndex];
-                break;
-
-            case SegmentType.Spike:
-                if (ringIndex >= 0 && ringIndex < prefabLibrary.spikePlatformPrefabs.Length)
-                    return prefabLibrary.spikePlatformPrefabs[ringIndex];
-                break;
-
-            case SegmentType.Normal:
-            default:
-                if (ringIndex >= 0 && ringIndex < prefabLibrary.normalSegmentPrefabs.Length)
-                    return prefabLibrary.normalSegmentPrefabs[ringIndex];
-                break;
-        }
-
-        return null;
-    }
+   
 
 
 
@@ -171,10 +142,11 @@ public class LevelBuilder : MonoBehaviour
 
         if (config.collectibleType != CollectibleType.None)
         {
-            GameObject prefab = prefabLibrary.GetCollectiblePrefab(config.collectibleType);
-            if (prefab != null)
+            GameObject collectible = multiPrefabPool.Get(config.collectibleType);
+            if (collectible != null)
             {
-                GameObject collectible = Instantiate(prefab, ringSegment.SlotGround.position, ringSegment.SlotGround.rotation, ringSegment.SlotGround);
+                collectible.transform.SetPositionAndRotation(ringSegment.SlotGround.position, ringSegment.SlotGround.rotation);
+                collectible.transform.SetParent(ringSegment.SlotGround);
                 collectible.name = $"Collectible_{config.collectibleType}";
 
                 // Set coin count for treasure chests
@@ -190,25 +162,24 @@ public class LevelBuilder : MonoBehaviour
         }
         else if (config.enemyType != EnemyType.None)
         {
-            GameObject prefab = prefabLibrary.GetEnemyPrefab(config.enemyType);
-            if (prefab != null)
+            GameObject enemy = multiPrefabPool.Get(config.enemyType);
+            if (enemy != null)
             {
-                Instantiate(prefab, ringSegment.SlotGround.position, ringSegment.SlotGround.rotation, ringSegment.SlotGround)
-                    .name = $"Enemy_{config.enemyType}";
+                enemy.transform.SetPositionAndRotation(ringSegment.SlotGround.position, ringSegment.SlotGround.rotation);
+                enemy.transform.SetParent(ringSegment.SlotGround);
+                enemy.name = $"Enemy_{config.enemyType}";
             }
         }
-        else if (config.portalType != PortalType.None)
+        else if (config.interactableType != InteractableType.None)
         {
-            GameObject prefab = config.portalType == PortalType.PortalA ?
-                prefabLibrary.portalAPrefab :
-                prefabLibrary.portalBPrefab;
-
-            if (prefab != null)
+            GameObject portal = multiPrefabPool.Get(config.interactableType);
+            if (portal != null)
             {
-                GameObject portal = Instantiate(prefab, ringSegment.SlotGround.position, ringSegment.SlotGround.rotation, ringSegment.SlotGround);
-                portal.name = $"Portal_{config.portalType}";
+                portal.transform.SetPositionAndRotation(ringSegment.SlotGround.position, ringSegment.SlotGround.rotation);
+                portal.transform.SetParent(ringSegment.SlotGround);
+                portal.name = $"Portal_{config.interactableType}";
 
-                if (config.portalType == PortalType.PortalA)
+                if (config.interactableType == InteractableType.PortalA)
                 {
                     portalA = portal;
                 }
@@ -218,15 +189,6 @@ public class LevelBuilder : MonoBehaviour
                 }
             }
         }
-        else if (config.hasCheckpoint)
-        {
-            GameObject prefab = prefabLibrary.checkpointPrefab;
-            if (prefab != null)
-            {
-                Instantiate(prefab, ringSegment.SlotGround.position, ringSegment.SlotGround.rotation, ringSegment.SlotGround)
-                    .name = "Checkpoint";
-            }
-        }
     }
 
     private void ConfigureSlotFloat(RingSegment ringSegment, SegmentConfiguration config)
@@ -234,11 +196,12 @@ public class LevelBuilder : MonoBehaviour
         if (ringSegment.SlotFloat == null)
             return;
 
-        GameObject prefab = prefabLibrary.GetPickupPrefab(config.pickupType);
-        if (prefab != null)
+        GameObject pickup = multiPrefabPool.Get(config.pickupType);
+        if (pickup != null)
         {
-            Instantiate(prefab, ringSegment.SlotFloat.position, ringSegment.SlotFloat.rotation, ringSegment.SlotFloat)
-                .name = $"Pickup_{config.pickupType}";
+            pickup.transform.SetPositionAndRotation(ringSegment.SlotFloat.position, ringSegment.SlotFloat.rotation);
+            pickup.transform.SetParent(ringSegment.SlotFloat);
+            pickup.name = $"Pickup_{config.pickupType}";
         }
     }
 }

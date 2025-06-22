@@ -33,11 +33,10 @@ public class SegmentConfiguration
 {
     public int segmentIndex;
     public SegmentType segmentType = SegmentType.Normal;
-    public PortalType portalType = PortalType.None;
+    public InteractableType interactableType = InteractableType.None;
     public PickupType pickupType = PickupType.None;
     public EnemyType enemyType = EnemyType.None;
     public CollectibleType collectibleType = CollectibleType.None;
-    public bool hasCheckpoint;
     public int treasureChestCoinCount = 1;
 }
 

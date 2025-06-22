@@ -12,6 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3894cdc67f082a840ad161c197ee41c1, type: 3}
   m_Name: Buff UI Pool
   m_EditorClassIdentifier: 
-  prefab: {fileID: 5758950035420536398, guid: 56fbc688d2287ba419403060f256f93b, type: 3}
-  initialPoolSize: 10
+  prefab: {fileID: 2160505105632877589, guid: 56fbc688d2287ba419403060f256f93b, type: 3}
   iconLibrary: {fileID: 11400000, guid: fdadc74be6ee46b498105d4da3886035, type: 2}

@@ -12,11 +12,12 @@ public class MultiPrefabPool : BasePool
     [SerializeField] protected Ring2Segments ring2Segments = new Ring2Segments();
     [SerializeField] protected Ring3Segments ring3Segments = new Ring3Segments();
     [SerializeField] protected Ring4Segments ring4Segments = new Ring4Segments();
-    
-    protected Dictionary<System.Enum, Queue<MonoBehaviour>> pools = new Dictionary<System.Enum, Queue<MonoBehaviour>>();
-    
+    [SerializeField] protected Interactables portals = new Interactables();
+
+    protected Dictionary<System.Enum, Queue<GameObject>> pools = new Dictionary<System.Enum, Queue<GameObject>>();
+
     // Optimized dictionaries for fast lookups
-    protected Dictionary<System.Enum, MonoBehaviour> enumToPrefab = new Dictionary<System.Enum, MonoBehaviour>();
+    protected Dictionary<System.Enum, GameObject> enumToPrefab = new Dictionary<System.Enum, GameObject>();
     protected Dictionary<System.Type, System.Enum> typeToEnum = new Dictionary<System.Type, System.Enum>();
 
     public override void Initialize(Transform poolParent)
@@ -29,14 +30,14 @@ public class MultiPrefabPool : BasePool
     {
         enumToPrefab.Clear();
         typeToEnum.Clear();
-        
+
         // Build from CollectibleGroup
         foreach (var mapping in collectibles.collectibleMappings)
         {
             enumToPrefab[mapping.enumValue] = mapping.prefab;
             typeToEnum[mapping.prefab.GetType()] = mapping.enumValue;
         }
-        
+
         // Build from PickupGroup
         foreach (var mapping in pickups.pickupMappings)
         {
@@ -79,19 +80,26 @@ public class MultiPrefabPool : BasePool
             typeToEnum[mapping.prefab.GetType()] = mapping.enumValue;
         }
 
+        // Build from Portals
+        foreach (var mapping in portals.interactableMappings)
+        {
+            enumToPrefab[mapping.enumValue] = mapping.prefab;
+            typeToEnum[mapping.prefab.GetType()] = mapping.enumValue;
+        }
+
     }
 
-    public MonoBehaviour Get(System.Enum enumType)
+    public GameObject Get(System.Enum enumType)
     {
         if (!pools.ContainsKey(enumType))
         {
-            pools[enumType] = new Queue<MonoBehaviour>();
+            pools[enumType] = new Queue<GameObject>();
         }
 
         if (pools[enumType].Count > 0)
         {
-            MonoBehaviour instance = pools[enumType].Dequeue();
-            instance.gameObject.SetActive(true);
+            GameObject instance = pools[enumType].Dequeue();
+            instance.SetActive(true);
             return instance;
         }
 
@@ -99,14 +107,14 @@ public class MultiPrefabPool : BasePool
         return CreateNewInstance(enumType);
     }
 
-    public override void Return(MonoBehaviour instance)
+    public override void Return(GameObject instance)
     {
         // Find which enum type this instance belongs to
         System.Enum enumType = GetEnumTypeForInstance(instance);
 
         if (enumType != null)
         {
-            instance.gameObject.SetActive(false);
+            instance.SetActive(false);
             pools[enumType].Enqueue(instance);
         }
     }
@@ -117,36 +125,36 @@ public class MultiPrefabPool : BasePool
         {
             while (pool.Count > 0)
             {
-                MonoBehaviour instance = pool.Dequeue();
+                GameObject instance = pool.Dequeue();
                 if (instance != null)
                 {
-                    Destroy(instance.gameObject);
+                    Destroy(instance);
                 }
             }
         }
         pools.Clear();
     }
 
-    protected virtual MonoBehaviour CreateNewInstance(System.Enum enumType)
+    protected virtual GameObject CreateNewInstance(System.Enum enumType)
     {
-        MonoBehaviour prefab = GetPrefabForEnum(enumType);
+        GameObject prefab = GetPrefabForEnum(enumType);
         if (prefab != null)
         {
-            MonoBehaviour instance = Instantiate(prefab, poolParent);
-            instance.gameObject.SetActive(true);
+            GameObject instance = Instantiate(prefab, poolParent);
+            instance.SetActive(true);
             return instance;
         }
 
         return null;
     }
 
-    protected virtual MonoBehaviour GetPrefabForEnum(System.Enum enumType)
+    protected virtual GameObject GetPrefabForEnum(System.Enum enumType)
     {
-        enumToPrefab.TryGetValue(enumType, out MonoBehaviour prefab);
+        enumToPrefab.TryGetValue(enumType, out GameObject prefab);
         return prefab;
     }
 
-    protected virtual System.Enum GetEnumTypeForInstance(MonoBehaviour instance)
+    protected virtual System.Enum GetEnumTypeForInstance(GameObject instance)
     {
         typeToEnum.TryGetValue(instance.GetType(), out System.Enum enumType);
         return enumType;
@@ -174,34 +182,63 @@ public class Enemies
 [System.Serializable]
 public class Ring1Segments
 {
-    public List<PrefabEnumMapping<SegmentType>> ring1SegmentMappings = new List<PrefabEnumMapping<SegmentType>>();
+    public List<PrefabEnumMapping<RingSegmentType>> ring1SegmentMappings = new List<PrefabEnumMapping<RingSegmentType>>();
 }
 
 [System.Serializable]
 public class Ring2Segments
 {
-    public List<PrefabEnumMapping<SegmentType>> ring2SegmentMappings = new List<PrefabEnumMapping<SegmentType>>();
+    public List<PrefabEnumMapping<RingSegmentType>> ring2SegmentMappings = new List<PrefabEnumMapping<RingSegmentType>>();
 }
 
 
 [System.Serializable]
 public class Ring3Segments
 {
-    public List<PrefabEnumMapping<SegmentType>> ring3SegmentMappings = new List<PrefabEnumMapping<SegmentType>>();
+    public List<PrefabEnumMapping<RingSegmentType>> ring3SegmentMappings = new List<PrefabEnumMapping<RingSegmentType>>();
 }
 
 
 [System.Serializable]
 public class Ring4Segments
 {
-    public List<PrefabEnumMapping<SegmentType>> ring4SegmentMappings = new List<PrefabEnumMapping<SegmentType>>();
+    public List<PrefabEnumMapping<RingSegmentType>> ring4SegmentMappings = new List<PrefabEnumMapping<RingSegmentType>>();
 }
+
+
+[System.Serializable]
+public class Interactables
+{
+    public List<PrefabEnumMapping<InteractableType>> interactableMappings = new List<PrefabEnumMapping<InteractableType>>();
+}
+
 
 
 
 [System.Serializable]
 public class PrefabEnumMapping<T> where T : System.Enum
 {
-    public MonoBehaviour prefab;
+    public GameObject prefab;
     public T enumValue;
+}
+
+
+public enum RingSegmentType
+{
+    Ring_1_Normal,
+    Ring_1_Gap,
+    Ring_1_Crumbling,
+    Ring_1_Spike,
+    Ring_2_Normal,
+    Ring_2_Gap,
+    Ring_2_Crumbling,
+    Ring_2_Spike,
+    Ring_3_Normal,
+    Ring_3_Gap,
+    Ring_3_Crumbling,
+    Ring_3_Spike,
+    Ring_4_Normal,
+    Ring_4_Gap,
+    Ring_4_Crumbling,
+    Ring_4_Spike
 }

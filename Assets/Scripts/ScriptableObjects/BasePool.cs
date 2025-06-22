@@ -1,5 +1,4 @@
 using UnityEngine;
-using System.Collections.Generic;
 
 public abstract class BasePool : ScriptableObject
 {
@@ -10,9 +9,8 @@ public abstract class BasePool : ScriptableObject
         this.poolParent = poolParent;
     }
     
-    // public abstract MonoBehaviour Get();
     
-    public abstract void Return(MonoBehaviour instance);
+    public abstract void Return(GameObject instance);
     
     public abstract void Clear();
 }

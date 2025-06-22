@@ -3,16 +3,16 @@ using System.Collections.Generic;
 
 public abstract class SinglePrefabPool : BasePool
 {
-    [SerializeField] protected MonoBehaviour prefab;
+    [SerializeField] protected GameObject prefab;
     
-    protected Queue<MonoBehaviour> pool = new Queue<MonoBehaviour>();
+    protected Queue<GameObject> pool = new Queue<GameObject>();
 
-    public MonoBehaviour Get()
+    public GameObject Get()
     {
         if (pool.Count > 0)
         {
-            MonoBehaviour instance = pool.Dequeue();
-            instance.gameObject.SetActive(true);
+            GameObject instance = pool.Dequeue();
+            instance.SetActive(true);
             return instance;
         }
         
@@ -20,9 +20,9 @@ public abstract class SinglePrefabPool : BasePool
         return CreateNewInstance();
     }
 
-    public override void Return(MonoBehaviour instance)
+    public override void Return(GameObject instance)
     {
-        instance.gameObject.SetActive(false);
+        instance.SetActive(false);
         pool.Enqueue(instance);
     }
 
@@ -30,18 +30,18 @@ public abstract class SinglePrefabPool : BasePool
     {
         while (pool.Count > 0)
         {
-            MonoBehaviour instance = pool.Dequeue();
+            GameObject instance = pool.Dequeue();
             if (instance != null)
             {
-                Destroy(instance.gameObject);
+                Destroy(instance);
             }
         }
     }
 
-    protected virtual MonoBehaviour CreateNewInstance()
+    protected virtual GameObject CreateNewInstance()
     {
-        MonoBehaviour instance = Instantiate(prefab, poolParent);
-        instance.gameObject.SetActive(false);
+        GameObject instance = Instantiate(prefab, poolParent);
+        // instance.SetActive(true);
         return instance; // Don't add to pool - it will be returned when done
     }
 }

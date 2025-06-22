@@ -1,6 +1,7 @@
-public enum PortalType
+public enum InteractableType
 {
     None,
     PortalA,
-    PortalB
+    PortalB,
+    Checkpoint
 }
