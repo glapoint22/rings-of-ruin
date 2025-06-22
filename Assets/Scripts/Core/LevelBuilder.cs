@@ -172,21 +172,22 @@ public class LevelBuilder : MonoBehaviour
         }
         else if (config.interactableType != InteractableType.None)
         {
-            GameObject portal = multiPrefabPool.Get(config.interactableType);
-            if (portal != null)
+            GameObject interactable = multiPrefabPool.Get(config.interactableType);
+            if (interactable != null)
             {
-                portal.transform.SetPositionAndRotation(ringSegment.SlotGround.position, ringSegment.SlotGround.rotation);
-                portal.transform.SetParent(ringSegment.SlotGround);
-                portal.name = $"Portal_{config.interactableType}";
+                interactable.transform.SetPositionAndRotation(ringSegment.SlotGround.position, ringSegment.SlotGround.rotation);
+                interactable.transform.SetParent(ringSegment.SlotGround);
+                interactable.name = $"{config.interactableType}";
 
                 if (config.interactableType == InteractableType.PortalA)
                 {
-                    portalA = portal;
+                    portalA = interactable;
                 }
-                else
+                else if (config.interactableType == InteractableType.PortalB)
                 {
-                    portalB = portal;
-                }
+                    portalB = interactable;
+                    
+                } 
             }
         }
     }

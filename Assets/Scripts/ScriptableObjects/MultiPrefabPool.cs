@@ -5,20 +5,22 @@ using System.Collections.Generic;
 [CreateAssetMenu(menuName = "Rings of Ruin/Multi Prefab Pool")]
 public class MultiPrefabPool : BasePool
 {
-    [SerializeField] protected Collectibles collectibles = new Collectibles();
-    [SerializeField] protected Pickups pickups = new Pickups();
-    [SerializeField] protected Enemies enemies = new Enemies();
-    [SerializeField] protected Ring1Segments ring1Segments = new Ring1Segments();
-    [SerializeField] protected Ring2Segments ring2Segments = new Ring2Segments();
-    [SerializeField] protected Ring3Segments ring3Segments = new Ring3Segments();
-    [SerializeField] protected Ring4Segments ring4Segments = new Ring4Segments();
-    [SerializeField] protected Interactables portals = new Interactables();
+    [SerializeField] private List<PrefabEnumMapping<RingSegmentType>> ring1Segments = new();
+    [SerializeField] private List<PrefabEnumMapping<RingSegmentType>> ring2Segments = new();
+    [SerializeField] private List<PrefabEnumMapping<RingSegmentType>> ring3Segments = new();
+    [SerializeField] private List<PrefabEnumMapping<RingSegmentType>> ring4Segments = new();
+    [SerializeField] private List<PrefabEnumMapping<CollectibleType>> collectibles = new();
+    [SerializeField] private List<PrefabEnumMapping<PickupType>> pickups = new();
+    [SerializeField] private List<PrefabEnumMapping<InteractableType>> interactables = new();
+    [SerializeField] private List<PrefabEnumMapping<EnemyType>> enemies = new();
+    
+    
 
-    protected Dictionary<System.Enum, Queue<GameObject>> pools = new Dictionary<System.Enum, Queue<GameObject>>();
+    private Dictionary<System.Enum, Queue<GameObject>> pools = new Dictionary<System.Enum, Queue<GameObject>>();
+    private Dictionary<System.Enum, GameObject> enumToPrefab = new Dictionary<System.Enum, GameObject>();
+    private Dictionary<System.Type, System.Enum> typeToEnum = new Dictionary<System.Type, System.Enum>();
 
-    // Optimized dictionaries for fast lookups
-    protected Dictionary<System.Enum, GameObject> enumToPrefab = new Dictionary<System.Enum, GameObject>();
-    protected Dictionary<System.Type, System.Enum> typeToEnum = new Dictionary<System.Type, System.Enum>();
+
 
     public override void Initialize(Transform poolParent)
     {
@@ -26,68 +28,42 @@ public class MultiPrefabPool : BasePool
         BuildLookupDictionaries();
     }
 
+
+
+
     private void BuildLookupDictionaries()
     {
         enumToPrefab.Clear();
         typeToEnum.Clear();
+        pools.Clear();
 
-        // Build from CollectibleGroup
-        foreach (var mapping in collectibles.collectibleMappings)
-        {
-            enumToPrefab[mapping.enumValue] = mapping.prefab;
-            typeToEnum[mapping.prefab.GetType()] = mapping.enumValue;
-        }
-
-        // Build from PickupGroup
-        foreach (var mapping in pickups.pickupMappings)
-        {
-            enumToPrefab[mapping.enumValue] = mapping.prefab;
-            typeToEnum[mapping.prefab.GetType()] = mapping.enumValue;
-        }
-
-        // Build from EnemyGroup
-        foreach (var mapping in enemies.enemyMappings)
-        {
-            enumToPrefab[mapping.enumValue] = mapping.prefab;
-            typeToEnum[mapping.prefab.GetType()] = mapping.enumValue;
-        }
-
-        // Build from Ring1Segments
-        foreach (var mapping in ring1Segments.ring1SegmentMappings)
-        {
-            enumToPrefab[mapping.enumValue] = mapping.prefab;
-            typeToEnum[mapping.prefab.GetType()] = mapping.enumValue;
-        }
-
-        // Build from Ring2Segments
-        foreach (var mapping in ring2Segments.ring2SegmentMappings)
-        {
-            enumToPrefab[mapping.enumValue] = mapping.prefab;
-            typeToEnum[mapping.prefab.GetType()] = mapping.enumValue;
-        }
-
-        // Build from Ring3Segments
-        foreach (var mapping in ring3Segments.ring3SegmentMappings)
-        {
-            enumToPrefab[mapping.enumValue] = mapping.prefab;
-            typeToEnum[mapping.prefab.GetType()] = mapping.enumValue;
-        }
-
-        // Build from Ring4Segments
-        foreach (var mapping in ring4Segments.ring4SegmentMappings)
-        {
-            enumToPrefab[mapping.enumValue] = mapping.prefab;
-            typeToEnum[mapping.prefab.GetType()] = mapping.enumValue;
-        }
-
-        // Build from Portals
-        foreach (var mapping in portals.interactableMappings)
-        {
-            enumToPrefab[mapping.enumValue] = mapping.prefab;
-            typeToEnum[mapping.prefab.GetType()] = mapping.enumValue;
-        }
-
+        // Use a generic helper method to process all mapping lists
+        ProcessMappingList(collectibles);
+        ProcessMappingList(pickups);
+        ProcessMappingList(enemies);
+        ProcessMappingList(ring1Segments);
+        ProcessMappingList(ring2Segments);
+        ProcessMappingList(ring3Segments);
+        ProcessMappingList(ring4Segments);
+        ProcessMappingList(interactables);
     }
+
+
+
+
+
+    private void ProcessMappingList<T>(List<PrefabEnumMapping<T>> mappings) where T : System.Enum
+    {
+        foreach (var mapping in mappings)
+        {
+            enumToPrefab[mapping.enumValue] = mapping.prefab;
+            typeToEnum[mapping.prefab.GetType()] = mapping.enumValue;
+        }
+    }
+
+
+
+
 
     public GameObject Get(System.Enum enumType)
     {
@@ -107,6 +83,10 @@ public class MultiPrefabPool : BasePool
         return CreateNewInstance(enumType);
     }
 
+
+
+
+
     public override void Return(GameObject instance)
     {
         // Find which enum type this instance belongs to
@@ -118,6 +98,11 @@ public class MultiPrefabPool : BasePool
             pools[enumType].Enqueue(instance);
         }
     }
+
+
+
+
+
 
     public override void Clear()
     {
@@ -135,6 +120,10 @@ public class MultiPrefabPool : BasePool
         pools.Clear();
     }
 
+
+
+
+
     protected virtual GameObject CreateNewInstance(System.Enum enumType)
     {
         GameObject prefab = GetPrefabForEnum(enumType);
@@ -148,11 +137,18 @@ public class MultiPrefabPool : BasePool
         return null;
     }
 
+
+
+
     protected virtual GameObject GetPrefabForEnum(System.Enum enumType)
     {
         enumToPrefab.TryGetValue(enumType, out GameObject prefab);
         return prefab;
     }
+
+
+
+
 
     protected virtual System.Enum GetEnumTypeForInstance(GameObject instance)
     {
@@ -161,84 +157,14 @@ public class MultiPrefabPool : BasePool
     }
 }
 
-[System.Serializable]
-public class Collectibles
-{
-    public List<PrefabEnumMapping<CollectibleType>> collectibleMappings = new List<PrefabEnumMapping<CollectibleType>>();
-}
 
-[System.Serializable]
-public class Pickups
-{
-    public List<PrefabEnumMapping<PickupType>> pickupMappings = new List<PrefabEnumMapping<PickupType>>();
-}
-
-[System.Serializable]
-public class Enemies
-{
-    public List<PrefabEnumMapping<EnemyType>> enemyMappings = new List<PrefabEnumMapping<EnemyType>>();
-}
-
-[System.Serializable]
-public class Ring1Segments
-{
-    public List<PrefabEnumMapping<RingSegmentType>> ring1SegmentMappings = new List<PrefabEnumMapping<RingSegmentType>>();
-}
-
-[System.Serializable]
-public class Ring2Segments
-{
-    public List<PrefabEnumMapping<RingSegmentType>> ring2SegmentMappings = new List<PrefabEnumMapping<RingSegmentType>>();
-}
-
-
-[System.Serializable]
-public class Ring3Segments
-{
-    public List<PrefabEnumMapping<RingSegmentType>> ring3SegmentMappings = new List<PrefabEnumMapping<RingSegmentType>>();
-}
-
-
-[System.Serializable]
-public class Ring4Segments
-{
-    public List<PrefabEnumMapping<RingSegmentType>> ring4SegmentMappings = new List<PrefabEnumMapping<RingSegmentType>>();
-}
-
-
-[System.Serializable]
-public class Interactables
-{
-    public List<PrefabEnumMapping<InteractableType>> interactableMappings = new List<PrefabEnumMapping<InteractableType>>();
-}
 
 
 
 
 [System.Serializable]
-public class PrefabEnumMapping<T> where T : System.Enum
+public struct PrefabEnumMapping<T> where T : System.Enum
 {
     public GameObject prefab;
     public T enumValue;
-}
-
-
-public enum RingSegmentType
-{
-    Ring_1_Normal,
-    Ring_1_Gap,
-    Ring_1_Crumbling,
-    Ring_1_Spike,
-    Ring_2_Normal,
-    Ring_2_Gap,
-    Ring_2_Crumbling,
-    Ring_2_Spike,
-    Ring_3_Normal,
-    Ring_3_Gap,
-    Ring_3_Crumbling,
-    Ring_3_Spike,
-    Ring_4_Normal,
-    Ring_4_Gap,
-    Ring_4_Crumbling,
-    Ring_4_Spike
 }

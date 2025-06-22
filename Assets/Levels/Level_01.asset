@@ -65,7 +65,7 @@ MonoBehaviour:
       pickupType: 0
       enemyType: 0
       collectibleType: 0
-      treasureChestCoinCount: 10
+      treasureChestCoinCount: 1
     - segmentIndex: 7
       segmentType: 0
       interactableType: 0
@@ -107,7 +107,7 @@ MonoBehaviour:
       pickupType: 0
       enemyType: 0
       collectibleType: 0
-      treasureChestCoinCount: 20
+      treasureChestCoinCount: 1
     - segmentIndex: 13
       segmentType: 0
       interactableType: 0
@@ -149,7 +149,7 @@ MonoBehaviour:
       pickupType: 0
       enemyType: 0
       collectibleType: 0
-      treasureChestCoinCount: 10
+      treasureChestCoinCount: 1
     - segmentIndex: 19
       segmentType: 0
       interactableType: 0
@@ -187,6 +187,6 @@ MonoBehaviour:
       treasureChestCoinCount: 1
   enemies: []
   isAltarLockedByKey: 0
-  hasRuneflareHazard: 1
+  hasRuneflareHazard: 0
   maxConcurrentRuneflares: 3
   runeflareIntervalRange: {x: 2, y: 6}
