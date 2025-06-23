@@ -19,11 +19,17 @@ public class LevelBuilder : MonoBehaviour
     public static Dictionary<int, Transform> RingRoots = new Dictionary<int, Transform>();
 
 
-    private void Start()
+    private void OnEnable()
     {
         multiPrefabPool.Initialize(levelRoot);
+        GameEvents.OnInteracted += OnInteracted;
     }
 
+
+    private void OnInteracted(GameObject interactable)
+    {
+        multiPrefabPool.Return(interactable);
+    }
 
 
     public void BuildLevel(LevelData levelData)
@@ -93,7 +99,8 @@ public class LevelBuilder : MonoBehaviour
         }
     }
 
-    private RingSegmentType GetRingSegmentType(int ringIndex, SegmentType segmentType) {
+    private RingSegmentType GetRingSegmentType(int ringIndex, SegmentType segmentType)
+    {
         // Each ring has 4 segment types (Normal, Gap, Crumbling, Spike)
         // ringIndex is 0-based, but RingSegmentType enum is 1-based (Ring_1, Ring_2, etc.)
         // Formula: ringIndex * 4 + (int)segmentType
@@ -101,7 +108,7 @@ public class LevelBuilder : MonoBehaviour
     }
 
 
-    
+
 
 
 
@@ -117,7 +124,7 @@ public class LevelBuilder : MonoBehaviour
 
 
 
-   
+
 
 
 
@@ -152,11 +159,11 @@ public class LevelBuilder : MonoBehaviour
                 // Set coin count for treasure chests
                 if (config.collectibleType == CollectibleType.TreasureChest)
                 {
-                    //var treasureChest = collectible.GetComponent<TreasureChestCollect>();
-                    //if (treasureChest != null)
-                    //{
-                    //    treasureChest.SetCoinCount(config.treasureChestCoinCount);
-                    //}
+                    var treasureChest = collectible.GetComponent<TreasureChestCollect>();
+                    if (treasureChest != null)
+                    {
+                        treasureChest.SetCoinCount(config.treasureChestCoinCount);
+                    }
                 }
             }
         }
@@ -186,8 +193,8 @@ public class LevelBuilder : MonoBehaviour
                 else if (config.interactableType == InteractableType.PortalB)
                 {
                     portalB = interactable;
-                    
-                } 
+
+                }
             }
         }
     }

@@ -9,7 +9,7 @@ public class SpikeSegment : MonoBehaviour
     [SerializeField] private float moveSpeed = 5f;
     [SerializeField] private float activeDuration = 0.5f;
     [SerializeField] private float cycleDelay = 2.0f;
-    [SerializeField] private int damageAmount = 10;
+    // [SerializeField] private int damageAmount = 10;
 
     private Vector3 retractedPosition;
     private Vector3 extendedPosition;
@@ -60,9 +60,7 @@ public class SpikeSegment : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-
-
-            DamageManager.UpdateDamage(damageAmount);
+            // TODO: Add damage to player
         }
     }
 

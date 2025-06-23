@@ -1,13 +1,15 @@
 public class TreasureChestCollect : InteractableBase
 {
-   private int coinCount; 
+    private Coin Coin;
 
-   public void SetCoinCount(int count)
-   {
-       coinCount = count;
-   }
+    public void SetCoinCount(int count)
+    {
 
-   protected override void OnInteract() {
-    GameEvents.RaiseTreasureChestCollect(coinCount);
-   }
+        Coin = new Coin(count);
+    }
+
+    protected override void OnInteract()
+    {
+        GameEvents.RaiseCollect(Coin);
+    }
 }

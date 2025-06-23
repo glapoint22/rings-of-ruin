@@ -7,6 +7,7 @@ public abstract class InteractableBase : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             OnInteract();
+            GameEvents.RaiseInteracted(gameObject);
         }
     }
 

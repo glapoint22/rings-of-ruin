@@ -67,6 +67,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f859ff4df77f8240840ec5366fbcbdf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  coinValue: 5
 --- !u!1001 &7086364685231431315
 PrefabInstance:
   m_ObjectHideFlags: 0

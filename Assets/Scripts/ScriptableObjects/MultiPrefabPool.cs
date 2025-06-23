@@ -18,7 +18,7 @@ public class MultiPrefabPool : BasePool
 
     private Dictionary<System.Enum, Queue<GameObject>> pools = new Dictionary<System.Enum, Queue<GameObject>>();
     private Dictionary<System.Enum, GameObject> enumToPrefab = new Dictionary<System.Enum, GameObject>();
-    private Dictionary<System.Type, System.Enum> typeToEnum = new Dictionary<System.Type, System.Enum>();
+    private Dictionary<GameObject, System.Enum> typeToEnum = new Dictionary<GameObject, System.Enum>();
 
 
 
@@ -57,7 +57,7 @@ public class MultiPrefabPool : BasePool
         foreach (var mapping in mappings)
         {
             enumToPrefab[mapping.enumValue] = mapping.prefab;
-            typeToEnum[mapping.prefab.GetType()] = mapping.enumValue;
+            // typeToEnum[mapping.prefab.GetType()] = mapping.enumValue;
         }
     }
 
@@ -131,6 +131,7 @@ public class MultiPrefabPool : BasePool
         {
             GameObject instance = Instantiate(prefab, poolParent);
             instance.SetActive(true);
+            typeToEnum.TryAdd(instance, enumType);
             return instance;
         }
 
@@ -152,7 +153,7 @@ public class MultiPrefabPool : BasePool
 
     protected virtual System.Enum GetEnumTypeForInstance(GameObject instance)
     {
-        typeToEnum.TryGetValue(instance.GetType(), out System.Enum enumType);
+        typeToEnum.TryGetValue(instance, out System.Enum enumType);
         return enumType;
     }
 }

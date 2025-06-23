@@ -1,4 +1,3 @@
-using System.Drawing;
 using UnityEngine;
 
 public class FallTrigger : MonoBehaviour
@@ -7,7 +6,7 @@ public class FallTrigger : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            DamageManager.UpdateDamage(100);
+            // TODO: Add damage to player
         }
     }
 }

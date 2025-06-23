@@ -4,7 +4,7 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody))]
 public class RuneflareProjectile : MonoBehaviour
 {
-    [SerializeField] private int damageAmount = 10;
+    // [SerializeField] private int damageAmount = 10;
 
     private Rigidbody rb;
     private float spawnTimer;
@@ -53,7 +53,9 @@ public class RuneflareProjectile : MonoBehaviour
         if (!hasLaunched) return;
         hasLaunched = false;
         OnRuneflareDestroyed?.Invoke(this);
-        if (collision.collider.CompareTag("Player")) DamageManager.UpdateDamage(damageAmount);
+        if (collision.collider.CompareTag("Player")) {
+            // TODO: Add damage to player
+        };
     }
 
 
