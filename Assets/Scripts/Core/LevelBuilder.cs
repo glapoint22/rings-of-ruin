@@ -5,7 +5,7 @@ public class LevelBuilder : MonoBehaviour
 {
     [Header("Pool Reference")]
     [SerializeField]
-    private MultiPrefabPool multiPrefabPool;
+    private LevelPool levelPool;
 
 
 
@@ -21,14 +21,14 @@ public class LevelBuilder : MonoBehaviour
 
     private void OnEnable()
     {
-        multiPrefabPool.Initialize(levelRoot);
+        levelPool.Initialize(levelRoot);
         GameEvents.OnInteracted += OnInteracted;
     }
 
 
     private void OnInteracted(GameObject interactable)
     {
-        multiPrefabPool.Return(interactable);
+        levelPool.Return(interactable);
     }
 
 
@@ -83,7 +83,7 @@ public class LevelBuilder : MonoBehaviour
             Quaternion rotation = Quaternion.Euler(0, -angle * Mathf.Rad2Deg, 0);
 
             // Get from pool
-            GameObject segmentGO = multiPrefabPool.Get(GetRingSegmentType(ring.ringIndex, segment.segmentType));
+            GameObject segmentGO = levelPool.Get(GetRingSegmentType(ring.ringIndex, segment.segmentType));
             if (segmentGO == null) continue;
 
             segmentGO.transform.SetPositionAndRotation(position, rotation);
@@ -149,7 +149,7 @@ public class LevelBuilder : MonoBehaviour
 
         if (config.collectibleType != CollectibleType.None)
         {
-            GameObject collectible = multiPrefabPool.Get(config.collectibleType);
+            GameObject collectible = levelPool.Get(config.collectibleType);
             if (collectible != null)
             {
                 collectible.transform.SetPositionAndRotation(ringSegment.SlotGround.position, ringSegment.SlotGround.rotation);
@@ -169,7 +169,7 @@ public class LevelBuilder : MonoBehaviour
         }
         else if (config.enemyType != EnemyType.None)
         {
-            GameObject enemy = multiPrefabPool.Get(config.enemyType);
+            GameObject enemy = levelPool.Get(config.enemyType);
             if (enemy != null)
             {
                 enemy.transform.SetPositionAndRotation(ringSegment.SlotGround.position, ringSegment.SlotGround.rotation);
@@ -179,7 +179,7 @@ public class LevelBuilder : MonoBehaviour
         }
         else if (config.interactableType != InteractableType.None)
         {
-            GameObject interactable = multiPrefabPool.Get(config.interactableType);
+            GameObject interactable = levelPool.Get(config.interactableType);
             if (interactable != null)
             {
                 interactable.transform.SetPositionAndRotation(ringSegment.SlotGround.position, ringSegment.SlotGround.rotation);
@@ -204,7 +204,7 @@ public class LevelBuilder : MonoBehaviour
         if (ringSegment.SlotFloat == null)
             return;
 
-        GameObject pickup = multiPrefabPool.Get(config.pickupType);
+        GameObject pickup = levelPool.Get(config.pickupType);
         if (pickup != null)
         {
             pickup.transform.SetPositionAndRotation(ringSegment.SlotFloat.position, ringSegment.SlotFloat.rotation);

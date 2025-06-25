@@ -1,24 +1,16 @@
 using UnityEngine;
 using System.Collections.Generic;
 
-
-[CreateAssetMenu(menuName = "Rings of Ruin/Multi Prefab Pool")]
-public class MultiPrefabPool : BasePool
+public abstract class MultiPrefabPool : BasePool
 {
-    [SerializeField] private List<PrefabEnumMapping<RingSegmentType>> ring1Segments = new();
-    [SerializeField] private List<PrefabEnumMapping<RingSegmentType>> ring2Segments = new();
-    [SerializeField] private List<PrefabEnumMapping<RingSegmentType>> ring3Segments = new();
-    [SerializeField] private List<PrefabEnumMapping<RingSegmentType>> ring4Segments = new();
-    [SerializeField] private List<PrefabEnumMapping<CollectibleType>> collectibles = new();
-    [SerializeField] private List<PrefabEnumMapping<PickupType>> pickups = new();
-    [SerializeField] private List<PrefabEnumMapping<InteractableType>> interactables = new();
-    [SerializeField] private List<PrefabEnumMapping<EnemyType>> enemies = new();
-    
-    
-
     private Dictionary<System.Enum, Queue<GameObject>> pools = new Dictionary<System.Enum, Queue<GameObject>>();
     private Dictionary<System.Enum, GameObject> enumToPrefab = new Dictionary<System.Enum, GameObject>();
-    private Dictionary<GameObject, System.Enum> typeToEnum = new Dictionary<GameObject, System.Enum>();
+    private Dictionary<GameObject, System.Enum> prefabToEnum = new Dictionary<GameObject, System.Enum>();
+
+
+
+    protected abstract void ProcessAllMappings();
+
 
 
 
@@ -33,74 +25,87 @@ public class MultiPrefabPool : BasePool
 
     private void BuildLookupDictionaries()
     {
-        enumToPrefab.Clear();
-        typeToEnum.Clear();
         pools.Clear();
+        enumToPrefab.Clear();
+        prefabToEnum.Clear();
 
-        // Use a generic helper method to process all mapping lists
-        ProcessMappingList(collectibles);
-        ProcessMappingList(pickups);
-        ProcessMappingList(enemies);
-        ProcessMappingList(ring1Segments);
-        ProcessMappingList(ring2Segments);
-        ProcessMappingList(ring3Segments);
-        ProcessMappingList(ring4Segments);
-        ProcessMappingList(interactables);
+        // Let derived classes provide their mappings
+        ProcessAllMappings();
     }
 
 
 
 
-
-    private void ProcessMappingList<T>(List<PrefabEnumMapping<T>> mappings) where T : System.Enum
+    // Helper method for derived classes to use
+    protected void ProcessMappingList<T>(List<PrefabEnumMapping<T>> mappings) where T : System.Enum
     {
         foreach (var mapping in mappings)
         {
             enumToPrefab[mapping.enumValue] = mapping.prefab;
-            // typeToEnum[mapping.prefab.GetType()] = mapping.enumValue;
         }
     }
-
 
 
 
 
     public GameObject Get(System.Enum enumType)
     {
-        if (!pools.ContainsKey(enumType))
-        {
-            pools[enumType] = new Queue<GameObject>();
-        }
+        pools.TryAdd(enumType, new Queue<GameObject>());
 
         if (pools[enumType].Count > 0)
         {
-            GameObject instance = pools[enumType].Dequeue();
-            instance.SetActive(true);
-            return instance;
+            GameObject prefab = pools[enumType].Dequeue();
+            prefab.SetActive(true);
+            return prefab;
         }
 
-        // Create new instance of the requested type
-        return CreateNewInstance(enumType);
+        // Create new prefab instance of the requested type
+        return CreatePrefabInstance(enumType);
     }
 
 
 
-
-
-    public override void Return(GameObject instance)
+    protected virtual GameObject CreatePrefabInstance(System.Enum enumType)
     {
-        // Find which enum type this instance belongs to
-        System.Enum enumType = GetEnumTypeForInstance(instance);
+        GameObject prefab = GetPrefabFromEnum(enumType);
+        if (prefab == null) return null;
 
-        if (enumType != null)
-        {
-            instance.SetActive(false);
-            pools[enumType].Enqueue(instance);
-        }
+        GameObject prefabInstance = Instantiate(prefab, poolParent);
+        prefabInstance.SetActive(true);
+        prefabToEnum.TryAdd(prefabInstance, enumType);
+        return prefabInstance;
     }
 
 
 
+
+    public override void Return(GameObject prefab)
+    {
+        // Find which enum type this prefab belongs to
+        System.Enum enumType = GetEnumTypeFromPrefab(prefab);
+        if (enumType == null) return;
+
+        prefab.SetActive(false);
+        pools[enumType].Enqueue(prefab);
+    }
+
+
+
+
+    protected virtual GameObject GetPrefabFromEnum(System.Enum enumType)
+    {
+        enumToPrefab.TryGetValue(enumType, out GameObject prefab);
+        return prefab;
+    }
+
+
+
+
+    protected virtual System.Enum GetEnumTypeFromPrefab(GameObject prefab)
+    {
+        prefabToEnum.TryGetValue(prefab, out System.Enum enumType);
+        return enumType;
+    }
 
 
 
@@ -110,55 +115,16 @@ public class MultiPrefabPool : BasePool
         {
             while (pool.Count > 0)
             {
-                GameObject instance = pool.Dequeue();
-                if (instance != null)
+                GameObject prefab = pool.Dequeue();
+                if (prefab != null)
                 {
-                    Destroy(instance);
+                    Destroy(prefab);
                 }
             }
         }
         pools.Clear();
     }
-
-
-
-
-
-    protected virtual GameObject CreateNewInstance(System.Enum enumType)
-    {
-        GameObject prefab = GetPrefabForEnum(enumType);
-        if (prefab != null)
-        {
-            GameObject instance = Instantiate(prefab, poolParent);
-            instance.SetActive(true);
-            typeToEnum.TryAdd(instance, enumType);
-            return instance;
-        }
-
-        return null;
-    }
-
-
-
-
-    protected virtual GameObject GetPrefabForEnum(System.Enum enumType)
-    {
-        enumToPrefab.TryGetValue(enumType, out GameObject prefab);
-        return prefab;
-    }
-
-
-
-
-
-    protected virtual System.Enum GetEnumTypeForInstance(GameObject instance)
-    {
-        typeToEnum.TryGetValue(instance, out System.Enum enumType);
-        return enumType;
-    }
 }
-
-
 
 
 

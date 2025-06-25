@@ -51,7 +51,6 @@ MonoBehaviour:
   moveSpeed: 5
   activeDuration: 0.5
   cycleDelay: 2
-  damageAmount: 10
 --- !u!1 &2593334137895546382
 GameObject:
   m_ObjectHideFlags: 0
@@ -64,7 +63,7 @@ GameObject:
   - component: {fileID: 3372579642306170009}
   - component: {fileID: 5674961735382211210}
   - component: {fileID: 5734194455208039766}
-  - component: {fileID: 1526395411918565615}
+  - component: {fileID: 3425571754830504772}
   m_Layer: 0
   m_Name: Spike Group
   m_TagString: Untagged
@@ -161,7 +160,7 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &1526395411918565615
+--- !u!114 &3425571754830504772
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

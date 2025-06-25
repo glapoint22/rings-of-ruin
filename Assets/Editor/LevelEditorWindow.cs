@@ -16,7 +16,7 @@ public class LevelEditorWindow : EditorWindow
 
     // State variables for the editor
     private List<LevelData> allLevels = new List<LevelData>();
-    private MultiPrefabPool multiPrefabPool;
+    private LevelPool levelPool;
     private SegmentIconLibrary segmentIconLibrary;
     private LevelData selectedLevelData;
     private int selectedLevelIndex = 0;
@@ -43,7 +43,7 @@ public class LevelEditorWindow : EditorWindow
 
     private void OnGUI()
     {
-        LoadMultiPrefabPool();
+        LoadLevelPool();
         DrawHeader();
         DrawLevelSelection();
         DrawLevelControls();
@@ -482,7 +482,7 @@ public class LevelEditorWindow : EditorWindow
     {
         ClearPreview();
 
-        if (selectedLevelData == null || multiPrefabPool == null)
+        if (selectedLevelData == null || levelPool == null)
         {
             Debug.LogWarning("Missing level data or multi prefab pool.");
             return;
@@ -495,8 +495,8 @@ public class LevelEditorWindow : EditorWindow
 
         // Inject multi prefab pool
         var so = new SerializedObject(builder);
-        var poolProp = so.FindProperty("multiPrefabPool");
-        poolProp.objectReferenceValue = multiPrefabPool;
+        var poolProp = so.FindProperty("levelPool");
+        poolProp.objectReferenceValue = levelPool;
         
         // Set the level root
         var levelRootProp = so.FindProperty("levelRoot");
@@ -505,7 +505,7 @@ public class LevelEditorWindow : EditorWindow
         so.ApplyModifiedProperties();
 
         // Initialize the pool manually (since Start() won't be called in editor)
-        multiPrefabPool.Initialize(previewRoot);
+        levelPool.Initialize(previewRoot);
 
         builder.BuildLevel(selectedLevelData);
 
@@ -557,15 +557,15 @@ public class LevelEditorWindow : EditorWindow
 
     #region Utility Methods
     // Helper methods for common operations
-    private void LoadMultiPrefabPool()
+    private void LoadLevelPool()
     {
-        if (multiPrefabPool != null && segmentIconLibrary != null) return;
+        if (levelPool != null && segmentIconLibrary != null) return;
 
-        string[] guids = AssetDatabase.FindAssets("t:MultiPrefabPool");
+        string[] guids = AssetDatabase.FindAssets("t:LevelPool");
         if (guids.Length > 0)
         {
             string path = AssetDatabase.GUIDToAssetPath(guids[0]);
-            multiPrefabPool = AssetDatabase.LoadAssetAtPath<MultiPrefabPool>(path);
+            levelPool = AssetDatabase.LoadAssetAtPath<LevelPool>(path);
         }
 
         guids = AssetDatabase.FindAssets("t:SegmentIconLibrary");
@@ -575,9 +575,9 @@ public class LevelEditorWindow : EditorWindow
             segmentIconLibrary = AssetDatabase.LoadAssetAtPath<SegmentIconLibrary>(path);
         }
 
-        if (multiPrefabPool == null)
+        if (levelPool == null)
         {
-            Debug.LogWarning("No MultiPrefabPool asset found. Please create one via 'Create > Rings of Ruin > Multi Prefab Pool'.");
+            Debug.LogWarning("No LevelPool asset found. Please create one via 'Create > Rings of Ruin > Multi Prefab Pool'.");
         }
 
         if (segmentIconLibrary == null)

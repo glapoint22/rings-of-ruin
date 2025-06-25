@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2618e2447dda04342b04d3b955f08369, type: 3}
+  m_Name: UI Buff Pool
+  m_EditorClassIdentifier: 
+  shieldBuffs:
+  - prefab: {fileID: 5194611522194120244, guid: 0fb9028b8d3b3f244b7b2e376d9d1fdb, type: 3}
+    enumValue: 1
+  cloakBuffs:
+  - prefab: {fileID: 5312864317431951565, guid: 21df94334ccf34a44a1e68eae946b946, type: 3}
+    enumValue: 2
+  timeDilationBuffs:
+  - prefab: {fileID: 2607534508850411397, guid: 9009a510e3f823647bc0988dda7009fc, type: 3}
+    enumValue: 3
+  keyBuffs:
+  - prefab: {fileID: 5052226572675603279, guid: 2bd559e1525125a4a99dfda20a6511f2, type: 3}
+    enumValue: 5

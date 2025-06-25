@@ -1,16 +1,18 @@
-using UnityEngine;
-
-public class SpikeTrigger : MonoBehaviour
+public class SpikeTrigger : InteractableBase
 {
-    private SpikeSegment spike;
+    private Damage damage;
 
-    private void Start()
+    private void Awake()
     {
-        spike = GetComponentInParent<SpikeSegment>();
+        DamageInfo damageInfo = new()
+        {
+            damage = 10,
+            source = DamageSource.Spikes
+        };
+        damage = new(damageInfo);
     }
-
-    private void OnTriggerEnter(Collider other)
+    protected override void OnInteract()
     {
-        spike?.OnPlayerTriggered(other);
+        GameEvents.RaiseDamage(damage);
     }
 }

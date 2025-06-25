@@ -4983,7 +4983,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 098a3ff7794fb3a4794bbe4ecacf3df8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  multiPrefabPool: {fileID: 11400000, guid: bf4759443f19aaf439698e4eff13632a, type: 2}
+  levelPool: {fileID: 11400000, guid: bf4759443f19aaf439698e4eff13632a, type: 2}
   levelRoot: {fileID: 894394372}
 --- !u!114 &1456701956
 MonoBehaviour:
@@ -5501,7 +5501,7 @@ GameObject:
   - component: {fileID: 1614975274}
   - component: {fileID: 1614975273}
   - component: {fileID: 1614975275}
-  - component: {fileID: 1614975277}
+  - component: {fileID: 1614975276}
   m_Layer: 5
   m_Name: BuffsPanel
   m_TagString: Untagged
@@ -5586,11 +5586,11 @@ MonoBehaviour:
   m_ChildAlignment: 0
   m_StartCorner: 0
   m_StartAxis: 0
-  m_CellSize: {x: 75, y: 75}
+  m_CellSize: {x: 50, y: 50}
   m_Spacing: {x: 10, y: 10}
   m_Constraint: 0
   m_ConstraintCount: 2
---- !u!114 &1614975277
+--- !u!114 &1614975276
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -5599,10 +5599,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1614975271}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3b6c06652c54a6b4da0edc34ffae859b, type: 3}
+  m_Script: {fileID: 11500000, guid: b373cc9ad686737499ae55081fa807d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  uiPool: {fileID: 11400000, guid: 84789447784153e4da9ca55d710032c6, type: 2}
+  uiPool: {fileID: 11400000, guid: da0717feb8078f2439e2ee6125c26806, type: 2}
 --- !u!1 &1687542492
 GameObject:
   m_ObjectHideFlags: 0
@@ -5662,7 +5662,7 @@ MonoBehaviour:
   m_ChildAlignment: 0
   m_StartCorner: 0
   m_StartAxis: 0
-  m_CellSize: {x: 75, y: 75}
+  m_CellSize: {x: 50, y: 50}
   m_Spacing: {x: 10, y: 10}
   m_Constraint: 0
   m_ConstraintCount: 2
@@ -5713,10 +5713,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1687542492}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9547796911608a242a606a334ee79880, type: 3}
+  m_Script: {fileID: 11500000, guid: b373cc9ad686737499ae55081fa807d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  uiPool: {fileID: 11400000, guid: b2016fe93bd38724cb779e8f6d8df2fa, type: 2}
+  uiPool: {fileID: 11400000, guid: c6ed5bc918b35f2429bb855e3c4d6b3f, type: 2}
 --- !u!1 &1744220237
 GameObject:
   m_ObjectHideFlags: 0

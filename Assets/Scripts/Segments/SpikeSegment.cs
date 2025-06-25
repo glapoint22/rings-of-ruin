@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections;
 
-public class SpikeSegment : MonoBehaviour
+public class SpikeSegment: MonoBehaviour
 {
     [Header("Spike Settings")]
     [SerializeField] private Transform spikeGroup; // The moving spike mesh
@@ -14,6 +14,7 @@ public class SpikeSegment : MonoBehaviour
     private Vector3 retractedPosition;
     private Vector3 extendedPosition;
     private Coroutine cycleSpikesRoutine;
+    
 
 
     private void Start()
@@ -55,13 +56,4 @@ public class SpikeSegment : MonoBehaviour
         }
         spikeGroup.localPosition = target;
     }
-
-    public void OnPlayerTriggered(Collider other)
-    {
-        if (other.CompareTag("Player"))
-        {
-            // TODO: Add damage to player
-        }
-    }
-
 }
