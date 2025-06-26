@@ -2,7 +2,11 @@ using UnityEngine;
 
 public class TimeDilation : IPlayerState, ITimeBasedBuff
 {
-    public float Duration { get; } = 10f;
+    public float Duration { get; }
+
+    public TimeDilation(float duration) {
+        Duration = duration;
+    }
 
     public PlayerState UpdateState(PlayerState state)
     {

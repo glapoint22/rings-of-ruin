@@ -11,6 +11,8 @@ public static class GameEvents
     public static event Action<Damage> OnDamage;
     public static event Action<PickupType> OnBuffExpired;
 
+    public static event Action OnKeyPickup;
+
 
 
 
@@ -22,4 +24,5 @@ public static class GameEvents
     public static void RaisePickupUpdate(PickupType pickupType) => OnPickupUpdate?.Invoke(pickupType);
     public static void RaiseDamage(Damage damage) => OnDamage?.Invoke(damage);
     public static void RaiseBuffExpired(PickupType pickupType) => OnBuffExpired?.Invoke(pickupType);
+    public static void RaiseKeyPickup() => OnKeyPickup?.Invoke();
 }

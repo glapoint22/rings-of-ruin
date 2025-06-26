@@ -1,8 +1,10 @@
-public class Fireball : IPlayerState
+using UnityEngine;
+
+public class Key : IPlayerState
 {
     public PlayerState UpdateState(PlayerState state)
     {
-        state.hasFireball = true;
+        state.hasKey = true;
         return state;
     }
 }

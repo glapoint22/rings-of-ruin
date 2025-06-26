@@ -2,7 +2,12 @@ using UnityEngine;
 
 public class CloakPickup : InteractableBase
 {
-    private readonly Cloak cloak = new();
+    [SerializeField] private float duration;
+    private Cloak cloak;
+    private void Awake()
+    {
+        cloak = new Cloak(duration);
+    }
 
     protected override void OnInteract()
     {

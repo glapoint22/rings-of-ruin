@@ -2,7 +2,11 @@ using UnityEngine;
 
 public class Cloak : IPlayerState, ITimeBasedBuff
 {
-    public float Duration { get; } = 10f;
+    public float Duration { get; }
+    public Cloak(float duration) {
+        Duration = duration;
+    }
+    
     public PlayerState UpdateState(PlayerState state)
     {
         state.hasCloak = true;

@@ -1,15 +1,33 @@
 public class TreasureChestCollect : InteractableBase
 {
-    private Coin Coin;
+    private TreasureChest TreasureChest;
+    private bool isLocked = true;
+
+    private void Awake()
+    {
+        GameEvents.OnKeyPickup += OnKeyPickup;
+    }
 
     public void SetCoinCount(int count)
     {
-
-        Coin = new Coin(count);
+        TreasureChest = new TreasureChest(count);
     }
 
     protected override void OnInteract()
     {
-        GameEvents.RaiseCollect(Coin);
+        if (!isLocked) {
+            GameEvents.RaiseCollect(TreasureChest);
+            GameEvents.RaiseBuffExpired(PickupType.Key);
+        }
+    }
+
+    protected override void RaiseInteracted()
+    {
+        if (!isLocked) GameEvents.RaiseInteracted(gameObject);
+    }
+
+    private void OnKeyPickup()
+    {
+        isLocked = false;
     }
 }

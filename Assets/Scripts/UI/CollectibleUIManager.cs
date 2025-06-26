@@ -16,12 +16,6 @@ public class CollectibleUIManager : MonoBehaviour
 
 
 
-    // private void OnEnable()
-    // {
-    //     InteractableManager.OnGemCollected += OnGemCollected;
-    //     InteractableManager.OnCoinCollected += OnCoinCollected;
-    // }
-
     private void OnEnable() {
         GameEvents.OnCollectionUpdate += OnCollectionUpdate;
     }
@@ -47,25 +41,4 @@ public class CollectibleUIManager : MonoBehaviour
         gemCountText.text = state.gems.ToString();
         coinCountText.text = state.coins.ToString();
     }
-
-
-
-
-    // private void OnGemCollected(int gemCount)
-    // {
-    //     gemCountText.text = gemCount.ToString();
-    // }
-
-
-    // private void OnCoinCollected(int coinCount)
-    // {
-    //     coinCountText.text = coinCount.ToString();
-    // }
-
-
-    // private void OnDisable()
-    // {
-    //     InteractableManager.OnGemCollected -= OnGemCollected;
-    //     InteractableManager.OnCoinCollected -= OnCoinCollected;
-    // }
 }
