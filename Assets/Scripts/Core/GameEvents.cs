@@ -14,6 +14,7 @@ public static class GameEvents
 
     public static event Action OnKeyPickup;
     public static event Action<LevelData> OnLevelLoaded;
+    public static event Action OnLevelCompleted;
 
 
 
@@ -29,4 +30,5 @@ public static class GameEvents
     public static void RaiseBuffExpired(PickupType pickupType) => OnBuffExpired?.Invoke(pickupType);
     public static void RaiseKeyPickup() => OnKeyPickup?.Invoke();
     public static void RaiseLevelLoaded(LevelData levelData) => OnLevelLoaded?.Invoke(levelData);
+    public static void RaiseLevelCompleted() => OnLevelCompleted?.Invoke();
 }

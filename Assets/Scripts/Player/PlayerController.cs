@@ -135,10 +135,10 @@ public class PlayerController : MonoBehaviour
         int targetRing = ringIndex + direction;
 
         // Prevent transition if target ring doesn't exist
-        if (!RingExists(targetRing))
-        {
-            yield break;
-        }
+        // if (!RingExists(targetRing))
+        // {
+        //     yield break;
+        // }
 
         isTransitioning = true;
 

@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 881656b722883e942b86f37ab2090e54, type: 3}
-  m_Name: Level_01
+  m_Name: Level_03
   m_EditorClassIdentifier: 
-  levelID: 1
+  levelID: 3
   rings:
   - ringIndex: 0
     rotation: 0
@@ -64,8 +64,8 @@ MonoBehaviour:
       interactableType: 0
       pickupType: 0
       enemyType: 0
-      collectibleType: 1
-      treasureChestCoinCount: 10
+      collectibleType: 0
+      treasureChestCoinCount: 1
     - segmentIndex: 7
       segmentType: 0
       interactableType: 0
@@ -107,7 +107,7 @@ MonoBehaviour:
       pickupType: 0
       enemyType: 0
       collectibleType: 0
-      treasureChestCoinCount: 20
+      treasureChestCoinCount: 1
     - segmentIndex: 13
       segmentType: 0
       interactableType: 0
@@ -149,7 +149,7 @@ MonoBehaviour:
       pickupType: 0
       enemyType: 0
       collectibleType: 0
-      treasureChestCoinCount: 10
+      treasureChestCoinCount: 1
     - segmentIndex: 19
       segmentType: 0
       interactableType: 0
@@ -161,7 +161,7 @@ MonoBehaviour:
       segmentType: 0
       interactableType: 0
       pickupType: 0
-      enemyType: 0
+      enemyType: 3
       collectibleType: 0
       treasureChestCoinCount: 1
     - segmentIndex: 21
@@ -188,5 +188,5 @@ MonoBehaviour:
   enemies: []
   isAltarLockedByKey: 0
   hasRuneflareHazard: 0
-  maxConcurrentRuneflares: 3
-  runeflareIntervalRange: {x: 2, y: 6}
+  maxConcurrentRuneflares: 1
+  runeflareIntervalRange: {x: 6, y: 10}

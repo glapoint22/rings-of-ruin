@@ -7,17 +7,12 @@ public class LevelBuilder : MonoBehaviour
     [SerializeField]
     private LevelPool levelPool;
 
-
-
     [SerializeField] private Transform levelRoot;
-
 
     private GameObject portalA;
     private GameObject portalB;
 
-
     public static Dictionary<int, Transform> RingRoots = new Dictionary<int, Transform>();
-
 
     private void OnEnable()
     {
@@ -25,12 +20,50 @@ public class LevelBuilder : MonoBehaviour
         GameEvents.OnInteracted += OnInteracted;
     }
 
-
     private void OnInteracted(GameObject interactable)
     {
         levelPool.Return(interactable);
     }
 
+    public void ClearLevel()
+    {
+        // Loop through each ring (assuming 4 rings: 0, 1, 2, 3)
+        for (int ringIndex = 0; ringIndex < 4; ringIndex++)
+        {
+            Transform ringRoot = levelRoot.Find($"Ring_{ringIndex}");
+            if (ringRoot == null) continue;
+            
+            // Loop through each segment in the ring
+            for (int i = 0; i < ringRoot.childCount; i++)
+            {
+                Transform segmentTransform = ringRoot.GetChild(i);
+                RingSegment ringSegment = segmentTransform.GetComponent<RingSegment>();
+                
+                if (ringSegment != null)
+                {
+                    // Return object from ground slot if it exists
+                    if (ringSegment.SlotGround != null && ringSegment.SlotGround.childCount > 0)
+                    {
+                        GameObject childObject = ringSegment.SlotGround.GetChild(0).gameObject;
+                        levelPool.Return(childObject);
+                    }
+                    
+                    // Return object from float slot if it exists
+                    if (ringSegment.SlotFloat != null && ringSegment.SlotFloat.childCount > 0)
+                    {
+                        GameObject childObject = ringSegment.SlotFloat.GetChild(0).gameObject;
+                        levelPool.Return(childObject);
+                    }
+                }
+
+                levelPool.Return(segmentTransform.gameObject);
+            }
+        }
+        
+        // Reset portal references
+        portalA = null;
+        portalB = null;
+    }
 
     public void BuildLevel(LevelData levelData)
     {
@@ -38,9 +71,6 @@ public class LevelBuilder : MonoBehaviour
         {
             return;
         }
-
-
-        RingRoots.Clear();
 
         foreach (var ring in levelData.rings)
         {
@@ -50,28 +80,27 @@ public class LevelBuilder : MonoBehaviour
         setPortals();
     }
 
-
-
-
     private void BuildRing(RingConfiguration ring)
     {
         float radius = RingConstants.BaseRadius + ring.ringIndex * RingConstants.RingSpacing;
 
-        // 🔧 Create a parent object for this ring
-        GameObject ringRoot = new GameObject($"Ring_{ring.ringIndex}");
-        ringRoot.transform.SetParent(levelRoot);
-        ringRoot.transform.localPosition = Vector3.zero;
-        ringRoot.transform.localRotation = Quaternion.identity;
-
-
-        RingRoots[ring.ringIndex] = ringRoot.transform;
-
+        // Find existing ring root instead of creating new one
+        Transform ringRoot = levelRoot.Find($"Ring_{ring.ringIndex}");
+        if (ringRoot == null)
+        {
+            Debug.LogError($"Ring root 'Ring_{ring.ringIndex}' not found in hierarchy!");
+            return;
+        }
 
         // Attach RotatingRing if needed
         if (ring.rotation != RingRotationDirection.None)
         {
-            var rotator = ringRoot.AddComponent<RotatingRing>();
-            rotator.SetRotationDirection(ring.rotation); // injects rotation from data
+            var rotator = ringRoot.GetComponent<RotatingRing>();
+            if (rotator == null)
+            {
+                rotator = ringRoot.gameObject.AddComponent<RotatingRing>();
+            }
+            rotator.SetRotationDirection(ring.rotation);
         }
 
         for (int i = 0; i < ring.segments.Count; i++)
@@ -87,7 +116,7 @@ public class LevelBuilder : MonoBehaviour
             if (segmentGO == null) continue;
 
             segmentGO.transform.SetPositionAndRotation(position, rotation);
-            segmentGO.transform.SetParent(ringRoot.transform);
+            segmentGO.transform.SetParent(ringRoot);
             segmentGO.name = $"Ring{ring.ringIndex}_Seg{i}";
 
             RingSegment ringSegment = segmentGO.GetComponent<RingSegment>();
@@ -107,27 +136,12 @@ public class LevelBuilder : MonoBehaviour
         return (RingSegmentType)(ringIndex * 4 + (int)segmentType);
     }
 
-
-
-
-
-
     private void setPortals()
     {
         if (portalA == null || portalB == null) return;
         portalA.GetComponent<Portal>().linkedPortal = portalB.GetComponent<Portal>();
         portalB.GetComponent<Portal>().linkedPortal = portalA.GetComponent<Portal>();
     }
-
-
-
-
-
-
-
-
-
-
 
     private void ConfigureSegment(RingSegment ringSegment, SegmentConfiguration config)
     {
@@ -193,7 +207,6 @@ public class LevelBuilder : MonoBehaviour
                 else if (config.interactableType == InteractableType.PortalB)
                 {
                     portalB = interactable;
-
                 }
             }
         }

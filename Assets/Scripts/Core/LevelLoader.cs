@@ -7,21 +7,13 @@ public class LevelLoader : MonoBehaviour
     [SerializeField] private List<LevelData> levels;
 
 
-
-    // private void Start()
-    // {
-    //     if (levels != null && levels.Count > 0) LoadLevel(0);
-
-    // }
-
-
-
-    public void LoadLevel(int levelIndex)
+    public LevelData LoadLevel(int levelIndex)
     {
         LevelData levelData = levels[levelIndex];
-        if (levelBuilder == null || levelData == null) return;
+        if (levelBuilder == null || levelData == null) return null;
 
         levelBuilder.BuildLevel(levelData);
         GameEvents.RaiseLevelLoaded(levelData);
+        return levelData;
     }
 }

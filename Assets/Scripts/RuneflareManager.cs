@@ -16,6 +16,10 @@ public class RuneflareManager : MonoBehaviour
     {
         poolParent = GetComponent<Transform>();
         runeflarePool.Initialize(poolParent);
+    }
+
+    private void OnEnable()
+    {
         GameEvents.OnLevelLoaded += OnLevelLoaded;
     }
 
