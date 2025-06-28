@@ -1,10 +1,7 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-/// <summary>
-/// Controls the player's movement around concentric rings in a circular pattern.
-/// The player automatically moves clockwise and can transition between rings.
-/// </summary>
+
 public class PlayerController : MonoBehaviour
 {
     [Header("Ring Position")]
@@ -32,13 +29,6 @@ public class PlayerController : MonoBehaviour
 
 
 
-
-
-
-
-    /// <summary>
-    /// Initializes the player's position on the starting ring.
-    /// </summary>
     private void Start()
     {
         currentRingRadius = RingConstants.BaseRadius + ringIndex * RingConstants.RingSpacing;
@@ -47,9 +37,8 @@ public class PlayerController : MonoBehaviour
         transform.position = currentPosition;
     }
 
-    /// <summary>
-    /// Updates player movement, position, rotation, and handles input each frame.
-    /// </summary>
+
+
     public void Update()
     {
         UpdateAutomaticMovement();
@@ -60,10 +49,7 @@ public class PlayerController : MonoBehaviour
 
 
 
-    /// <summary>
-    /// Handles the automatic clockwise movement around the current ring.
-    /// Calculates the angular velocity based on the current ring's circumference.
-    /// </summary>
+
     private void UpdateAutomaticMovement()
     {
         float rotationMultiplier = GetRingRotationSpeedMultiplier();
@@ -101,18 +87,14 @@ public class PlayerController : MonoBehaviour
     }
 
 
-    /// <summary>
-    /// Updates the player's position based on the current angle and ring radius.
-    /// </summary>
+
     private void UpdatePosition()
     {
         currentPosition = CalculatePositionAtRadius(currentRingRadius);
         transform.position = currentPosition;
     }
 
-    /// <summary>
-    /// Updates the player's rotation to face the direction of movement.
-    /// </summary>
+
     private void UpdateRotation()
     {
         // Calculate movement direction based on position change
@@ -127,10 +109,7 @@ public class PlayerController : MonoBehaviour
         previousPosition = currentPosition;
     }
 
-    /// <summary>
-    /// Handles player input for ring transitions.
-    /// W/S keys move inward/outward respectively.
-    /// </summary>
+
     private void HandleInput()
     {
         if (!isTransitioning)
@@ -140,10 +119,6 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// Calculates the world position at a given radius using the current angle.
-    /// Reuses the currentPosition vector to avoid garbage collection.
-    /// </summary>
     private Vector3 CalculatePositionAtRadius(float radius)
     {
         float angleRad = (450f - currentAngle) * Mathf.Deg2Rad;
@@ -153,10 +128,8 @@ public class PlayerController : MonoBehaviour
         return currentPosition;
     }
 
-    /// <summary>
-    /// Smoothly transitions the player between rings.
-    /// </summary>
-    /// <param name="direction">-1 for inward, 1 for outward</param>
+
+
     private IEnumerator SmoothRingTransition(int direction)
     {
         int targetRing = ringIndex + direction;
@@ -204,9 +177,7 @@ public class PlayerController : MonoBehaviour
 
 
 
-    /// <summary>
-    /// Applies smoothstep easing to the transition.
-    /// </summary>
+    
     private float EaseInOut(float t)
     {
         return t * t * (3f - 2f * t); // smoothstep

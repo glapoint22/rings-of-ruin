@@ -11,35 +11,21 @@ public class Portal : MonoBehaviour
     public bool hasPorted;
 
 
-
     public int TargetRingIndex => ringIndex;
     public int TargetSegmentIndex => segmentIndex;
-
     private int ringIndex;
     private int segmentIndex;
+
+
 
     private void Start()
     {
         RingSegment segment = GetComponentInParent<RingSegment>();
-        if (segment != null)
-        {
-            ringIndex = segment.RingIndex;
-            segmentIndex = segment.SegmentIndex;
-        }
-        else
-        {
-            Debug.LogWarning("[Portal] No RingSegment found on portal: " + gameObject.name);
-        }
+        if (segment == null) return;
+        ringIndex = segment.RingIndex;
+        segmentIndex = segment.SegmentIndex;
     }
 
-
-    public void OnPlayerStep(PlayerController controller)
-    {
-        if (controller != null)
-        {
-            controller.SetPositionOnRing(linkedPortal.TargetRingIndex, linkedPortal.TargetSegmentIndex);
-        }
-    }
 
     private void OnTriggerEnter(Collider other)
     {
@@ -47,11 +33,9 @@ public class Portal : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             PlayerController controller = other.GetComponent<PlayerController>();
-            if (controller != null)
-            {
-                linkedPortal.hasPorted = true;
-                OnPlayerStep(controller);
-            }
+            if (controller == null) return;
+            linkedPortal.hasPorted = true;
+            controller.SetPositionOnRing(linkedPortal.TargetRingIndex, linkedPortal.TargetSegmentIndex);
         }
     }
 

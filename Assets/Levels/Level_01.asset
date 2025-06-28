@@ -142,7 +142,7 @@ MonoBehaviour:
       pickupType: 0
       enemyType: 0
       collectibleType: 0
-      treasureChestCoinCount: 1
+      treasureChestCoinCount: 50
     - segmentIndex: 18
       segmentType: 0
       interactableType: 0

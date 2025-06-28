@@ -15,14 +15,14 @@ public class RuneflareManager : MonoBehaviour
     private void Start()
     {
         poolParent = GetComponent<Transform>();
-        LevelLoader.instance.OnLevelLoaded += OnLevelLoaded;
+        runeflarePool.Initialize(poolParent);
+        GameEvents.OnLevelLoaded += OnLevelLoaded;
     }
 
 
 
     private void OnLevelLoaded(LevelData levelData)
     {
-        runeflarePool.Initialize(poolParent);
         if (!levelData.hasRuneflareHazard) return;
 
         currentLevelData = levelData;

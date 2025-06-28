@@ -1,43 +1,32 @@
 using UnityEngine;
-using System.Collections.Generic;
+using TMPro;
 
 public class UIManager : MonoBehaviour
 {
-    [SerializeField] protected MultiPrefabPool uiPool;
-    private Dictionary<PickupType, GameObject> activeIcons = new Dictionary<PickupType, GameObject>();
+    private GameObject activePanel;
+    [SerializeField] private GameObject mainMenuPanel;
 
-    protected virtual void Awake()
-    {
-        RectTransform panel = GetComponent<RectTransform>();
-        uiPool.Initialize(panel);
-    }
 
-    protected virtual void OnEnable()
+
+    private void Awake()
     {
-        GameEvents.OnPickupUpdate += AddIcon;
-        GameEvents.OnBuffExpired += RemoveIcon;
+        ShowPanel(mainMenuPanel);
     }
 
 
 
-    protected void AddIcon(PickupType pickupType)
+    public void ShowPanel(GameObject panel)
     {
-        if (activeIcons.ContainsKey(pickupType)) return;
-
-
-        GameObject icon = uiPool.Get(pickupType);
-        if (icon != null)
+        // Deactivate the currently active panel if it exists
+        if (activePanel != null)
         {
-            activeIcons.Add(pickupType, icon);
+            activePanel.SetActive(false);
         }
-    }
 
-    protected void RemoveIcon(PickupType pickupType)
-    {
-        if (activeIcons.TryGetValue(pickupType, out GameObject icon))
-        {
-            uiPool.Return(icon);
-            activeIcons.Remove(pickupType);
-        }
+        // Activate the new panel
+        panel.SetActive(true);
+
+        // Update the active panel reference
+        activePanel = panel;
     }
 }

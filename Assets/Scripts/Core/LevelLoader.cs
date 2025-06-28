@@ -1,70 +1,27 @@
-using System;
 using UnityEngine;
+using System.Collections.Generic;
 
 public class LevelLoader : MonoBehaviour
 {
-    [Header("Runtime Level Builder")]
     [SerializeField] private LevelBuilder levelBuilder;
-
-    [Header("Initial Level (optional)")]
-    [SerializeField] private LevelData initialLevel;
-
-    [Header("Build Root")]
-    // [SerializeField] private Transform levelRoot;
-
-    [SerializeField] private RuneflareManager runeflareManager;
-
-    public event Action<LevelData> OnLevelLoaded;
-    public static LevelLoader instance;
+    [SerializeField] private List<LevelData> levels;
 
 
-    private LevelData currentLevel;
 
-    private void Awake()
-    {
-        instance = this;
-    }
-
-
-    private void Start()
-    {
-        if (initialLevel != null)
-        {
-            LoadLevel(initialLevel);
-        }
-    }
-
-    public void LoadLevel(LevelData levelData)
-    {
-        // ClearLevel();
-        currentLevel = levelData;
-
-        if (levelBuilder == null || levelData == null)
-        {
-            Debug.LogError("LevelLoader: Missing required references.");
-            return;
-        }
-
-        levelBuilder.BuildLevel(levelData);
-
-        //runeflareManager.InitializeFromLevel(levelData);
-
-        OnLevelLoaded?.Invoke(levelData);
-
-    }
-
-    // private void ClearLevel()
+    // private void Start()
     // {
-    //     if (levelRoot == null) return;
+    //     if (levels != null && levels.Count > 0) LoadLevel(0);
 
-    //     foreach (Transform child in levelRoot)
-    //     {
-    //         Destroy(child.gameObject);
-    //     }
     // }
 
-    public LevelData GetCurrentLevel()
+
+
+    public void LoadLevel(int levelIndex)
     {
-        return currentLevel;
+        LevelData levelData = levels[levelIndex];
+        if (levelBuilder == null || levelData == null) return;
+
+        levelBuilder.BuildLevel(levelData);
+        GameEvents.RaiseLevelLoaded(levelData);
     }
 }

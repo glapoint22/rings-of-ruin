@@ -6,6 +6,7 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Rings of Ruin/Level Data")]
 public class LevelData : ScriptableObject
 {
+
     public int levelID;
     public List<RingConfiguration> rings = new();
     public List<EnemySpawn> enemies = new();
@@ -14,6 +15,25 @@ public class LevelData : ScriptableObject
     public int maxConcurrentRuneflares = 1;
     public Vector2 runeflareIntervalRange = new(6f, 10f);
 
+    
+    public int GemCount
+    {
+        get
+        {
+            int count = 0;
+            foreach (var ring in rings)
+            {
+                foreach (var segment in ring.segments)
+                {
+                    if (segment.collectibleType == CollectibleType.Gem)
+                    {
+                        count++;
+                    }
+                }
+            }
+            return count;
+        }
+    }
 }
 
 

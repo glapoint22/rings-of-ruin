@@ -50,7 +50,7 @@ MonoBehaviour:
   extendOffset: 0.5
   moveSpeed: 5
   activeDuration: 0.5
-  cycleDelay: 2
+  cycleDelay: 0
 --- !u!1 &2593334137895546382
 GameObject:
   m_ObjectHideFlags: 0

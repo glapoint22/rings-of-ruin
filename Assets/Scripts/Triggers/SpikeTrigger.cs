@@ -6,7 +6,7 @@ public class SpikeTrigger : InteractableBase
     {
         DamageInfo damageInfo = new()
         {
-            damage = 10,
+            damage = 13,
             source = DamageSource.Spikes
         };
         damage = new(damageInfo);

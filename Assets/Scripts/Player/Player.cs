@@ -8,7 +8,8 @@ public class Player : MonoBehaviour
     private void Awake() {
         playerState = new PlayerState
         {
-            health = 100
+            health = 100,
+            armor = 100
         };
     }
 
