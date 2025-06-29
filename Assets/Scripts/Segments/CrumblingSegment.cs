@@ -43,7 +43,8 @@ public class CrumblingSegment : MonoBehaviour
 
         if (playerOnPlatform && controller != null)
         {
-            controller?.TriggerFall();
+            //controller?.TriggerFall();
+
         }
 
         // NOTE: we keep this GameObject alive!
@@ -65,7 +66,7 @@ public class CrumblingSegment : MonoBehaviour
         if (hasCrumbled)
         {
            
-            controller?.TriggerFall();
+            //controller?.TriggerFall();
         }
         else
         {

@@ -5,32 +5,16 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] private LevelLoader levelLoader;
 
-    private int levelGemCount;
     private int currentLevelIndex = 0;
 
 
-    // private void Awake()
-    // {
-    //     PauseGame(); // Start with the game paused
-
-    // }
-
-
-    // private void Start() {
-    //     LevelData levelData = levelLoader.LoadLevel(currentLevelIndex);
-    //     SetGemCount(levelData);
-    // }
-
-
     private void OnEnable() {
-        GameEvents.OnCollectionUpdate += OnCollectionUpdate;
         GameEvents.OnLevelCompleted += OnLevelCompleted;
     }
 
 
     public void LoadLevel() {
-        LevelData levelData = levelLoader.LoadLevel(currentLevelIndex);
-        SetGemCount(levelData);
+        levelLoader.LoadLevel(currentLevelIndex);
         PauseGame();
     }
 
@@ -49,22 +33,5 @@ public class GameManager : MonoBehaviour
     private void OnLevelCompleted() {
         currentLevelIndex++;
     }
-
-
-    private void OnCollectionUpdate(PlayerState state) {
-        if(state.gems == levelGemCount) {
-            // currentLevelIndex++;
-            // LevelData levelData = levelLoader.LoadLevel(currentLevelIndex);
-            // SetGemCount(levelData);
-        }
-    }
-
-
-    private void SetGemCount(LevelData levelData) {
-        levelGemCount = levelData.GemCount;
-    }
-
-
-
 
 }

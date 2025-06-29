@@ -185,6 +185,177 @@ MonoBehaviour:
       enemyType: 0
       collectibleType: 0
       treasureChestCoinCount: 1
+  - ringIndex: 1
+    rotation: 0
+    segments:
+    - segmentIndex: 0
+      segmentType: 0
+      interactableType: 0
+      pickupType: 0
+      enemyType: 0
+      collectibleType: 0
+      treasureChestCoinCount: 1
+    - segmentIndex: 1
+      segmentType: 0
+      interactableType: 0
+      pickupType: 0
+      enemyType: 0
+      collectibleType: 0
+      treasureChestCoinCount: 1
+    - segmentIndex: 2
+      segmentType: 0
+      interactableType: 0
+      pickupType: 0
+      enemyType: 0
+      collectibleType: 0
+      treasureChestCoinCount: 1
+    - segmentIndex: 3
+      segmentType: 0
+      interactableType: 0
+      pickupType: 0
+      enemyType: 0
+      collectibleType: 0
+      treasureChestCoinCount: 1
+    - segmentIndex: 4
+      segmentType: 0
+      interactableType: 0
+      pickupType: 0
+      enemyType: 0
+      collectibleType: 0
+      treasureChestCoinCount: 1
+    - segmentIndex: 5
+      segmentType: 0
+      interactableType: 0
+      pickupType: 0
+      enemyType: 0
+      collectibleType: 0
+      treasureChestCoinCount: 1
+    - segmentIndex: 6
+      segmentType: 0
+      interactableType: 0
+      pickupType: 0
+      enemyType: 0
+      collectibleType: 0
+      treasureChestCoinCount: 1
+    - segmentIndex: 7
+      segmentType: 0
+      interactableType: 0
+      pickupType: 0
+      enemyType: 0
+      collectibleType: 0
+      treasureChestCoinCount: 1
+    - segmentIndex: 8
+      segmentType: 0
+      interactableType: 0
+      pickupType: 0
+      enemyType: 0
+      collectibleType: 0
+      treasureChestCoinCount: 1
+    - segmentIndex: 9
+      segmentType: 0
+      interactableType: 0
+      pickupType: 0
+      enemyType: 0
+      collectibleType: 0
+      treasureChestCoinCount: 1
+    - segmentIndex: 10
+      segmentType: 0
+      interactableType: 0
+      pickupType: 0
+      enemyType: 0
+      collectibleType: 0
+      treasureChestCoinCount: 1
+    - segmentIndex: 11
+      segmentType: 0
+      interactableType: 0
+      pickupType: 0
+      enemyType: 0
+      collectibleType: 0
+      treasureChestCoinCount: 1
+    - segmentIndex: 12
+      segmentType: 0
+      interactableType: 0
+      pickupType: 0
+      enemyType: 0
+      collectibleType: 0
+      treasureChestCoinCount: 1
+    - segmentIndex: 13
+      segmentType: 0
+      interactableType: 0
+      pickupType: 0
+      enemyType: 0
+      collectibleType: 0
+      treasureChestCoinCount: 1
+    - segmentIndex: 14
+      segmentType: 0
+      interactableType: 0
+      pickupType: 0
+      enemyType: 0
+      collectibleType: 0
+      treasureChestCoinCount: 1
+    - segmentIndex: 15
+      segmentType: 0
+      interactableType: 0
+      pickupType: 0
+      enemyType: 0
+      collectibleType: 0
+      treasureChestCoinCount: 1
+    - segmentIndex: 16
+      segmentType: 0
+      interactableType: 0
+      pickupType: 0
+      enemyType: 0
+      collectibleType: 0
+      treasureChestCoinCount: 1
+    - segmentIndex: 17
+      segmentType: 0
+      interactableType: 0
+      pickupType: 0
+      enemyType: 0
+      collectibleType: 0
+      treasureChestCoinCount: 1
+    - segmentIndex: 18
+      segmentType: 0
+      interactableType: 0
+      pickupType: 0
+      enemyType: 0
+      collectibleType: 0
+      treasureChestCoinCount: 1
+    - segmentIndex: 19
+      segmentType: 0
+      interactableType: 0
+      pickupType: 0
+      enemyType: 0
+      collectibleType: 0
+      treasureChestCoinCount: 1
+    - segmentIndex: 20
+      segmentType: 0
+      interactableType: 0
+      pickupType: 0
+      enemyType: 0
+      collectibleType: 0
+      treasureChestCoinCount: 1
+    - segmentIndex: 21
+      segmentType: 0
+      interactableType: 0
+      pickupType: 0
+      enemyType: 0
+      collectibleType: 0
+      treasureChestCoinCount: 1
+    - segmentIndex: 22
+      segmentType: 0
+      interactableType: 0
+      pickupType: 0
+      enemyType: 0
+      collectibleType: 0
+      treasureChestCoinCount: 1
+    - segmentIndex: 23
+      segmentType: 0
+      interactableType: 0
+      pickupType: 0
+      enemyType: 0
+      collectibleType: 0
+      treasureChestCoinCount: 1
   enemies: []
   isAltarLockedByKey: 0
   hasRuneflareHazard: 0

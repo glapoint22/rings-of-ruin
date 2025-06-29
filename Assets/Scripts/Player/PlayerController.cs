@@ -1,215 +1,124 @@
-﻿using System.Collections;
-using UnityEngine;
-
+﻿using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    [Header("Ring Position")]
-    [SerializeField] private int ringIndex = 0; // 0 = innermost ring
-
-    [Header("Movement Settings")]
-    [SerializeField] private float moveSpeed = 4f; // Full ring = 24 "units" per second
-
-
-    [Header("Rotation Influence Settings")]
-    [SerializeField] private float clockwiseBoost = 1.2f;
-    [SerializeField] private float counterClockwiseDrag = 0.7f;
-
-    // Current angle in degrees (0 to 360)
+    [SerializeField] private float moveSpeed;
+    private int ringIndex = 0;
     private float currentAngle = 0f;
-    private Vector3 previousPosition;
-    private bool isTransitioning = false;
     private float currentRingRadius;
+    private int maxRingIndex = 0;
+    private bool canAccessCenter = false;
+    private int levelGemCount = 0;
 
-    // Cached vectors to reduce garbage collection
-    private Vector3 currentPosition = Vector3.zero;
-    private Vector3 moveDirection = Vector3.zero;
-
-
-
-
+    private void OnEnable()
+    {
+        GameEvents.OnLevelLoaded += OnLevelLoaded;
+        GameEvents.OnCollectionUpdate += OnCollectionUpdate;
+    }
 
     private void Start()
     {
-        currentRingRadius = RingConstants.BaseRadius + ringIndex * RingConstants.RingSpacing;
-        currentPosition = CalculatePositionAtRadius(currentRingRadius);
-        previousPosition = currentPosition;
-        transform.position = currentPosition;
+        // Calculate and set the player's position
+        Vector3 position = CalculatePositionAtRadius();
+        transform.position = position;
     }
 
-
-
-    public void Update()
+    private Vector3 CalculatePositionAtRadius()
     {
-        UpdateAutomaticMovement();
+        // If in center, return center position
+        if (ringIndex == -1) return Vector3.zero;
+
+        float angleRad = (90f - currentAngle) * Mathf.Deg2Rad;
+        float x = Mathf.Cos(angleRad) * currentRingRadius;
+        float z = Mathf.Sin(angleRad) * currentRingRadius;
+        return new Vector3(x, 0f, z);
+    }
+
+    private void Update()
+    {
+        UpdateCurrentAngle();
         UpdatePosition();
-        UpdateRotation();
         HandleInput();
     }
 
-
-
-
-    private void UpdateAutomaticMovement()
+    private void UpdateCurrentAngle()
     {
-        float rotationMultiplier = GetRingRotationSpeedMultiplier();
+        // Don't move if in center (level complete)
+        if (ringIndex == -1) return;
 
+        // Convert linear speed to angular speed
         float circumference = 2 * Mathf.PI * currentRingRadius;
-        float degreesPerSecond = (moveSpeed * rotationMultiplier / circumference) * 360f;
+        float degreesPerSecond = moveSpeed / circumference * 360f;
 
+        // Update the angle
         currentAngle += degreesPerSecond * Time.deltaTime;
-        currentAngle %= 360f;
+        currentAngle %= 360f; // Keep angle between 0-360
     }
-
-
-
-    private float GetRingRotationSpeedMultiplier()
-    {
-        // Default multiplier is neutral
-        float multiplier = 1f;
-
-        // Try to get the ring root transform
-        if (LevelBuilder.RingRoots.TryGetValue(ringIndex, out Transform ringRoot))
-        {
-            RotatingRing rotatingRing = ringRoot.GetComponent<RotatingRing>();
-            if (rotatingRing != null)
-            {
-                RingRotationDirection direction = rotatingRing.GetDirection();
-
-                if (direction == RingRotationDirection.Clockwise)
-                    multiplier = clockwiseBoost; // Boost
-                else if (direction == RingRotationDirection.CounterClockwise)
-                    multiplier = counterClockwiseDrag; // Drag
-            }
-        }
-
-        return multiplier;
-    }
-
-
 
     private void UpdatePosition()
     {
-        currentPosition = CalculatePositionAtRadius(currentRingRadius);
-        transform.position = currentPosition;
+        Vector3 position = CalculatePositionAtRadius();
+        transform.position = position;
     }
-
-
-    private void UpdateRotation()
-    {
-        // Calculate movement direction based on position change
-        moveDirection = (currentPosition - previousPosition).normalized;
-
-        if (moveDirection != Vector3.zero)
-        {
-            transform.rotation = Quaternion.LookRotation(moveDirection);
-        }
-
-        // Update the previous position *after* rotation is calculated
-        previousPosition = currentPosition;
-    }
-
 
     private void HandleInput()
     {
-        if (!isTransitioning)
-        {
-            if (Input.GetKeyDown(KeyCode.W)) StartCoroutine(SmoothRingTransition(-1));
-            if (Input.GetKeyDown(KeyCode.S)) StartCoroutine(SmoothRingTransition(1));
-        }
+        // Don't handle input if in center (level complete)
+        if (ringIndex == -1) return;
+
+        if (Input.GetKeyDown(KeyCode.W)) ChangeRing(-1);
+        if (Input.GetKeyDown(KeyCode.S)) ChangeRing(1);
     }
 
-    private Vector3 CalculatePositionAtRadius(float radius)
+
+    private void SetCurrentRingRadius()
     {
-        float angleRad = (450f - currentAngle) * Mathf.Deg2Rad;
-        currentPosition.x = Mathf.Cos(angleRad) * radius;
-        currentPosition.y = 0f;
-        currentPosition.z = Mathf.Sin(angleRad) * radius;
-        return currentPosition;
+        currentRingRadius = RingConstants.BaseRadius + ringIndex * RingConstants.RingSpacing;
     }
 
-
-
-    private IEnumerator SmoothRingTransition(int direction)
+    private void ChangeRing(int direction)
     {
         int targetRing = ringIndex + direction;
 
-        // Prevent transition if target ring doesn't exist
-        // if (!RingExists(targetRing))
-        // {
-        //     yield break;
-        // }
-
-        isTransitioning = true;
-
-        float startRadius = currentRingRadius;
-        float endRadius = RingConstants.BaseRadius + targetRing * RingConstants.RingSpacing;
-        float duration = 0.5f;
-        float elapsed = 0f;
-
-        while (elapsed < duration)
+        // Handle center access (ringIndex = -1 represents center)
+        if (targetRing == -1)
         {
-            elapsed += Time.deltaTime;
-            float t = elapsed / duration;
-            float easedT = EaseInOut(t);
-            float currentRadius = Mathf.Lerp(startRadius, endRadius, easedT);
-
-            transform.position = CalculatePositionAtRadius(currentRadius);
-            yield return null;
+            if (canAccessCenter)
+            {
+                ringIndex = -1; // Center - level complete
+            }
+            return;
         }
 
-        ringIndex = targetRing;
-        currentRingRadius = endRadius;
-        transform.position = CalculatePositionAtRadius(currentRingRadius);
-
-        UpdatePosition();
-        UpdateRotation();
-        isTransitioning = false;
-    }
-
-
-
-    private bool RingExists(int index)
-    {
-        return LevelBuilder.RingRoots.ContainsKey(index);
-    }
-
-
-
-
-    
-    private float EaseInOut(float t)
-    {
-        return t * t * (3f - 2f * t); // smoothstep
-    }
-
-
-    public void TriggerFall()
-    {
-
-        // Stop movement
-        enabled = false;
-
-        // Enable gravity
-        var rb = GetComponent<Rigidbody>();
-        if (rb != null)
+        // Handle ring bounds
+        if (targetRing >= 0 && targetRing <= maxRingIndex)
         {
-            rb.useGravity = true;
-            rb.isKinematic = false;
+            ringIndex = targetRing;
+            SetCurrentRingRadius();
         }
     }
 
-
-
-
-    public void SetPositionOnRing(int ring, int segment)
+    private void OnLevelLoaded(LevelData levelData)
     {
-        ringIndex = ring;
-        currentRingRadius = RingConstants.BaseRadius + ringIndex * RingConstants.RingSpacing;
+        // Set the maximum ring index based on level data
+        maxRingIndex = levelData.rings.Count - 1;
 
-        float anglePerSegment = 360f / RingConstants.SegmentCount;
-        currentAngle = segment * anglePerSegment;
+        // Reset player to starting position
+        ringIndex = 0;
+        currentAngle = 0f;
+        SetCurrentRingRadius();
+        levelGemCount = levelData.GemCount;
 
-        UpdatePosition();
+        // Reset center access (will be enabled when gems collected)
+        canAccessCenter = false;
+    }
+
+
+    private void OnCollectionUpdate(PlayerState state)
+    {
+        if (state.gems == levelGemCount)
+        {
+            canAccessCenter = true;
+        }
     }
 }

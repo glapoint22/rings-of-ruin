@@ -17,7 +17,7 @@ public class GapSegment : MonoBehaviour
             PlayerController player = other.GetComponent<PlayerController>();
             if (player != null)
             {
-                player?.TriggerFall();
+                //player?.TriggerFall();
             }
         }
     }
