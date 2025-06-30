@@ -22,6 +22,7 @@ public class SegmentIconLibrary : ScriptableObject
     public Sprite stormboltIcon;
     public Sprite bloodrootIcon;
     public Sprite fireballIcon;
+    public Sprite ashbindIcon;
     
 
     [Header("Enemies")]
@@ -33,8 +34,6 @@ public class SegmentIconLibrary : ScriptableObject
     public Sprite portalAIcon;
     public Sprite portalBIcon;
 
-    [Header("Checkpoint")]
-    public Sprite checkpointIcon;
 
     public Sprite GetCollectibleIcon(CollectibleType type)
     {
@@ -60,6 +59,7 @@ public class SegmentIconLibrary : ScriptableObject
             PickupType.Stormbolt => stormboltIcon,
             PickupType.Bloodroot => bloodrootIcon,
             PickupType.Fireball => fireballIcon,
+            PickupType.Ashbind => ashbindIcon,
             _ => null
         };
     }
@@ -75,13 +75,12 @@ public class SegmentIconLibrary : ScriptableObject
         };
     }
 
-    public Sprite GetInteractableIcon(InteractableType type)
+    public Sprite GetPortalIcon(PortalType type)
     {
         return type switch
         {
-            InteractableType.PortalA => portalAIcon,
-            InteractableType.PortalB => portalBIcon,
-            InteractableType.Checkpoint => checkpointIcon,
+            PortalType.PortalA => portalAIcon,
+            PortalType.PortalB => portalBIcon,
             _ => null
         };
     }

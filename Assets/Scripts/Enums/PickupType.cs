@@ -8,5 +8,6 @@ public enum PickupType
     Key,
     Stormbolt,
     Bloodroot,
-    Fireball
+    Fireball,
+    Ashbind
 }

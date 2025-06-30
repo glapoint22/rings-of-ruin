@@ -42,7 +42,6 @@ public class LevelData : ScriptableObject
 public class RingConfiguration
 {
     public int ringIndex;
-    public RingRotationDirection rotation = RingRotationDirection.None;
     public List<SegmentConfiguration> segments = new List<SegmentConfiguration>();
 }
 
@@ -53,7 +52,7 @@ public class SegmentConfiguration
 {
     public int segmentIndex;
     public SegmentType segmentType = SegmentType.Normal;
-    public InteractableType interactableType = InteractableType.None;
+    public PortalType portalType = PortalType.None;
     public PickupType pickupType = PickupType.None;
     public EnemyType enemyType = EnemyType.None;
     public CollectibleType collectibleType = CollectibleType.None;

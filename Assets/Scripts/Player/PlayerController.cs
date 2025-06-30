@@ -9,11 +9,13 @@ public class PlayerController : MonoBehaviour
     private int maxRingIndex = 0;
     private bool canAccessCenter = false;
     private int levelGemCount = 0;
+    private Vector3 previousPosition;
 
     private void OnEnable()
     {
         GameEvents.OnLevelLoaded += OnLevelLoaded;
         GameEvents.OnCollectionUpdate += OnCollectionUpdate;
+        GameEvents.OnPlayerPlacement += OnPlayerPlacement;
     }
 
     private void Start()
@@ -38,6 +40,7 @@ public class PlayerController : MonoBehaviour
     {
         UpdateCurrentAngle();
         UpdatePosition();
+        UpdateRotation();
         HandleInput();
     }
 
@@ -59,6 +62,21 @@ public class PlayerController : MonoBehaviour
     {
         Vector3 position = CalculatePositionAtRadius();
         transform.position = position;
+    }
+
+    private void UpdateRotation()
+    {
+        // Calculate movement direction
+        Vector3 moveDirection = (transform.position - previousPosition).normalized;
+        
+        // Apply rotation if moving
+        if (moveDirection != Vector3.zero)
+        {
+            transform.rotation = Quaternion.LookRotation(moveDirection);
+        }
+        
+        // Update previous position for next frame
+        previousPosition = transform.position;
     }
 
     private void HandleInput()
@@ -120,5 +138,15 @@ public class PlayerController : MonoBehaviour
         {
             canAccessCenter = true;
         }
+    }
+
+    private void OnPlayerPlacement(int ringIndex, int segmentIndex)
+    {
+        this.ringIndex = ringIndex;
+        this.currentAngle = segmentIndex * (360f / RingConstants.SegmentCount);
+        
+        SetCurrentRingRadius();
+        Vector3 position = CalculatePositionAtRadius();
+        transform.position = position;
     }
 }

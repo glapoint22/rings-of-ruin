@@ -21,3 +21,5 @@ MonoBehaviour:
   fireballSpells:
   - prefab: {fileID: 5792620852339094785, guid: 1e9066db484d252449bc1ebbfb10728e, type: 3}
     enumValue: 8
+  - prefab: {fileID: 4754948936719685141, guid: 1fd75cd44c10cb44ebaa3140984e60c0, type: 3}
+    enumValue: 9

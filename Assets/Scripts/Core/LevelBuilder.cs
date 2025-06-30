@@ -92,17 +92,6 @@ public class LevelBuilder : MonoBehaviour
             return;
         }
 
-        // Attach RotatingRing if needed
-        if (ring.rotation != RingRotationDirection.None)
-        {
-            var rotator = ringRoot.GetComponent<RotatingRing>();
-            if (rotator == null)
-            {
-                rotator = ringRoot.gameObject.AddComponent<RotatingRing>();
-            }
-            rotator.SetRotationDirection(ring.rotation);
-        }
-
         for (int i = 0; i < ring.segments.Count; i++)
         {
             SegmentConfiguration segment = ring.segments[i];
@@ -191,22 +180,22 @@ public class LevelBuilder : MonoBehaviour
                 enemy.name = $"Enemy_{config.enemyType}";
             }
         }
-        else if (config.interactableType != InteractableType.None)
+        else if (config.portalType != PortalType.None)
         {
-            GameObject interactable = levelPool.Get(config.interactableType);
-            if (interactable != null)
+            GameObject portal = levelPool.Get(config.portalType);
+            if (portal != null)
             {
-                interactable.transform.SetPositionAndRotation(ringSegment.SlotGround.position, ringSegment.SlotGround.rotation);
-                interactable.transform.SetParent(ringSegment.SlotGround);
-                interactable.name = $"{config.interactableType}";
+                portal.transform.SetPositionAndRotation(ringSegment.SlotGround.position, ringSegment.SlotGround.rotation);
+                portal.transform.SetParent(ringSegment.SlotGround);
+                portal.name = $"{config.portalType}";
 
-                if (config.interactableType == InteractableType.PortalA)
+                if (config.portalType == PortalType.PortalA)
                 {
-                    portalA = interactable;
+                    portalA = portal;
                 }
-                else if (config.interactableType == InteractableType.PortalB)
+                else if (config.portalType == PortalType.PortalB)
                 {
-                    portalB = interactable;
+                    portalB = portal;
                 }
             }
         }

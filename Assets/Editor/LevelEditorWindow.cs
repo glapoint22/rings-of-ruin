@@ -188,9 +188,6 @@ public class LevelEditorWindow : EditorWindow
         GUILayout.EndHorizontal();
         EditorGUILayout.Space(10);
 
-        selectedLevelData.rings[selectedRingIndex].rotation =
-            (RingRotationDirection)EditorGUILayout.EnumPopup("Ring Rotation", selectedLevelData.rings[selectedRingIndex].rotation);
-
         EnsureRingSegmentListExists();
     }
 
@@ -375,12 +372,10 @@ public class LevelEditorWindow : EditorWindow
                 icon = segmentIconLibrary.GetCollectibleIcon(CollectibleType.Coin);
             else if (segment.collectibleType == CollectibleType.TreasureChest)
                 icon = segmentIconLibrary.GetCollectibleIcon(CollectibleType.TreasureChest);
-            else if (segment.interactableType == InteractableType.PortalA)
-                icon = segmentIconLibrary.GetInteractableIcon(InteractableType.PortalA);
-            else if (segment.interactableType == InteractableType.PortalB)
-                icon = segmentIconLibrary.GetInteractableIcon(InteractableType.PortalB);
-            else if (segment.interactableType == InteractableType.Checkpoint)
-                icon = segmentIconLibrary.GetInteractableIcon(InteractableType.Checkpoint);
+            else if (segment.portalType == PortalType.PortalA)
+                icon = segmentIconLibrary.GetPortalIcon(PortalType.PortalA);
+            else if (segment.portalType == PortalType.PortalB)
+                icon = segmentIconLibrary.GetPortalIcon(PortalType.PortalB);
             else if (segment.enemyType != EnemyType.None)
                 icon = segmentIconLibrary.GetEnemyIcon(segment.enemyType);
             else if (segment.pickupType != PickupType.None)
@@ -463,7 +458,7 @@ public class LevelEditorWindow : EditorWindow
         }
         
         segment.pickupType = (PickupType)EditorGUILayout.EnumPopup("Pickup Type", segment.pickupType);
-        segment.interactableType = (InteractableType)EditorGUILayout.EnumPopup("interactables", segment.interactableType);
+        segment.portalType = (PortalType)EditorGUILayout.EnumPopup("Portal", segment.portalType);
         segment.enemyType = (EnemyType)EditorGUILayout.EnumPopup("Enemy", segment.enemyType);
 
         EditorGUI.EndDisabledGroup();

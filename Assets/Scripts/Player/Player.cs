@@ -56,6 +56,7 @@ public class Player : MonoBehaviour
     {
         playerState = damage.UpdateState(playerState);
         Debug.Log(playerState.health);
+        
     }
 
     private void OnLevelLoaded(LevelData levelData)

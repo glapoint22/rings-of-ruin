@@ -9,5 +9,6 @@ public struct PlayerState {
     public bool hasStormbolt;
     public bool hasBloodroot;
     public bool hasFireball;
+    public bool hasAshbind;
     public int armor;
 }

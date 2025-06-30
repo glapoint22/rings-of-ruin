@@ -32,10 +32,8 @@ public class Portal : MonoBehaviour
         if (hasPorted) return;
         if (other.CompareTag("Player"))
         {
-            PlayerController controller = other.GetComponent<PlayerController>();
-            if (controller == null) return;
             linkedPortal.hasPorted = true;
-            //controller.SetPositionOnRing(linkedPortal.TargetRingIndex, linkedPortal.TargetSegmentIndex);
+            GameEvents.RaisePlayerPlacement(linkedPortal.TargetRingIndex, linkedPortal.TargetSegmentIndex);
         }
     }
 

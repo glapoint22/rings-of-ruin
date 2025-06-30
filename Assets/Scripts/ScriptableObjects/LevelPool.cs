@@ -10,7 +10,7 @@ public class LevelPool : MultiPrefabPool
     [SerializeField] private List<PrefabEnumMapping<RingSegmentType>> ring4Segments = new();
     [SerializeField] private List<PrefabEnumMapping<CollectibleType>> collectibles = new();
     [SerializeField] private List<PrefabEnumMapping<PickupType>> pickups = new();
-    [SerializeField] private List<PrefabEnumMapping<InteractableType>> interactables = new();
+    [SerializeField] private List<PrefabEnumMapping<PortalType>> interactables = new();
     [SerializeField] private List<PrefabEnumMapping<EnemyType>> enemies = new();
 
     protected override void ProcessAllMappings()

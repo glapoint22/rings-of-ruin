@@ -72,6 +72,8 @@ MonoBehaviour:
     enumValue: 7
   - prefab: {fileID: 4799016877198760528, guid: 6ae96f66658755247a8cce2b15b1d0d5, type: 3}
     enumValue: 8
+  - prefab: {fileID: 4799016877198760528, guid: ec2a8e8b3964a544fa4211a1f5b90aa3, type: 3}
+    enumValue: 9
   interactables:
   - prefab: {fileID: 515101759093858978, guid: 07e59bd7db92da04eb1af62eb99cc347, type: 3}
     enumValue: 1
