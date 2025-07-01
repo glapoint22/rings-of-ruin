@@ -50,7 +50,7 @@ MonoBehaviour:
       pickupType: 0
       enemyType: 0
       collectibleType: 0
-      treasureChestCoinCount: 1
+      treasureChestCoinCount: 25
     - segmentIndex: 5
       segmentType: 0
       portalType: 0
@@ -78,7 +78,7 @@ MonoBehaviour:
       pickupType: 0
       enemyType: 0
       collectibleType: 0
-      treasureChestCoinCount: 1
+      treasureChestCoinCount: 13
     - segmentIndex: 9
       segmentType: 0
       portalType: 0
@@ -127,7 +127,7 @@ MonoBehaviour:
       pickupType: 0
       enemyType: 0
       collectibleType: 0
-      treasureChestCoinCount: 1
+      treasureChestCoinCount: 18
     - segmentIndex: 16
       segmentType: 0
       portalType: 0

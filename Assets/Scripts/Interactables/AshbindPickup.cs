@@ -1,9 +1,13 @@
 public class AshbindPickup : InteractableBase
 {
-    private readonly Ashbind ashbind = new();
+    private readonly PlayerState ashbindUpdate = new()
+    {
+        hasAshbind = true
+    };
 
     protected override void OnInteract()
     {
-        GameEvents.RaisePickup(ashbind, PickupType.Ashbind);
+        GameEvents.RaisePlayerStateUpdate(ashbindUpdate);
+        GameEvents.RaiseAddSpell(PickupType.Ashbind);
     }
 }

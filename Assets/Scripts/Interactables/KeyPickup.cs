@@ -1,9 +1,13 @@
 public class KeyPickup : InteractableBase
 {
-    private readonly Key key = new();
+    private readonly PlayerState keyUpdate = new()
+    {
+        hasKey = true
+    };
     protected override void OnInteract()
     {
-        GameEvents.RaisePickup(key, PickupType.Key);
+        GameEvents.RaisePlayerStateUpdate(keyUpdate);
+        GameEvents.RaiseAddBuff(BuffType.Key);
         GameEvents.RaiseKeyPickup();
     }
 }

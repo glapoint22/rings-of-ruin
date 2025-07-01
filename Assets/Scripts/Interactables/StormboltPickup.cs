@@ -1,9 +1,13 @@
 public class StormboltPickup : InteractableBase
 {
-    private readonly Stormbolt stormbolt = new();
+    private readonly PlayerState stormboltUpdate = new()
+    {
+        hasStormbolt = true
+    };
 
     protected override void OnInteract()
     {
-        GameEvents.RaisePickup(stormbolt, PickupType.Stormbolt);
+        GameEvents.RaisePlayerStateUpdate(stormboltUpdate);
+        GameEvents.RaiseAddSpell(PickupType.Stormbolt);
     }
 }

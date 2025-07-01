@@ -1,62 +1,34 @@
 using UnityEngine;
-using System.Collections;
 
 public class Player : MonoBehaviour
 {
-    private PlayerState playerState;
-
-    private void Awake()
-    {
-        playerState = new PlayerState
-        {
-            health = 100,
-            armor = 100
-        };
-    }
+    private PlayerState playerState = new ();
 
     private void OnEnable()
     {
         GameEvents.OnCollect += OnCollect;
-        GameEvents.OnPickup += OnPickup;
+        GameEvents.OnPlayerStateUpdate += OnPickup;
         GameEvents.OnDamage += OnDamage;
         GameEvents.OnLevelLoaded += OnLevelLoaded;
     }
 
 
-    private void OnCollect(IPlayerState state)
+    private void OnCollect(PlayerState stateUpdate)
     {
-        playerState = state.UpdateState(playerState);
-        GameEvents.RaiseCollectionUpdate(playerState);
+        playerState.Update(stateUpdate);
     }
 
 
 
-    private void OnPickup(IPlayerState state, PickupType pickupType)
+    private void OnPickup(PlayerState state)
     {
-        playerState = state.UpdateState(playerState);
-        GameEvents.RaisePickupUpdate(pickupType);
-
-        // Check if this is a time-based buff and start coroutine
-        if (state is ITimeBasedBuff timeBasedBuff)
-        {
-            StartCoroutine(HandleTimeBasedBuff(timeBasedBuff));
-        }
+        playerState.Update(state);
     }
 
-
-    private IEnumerator HandleTimeBasedBuff(ITimeBasedBuff buff)
-    {
-        yield return new WaitForSeconds(buff.Duration);
-
-        // Call the buff's expiration method
-        playerState = buff.OnBuffExpired(playerState);
-    }
 
     private void OnDamage(Damage damage)
     {
-        playerState = damage.UpdateState(playerState);
-        Debug.Log(playerState.health);
-        
+        damage.UpdateState(playerState);
     }
 
     private void OnLevelLoaded(LevelData levelData)

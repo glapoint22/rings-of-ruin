@@ -67,7 +67,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5335d8599b9b41344b196a41d6d76605, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  shieldHealth: 30
+  shieldHealthValue: 33
 --- !u!1001 &4608781359356226587
 PrefabInstance:
   m_ObjectHideFlags: 0

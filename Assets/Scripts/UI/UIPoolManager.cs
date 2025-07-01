@@ -1,10 +1,11 @@
+using System;
 using UnityEngine;
 using System.Collections.Generic;
 
-public class UIPoolManager : MonoBehaviour
+public abstract class UIPoolManager : MonoBehaviour
 {
     [SerializeField] protected MultiPrefabPool uiPool;
-    private Dictionary<PickupType, GameObject> activeIcons = new Dictionary<PickupType, GameObject>();
+    private Dictionary<Enum, GameObject> activeIcons = new Dictionary<Enum, GameObject>();
 
     protected virtual void Awake()
     {
@@ -12,15 +13,8 @@ public class UIPoolManager : MonoBehaviour
         uiPool.Initialize(panel);
     }
 
-    protected virtual void OnEnable()
-    {
-        GameEvents.OnPickupUpdate += AddIcon;
-        GameEvents.OnBuffExpired += RemoveIcon;
-    }
 
-
-
-    protected void AddIcon(PickupType pickupType)
+    protected void AddIcon(Enum pickupType)
     {
         if (activeIcons.ContainsKey(pickupType)) return;
 
@@ -32,7 +26,7 @@ public class UIPoolManager : MonoBehaviour
         }
     }
 
-    protected void RemoveIcon(PickupType pickupType)
+    protected void RemoveIcon(Enum pickupType)
     {
         if (activeIcons.TryGetValue(pickupType, out GameObject icon))
         {

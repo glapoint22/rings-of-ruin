@@ -2,14 +2,18 @@ using UnityEngine;
 
 public class TimeDilationPickup : InteractableBase
 {
-   [SerializeField] private float duration;
-    private TimeDilation timeDilation;
+    private PlayerState timeDilationUpdate;
     private void Awake()
     {
-        timeDilation = new TimeDilation(duration);
+        timeDilationUpdate = new PlayerState()
+        {
+            hasTimeDilation = true
+        };
     }
+
     protected override void OnInteract()
     {
-        GameEvents.RaisePickup(timeDilation, PickupType.TimeDilation);
+        GameEvents.RaisePlayerStateUpdate(timeDilationUpdate);
+        GameEvents.RaiseAddSpell(PickupType.TimeDilation);
     }
 }

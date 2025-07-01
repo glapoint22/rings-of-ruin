@@ -1,9 +1,13 @@
 public class BloodrootPickup : InteractableBase
 {
-    private readonly Bloodroot bloodroot = new();
+    private readonly PlayerState bloodrootUpdate = new()
+    {
+        hasBloodroot = true
+    };
 
     protected override void OnInteract()
     {
-        GameEvents.RaisePickup(bloodroot, PickupType.Bloodroot);
+        GameEvents.RaisePlayerStateUpdate(bloodrootUpdate);
+        GameEvents.RaiseAddSpell(PickupType.Bloodroot);
     }
 }

@@ -5214,7 +5214,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1614975271}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b373cc9ad686737499ae55081fa807d3, type: 3}
+  m_Script: {fileID: 11500000, guid: 6333dff01efeccb46b4361f20304c286, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   uiPool: {fileID: 11400000, guid: da0717feb8078f2439e2ee6125c26806, type: 2}
@@ -5229,8 +5229,8 @@ GameObject:
   - component: {fileID: 1687542493}
   - component: {fileID: 1687542497}
   - component: {fileID: 1687542496}
-  - component: {fileID: 1687542495}
-  - component: {fileID: 1687542498}
+  - component: {fileID: 1687542499}
+  - component: {fileID: 1687542500}
   m_Layer: 5
   m_Name: SpellsPanel
   m_TagString: Untagged
@@ -5254,33 +5254,9 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 492.70886, y: 125}
-  m_SizeDelta: {x: 846.0782, y: 150.18}
+  m_AnchoredPosition: {x: 375, y: 125}
+  m_SizeDelta: {x: 600, y: 70}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1687542495
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1687542492}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8a8695521f0d02e499659fee002a26c2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Padding:
-    m_Left: 0
-    m_Right: 0
-    m_Top: 0
-    m_Bottom: 0
-  m_ChildAlignment: 0
-  m_StartCorner: 0
-  m_StartAxis: 0
-  m_CellSize: {x: 50, y: 50}
-  m_Spacing: {x: 10, y: 10}
-  m_Constraint: 0
-  m_ConstraintCount: 2
 --- !u!114 &1687542496
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5319,7 +5295,7 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1687542492}
   m_CullTransparentMesh: 1
---- !u!114 &1687542498
+--- !u!114 &1687542499
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -5328,7 +5304,33 @@ MonoBehaviour:
   m_GameObject: {fileID: 1687542492}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b373cc9ad686737499ae55081fa807d3, type: 3}
+  m_Script: {fileID: 11500000, guid: 30649d3a9faa99c48a7b1166b86bf2a0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Padding:
+    m_Left: 0
+    m_Right: 0
+    m_Top: 0
+    m_Bottom: 0
+  m_ChildAlignment: 3
+  m_Spacing: 10
+  m_ChildForceExpandWidth: 0
+  m_ChildForceExpandHeight: 0
+  m_ChildControlWidth: 0
+  m_ChildControlHeight: 0
+  m_ChildScaleWidth: 0
+  m_ChildScaleHeight: 0
+  m_ReverseArrangement: 0
+--- !u!114 &1687542500
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1687542492}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c773c76443908814ca92ecb1931c3e04, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   uiPool: {fileID: 11400000, guid: c6ed5bc918b35f2429bb855e3c4d6b3f, type: 2}

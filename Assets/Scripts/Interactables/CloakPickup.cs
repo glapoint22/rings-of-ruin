@@ -2,15 +2,18 @@ using UnityEngine;
 
 public class CloakPickup : InteractableBase
 {
-    [SerializeField] private float duration;
-    private Cloak cloak;
+    private PlayerState cloakUpdate;
     private void Awake()
     {
-        cloak = new Cloak(duration);
+        cloakUpdate = new PlayerState()
+        {
+            hasCloak = true
+        };
     }
 
     protected override void OnInteract()
     {
-        GameEvents.RaisePickup(cloak, PickupType.Cloak);
+        GameEvents.RaisePlayerStateUpdate(cloakUpdate);
+        GameEvents.RaiseAddSpell(PickupType.Cloak);
     }
 }

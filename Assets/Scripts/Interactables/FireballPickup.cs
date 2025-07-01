@@ -1,9 +1,13 @@
 public class FireballPickup : InteractableBase
 {
-    private readonly Fireball fireball = new();
+    private readonly PlayerState fireballUpdate = new()
+    {
+        hasFireball = true
+    };
 
     protected override void OnInteract()
     {
-        GameEvents.RaisePickup(fireball, PickupType.Fireball);
+        GameEvents.RaisePlayerStateUpdate(fireballUpdate);
+        GameEvents.RaiseAddSpell(PickupType.Fireball);
     }
 }

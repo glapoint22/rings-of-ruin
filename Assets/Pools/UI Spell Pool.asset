@@ -13,13 +13,23 @@ MonoBehaviour:
   m_Name: UI Spell Pool
   m_EditorClassIdentifier: 
   stormboltSpells:
-  - prefab: {fileID: 3890544695426675584, guid: b2072d09e9a7cfb43ac186ea666251f0, type: 3}
+  - prefab: {fileID: 4083789948579601647, guid: 086a02ffa1b8fd64796bd9a2c73e6ef9, type: 3}
     enumValue: 6
   bloodrootSpells:
-  - prefab: {fileID: 4754948936719685141, guid: 6c7c6ee992e8c814f9c1a464e563f39a, type: 3}
+  - prefab: {fileID: 4083789948579601647, guid: c571f07f44855aa49b04e48f3cd628a7, type: 3}
     enumValue: 7
   fireballSpells:
-  - prefab: {fileID: 5792620852339094785, guid: 1e9066db484d252449bc1ebbfb10728e, type: 3}
+  - prefab: {fileID: 4083789948579601647, guid: 3eb5c6d0089501642bebb01cab03565e, type: 3}
     enumValue: 8
-  - prefab: {fileID: 4754948936719685141, guid: 1fd75cd44c10cb44ebaa3140984e60c0, type: 3}
+  ashbindSpells:
+  - prefab: {fileID: 4083789948579601647, guid: 29af4a15e49aa0446a3fcfa373d38167, type: 3}
     enumValue: 9
+  shieldSpells:
+  - prefab: {fileID: 4083789948579601647, guid: 8bf1d1e25fc70314e8c46cc3918e049d, type: 3}
+    enumValue: 1
+  cloakSpells:
+  - prefab: {fileID: 4083789948579601647, guid: e95be433ec221144ca7db03d8d5a3d0b, type: 3}
+    enumValue: 2
+  timeDilationSpells:
+  - prefab: {fileID: 4083789948579601647, guid: c2826e5ad62d9114d81905032ae04f2e, type: 3}
+    enumValue: 3

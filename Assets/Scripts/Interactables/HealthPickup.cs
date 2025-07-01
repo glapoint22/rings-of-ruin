@@ -3,14 +3,20 @@ using UnityEngine;
 public class HealthPickup : InteractableBase
 {
     [SerializeField] private int healthValue;
-    private Health Health;
+    private PlayerState healthUpdate;
+
+
     private void Awake()
     {
-        Health = new Health(healthValue);
+        healthUpdate = new PlayerState()
+        {
+            health = healthValue
+        };
     }
+
 
     protected override void OnInteract()
     {
-        GameEvents.RaisePickup(Health, PickupType.Health);
+        GameEvents.RaisePlayerStateUpdate(healthUpdate);
     }
 }
