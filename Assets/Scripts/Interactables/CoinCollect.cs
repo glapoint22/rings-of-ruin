@@ -3,11 +3,11 @@ using UnityEngine;
 public class CoinCollect : InteractableBase
 {
     [SerializeField] private int coinValue;
-    private PlayerState coinUpdate;
+    private PlayerState coinCollected;
 
     private void Awake()
     {
-        coinUpdate = new PlayerState
+        coinCollected = new PlayerState
         {
             coins = coinValue
         };
@@ -15,7 +15,7 @@ public class CoinCollect : InteractableBase
 
     protected override void OnInteract()
     {
-        GameEvents.RaiseCollect(coinUpdate);
-        GameEvents.RaiseCollectionUpdate(coinUpdate);
+        GameEvents.RaiseAddCollectible(coinCollected);
+        GameEvents.RaisePlayerStateUpdate(coinCollected);
     }
 }

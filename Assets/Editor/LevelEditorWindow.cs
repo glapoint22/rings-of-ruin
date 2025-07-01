@@ -56,7 +56,6 @@ public class LevelEditorWindow : EditorWindow
 
         if (selectedLevelData != null)
         {
-            DrawAltarSettings();
             DrawGlobalHazardSettings();
             DrawRingControls();
             DrawRingLayout();
@@ -123,8 +122,6 @@ public class LevelEditorWindow : EditorWindow
 
     private void DrawLevelSelection()
     {
-        GUILayout.Label("Select Level", EditorStyles.boldLabel);
-
         if (allLevels.Count == 0)
         {
             EditorGUILayout.HelpBox("No LevelData assets found. Click 'Create New Level' to get started.", MessageType.Info);
@@ -378,8 +375,12 @@ public class LevelEditorWindow : EditorWindow
                 icon = segmentIconLibrary.GetPortalIcon(PortalType.PortalB);
             else if (segment.enemyType != EnemyType.None)
                 icon = segmentIconLibrary.GetEnemyIcon(segment.enemyType);
-            else if (segment.pickupType != PickupType.None)
-                icon = segmentIconLibrary.GetPickupIcon(segment.pickupType);
+            else if (segment.hasHealth)
+                icon = segmentIconLibrary.GetUtilityItemIcon(UtilityItem.Health);
+            else if (segment.hasKey)
+                icon = segmentIconLibrary.GetUtilityItemIcon(UtilityItem.Key);
+            else if (segment.spellType != SpellType.None)
+                icon = segmentIconLibrary.GetSpellIcon(segment.spellType);
            
 
             // Draw the icon if we have one
@@ -443,11 +444,28 @@ public class LevelEditorWindow : EditorWindow
     private void DrawSegmentProperties(SegmentConfiguration segment)
     {
         segment.segmentType = (SegmentType)EditorGUILayout.EnumPopup("Segment Type", segment.segmentType);
-        EditorGUILayout.Space(5);
+        EditorGUILayout.Space(10);
 
         EditorGUI.BeginDisabledGroup(segment.segmentType != SegmentType.Normal);
 
-        segment.collectibleType = (CollectibleType)EditorGUILayout.EnumPopup("Collectable", segment.collectibleType);
+        // Disable key checkbox if ANY other field is selected
+        bool anyOtherFieldSelectedForKey = segment.collectibleType != CollectibleType.None || segment.spellType != SpellType.None || segment.hasHealth || segment.portalType != PortalType.None || segment.enemyType != EnemyType.None;
+        EditorGUI.BeginDisabledGroup(anyOtherFieldSelectedForKey);
+        EditorGUILayout.Space(5);
+        segment.hasKey = EditorGUILayout.Toggle("Key", segment.hasKey);
+        EditorGUI.EndDisabledGroup();
+
+        // Disable health checkbox if ANY other field is selected
+        bool anyOtherFieldSelectedForHealth = segment.collectibleType != CollectibleType.None || segment.spellType != SpellType.None || segment.hasKey || segment.portalType != PortalType.None || segment.enemyType != EnemyType.None;
+        EditorGUI.BeginDisabledGroup(anyOtherFieldSelectedForHealth);
+        segment.hasHealth = EditorGUILayout.Toggle("Health", segment.hasHealth);
+        EditorGUI.EndDisabledGroup();
+        EditorGUILayout.Space(1);
+
+        // Disable collectible if ANY other field is selected
+        bool anyOtherFieldSelected = segment.spellType != SpellType.None || segment.hasHealth || segment.hasKey || segment.portalType != PortalType.None || segment.enemyType != EnemyType.None;
+        EditorGUI.BeginDisabledGroup(anyOtherFieldSelected);
+        segment.collectibleType = (CollectibleType)EditorGUILayout.EnumPopup("Collectible", segment.collectibleType);
         
         // Add the coin count field when treasure chest is selected
         if (segment.collectibleType == CollectibleType.TreasureChest)
@@ -456,19 +474,32 @@ public class LevelEditorWindow : EditorWindow
             segment.treasureChestCoinCount = EditorGUILayout.IntField("Coin Count", segment.treasureChestCoinCount);
             EditorGUI.indentLevel--;
         }
-        
-        segment.pickupType = (PickupType)EditorGUILayout.EnumPopup("Pickup Type", segment.pickupType);
-        segment.portalType = (PortalType)EditorGUILayout.EnumPopup("Portal", segment.portalType);
-        segment.enemyType = (EnemyType)EditorGUILayout.EnumPopup("Enemy", segment.enemyType);
-
         EditorGUI.EndDisabledGroup();
+        
+        // Disable spell type if ANY other field is selected
+        bool anyOtherFieldSelectedForSpell = segment.collectibleType != CollectibleType.None || segment.hasHealth || segment.hasKey || segment.portalType != PortalType.None || segment.enemyType != EnemyType.None;
+        EditorGUI.BeginDisabledGroup(anyOtherFieldSelectedForSpell);
+        segment.spellType = (SpellType)EditorGUILayout.EnumPopup("Spell", segment.spellType);
+        EditorGUI.EndDisabledGroup();
+        
+        
+        
+        
+        // Disable portal type if ANY other field is selected
+        bool anyOtherFieldSelectedForPortal = segment.collectibleType != CollectibleType.None || segment.spellType != SpellType.None || segment.hasHealth || segment.hasKey || segment.enemyType != EnemyType.None;
+        EditorGUI.BeginDisabledGroup(anyOtherFieldSelectedForPortal);
+        segment.portalType = (PortalType)EditorGUILayout.EnumPopup("Portal", segment.portalType);
+        EditorGUI.EndDisabledGroup();
+        
+        // Disable enemy type if ANY other field is selected
+        bool anyOtherFieldSelectedForEnemy = segment.collectibleType != CollectibleType.None || segment.spellType != SpellType.None || segment.hasHealth || segment.hasKey || segment.portalType != PortalType.None;
+        EditorGUI.BeginDisabledGroup(anyOtherFieldSelectedForEnemy);
+        segment.enemyType = (EnemyType)EditorGUILayout.EnumPopup("Enemy", segment.enemyType);
+        EditorGUI.EndDisabledGroup();
+
+        EditorGUI.EndDisabledGroup(); // End the segment type disabled group
     }
 
-    private void DrawAltarSettings()
-    {
-        selectedLevelData.isAltarLockedByKey = EditorGUILayout.Toggle("Altar Locked", selectedLevelData.isAltarLockedByKey);
-        EditorUtility.SetDirty(selectedLevelData);
-    }
     #endregion
 
     #region Preview Management
@@ -484,6 +515,18 @@ public class LevelEditorWindow : EditorWindow
         }
 
         Transform previewRoot = GetOrCreatePreviewRoot();
+
+        // Ensure all four ring roots exist under the preview root
+        for (int i = 0; i < 4; i++)
+        {
+            string ringName = $"Ring_{i}";
+            Transform ringRoot = previewRoot.Find(ringName);
+            if (ringRoot == null)
+            {
+                GameObject ringGO = new GameObject(ringName);
+                ringGO.transform.SetParent(previewRoot);
+            }
+        }
 
         var tempGO = new GameObject("EditorPreviewBuilder_TEMP");
         var builder = tempGO.AddComponent<LevelBuilder>();

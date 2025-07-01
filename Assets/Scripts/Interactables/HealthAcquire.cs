@@ -1,14 +1,14 @@
 using UnityEngine;
 
-public class HealthPickup : InteractableBase
+public class HealthAcquire : InteractableBase
 {
     [SerializeField] private int healthValue;
-    private PlayerState healthUpdate;
+    private PlayerState healthAcquired;
 
 
     private void Awake()
     {
-        healthUpdate = new PlayerState()
+        healthAcquired = new PlayerState()
         {
             health = healthValue
         };
@@ -17,6 +17,6 @@ public class HealthPickup : InteractableBase
 
     protected override void OnInteract()
     {
-        GameEvents.RaisePlayerStateUpdate(healthUpdate);
+        GameEvents.RaisePlayerStateUpdate(healthAcquired);
     }
 }

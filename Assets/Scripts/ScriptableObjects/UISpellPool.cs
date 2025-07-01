@@ -4,13 +4,13 @@ using System.Collections.Generic;
 [CreateAssetMenu(menuName = "Rings of Ruin/UI Spell Pool")]
 public class UISpellPool : MultiPrefabPool
 {
-    [SerializeField] private List<PrefabEnumMapping<PickupType>> stormboltSpells = new();
-    [SerializeField] private List<PrefabEnumMapping<PickupType>> bloodrootSpells = new();
-    [SerializeField] private List<PrefabEnumMapping<PickupType>> fireballSpells = new();
-    [SerializeField] private List<PrefabEnumMapping<PickupType>> ashbindSpells = new();
-    [SerializeField] private List<PrefabEnumMapping<PickupType>> shieldSpells = new();
-    [SerializeField] private List<PrefabEnumMapping<PickupType>> cloakSpells = new();
-    [SerializeField] private List<PrefabEnumMapping<PickupType>> timeDilationSpells = new();
+    [SerializeField] private List<PrefabEnumMapping<SpellType>> stormboltSpells = new();
+    [SerializeField] private List<PrefabEnumMapping<SpellType>> bloodrootSpells = new();
+    [SerializeField] private List<PrefabEnumMapping<SpellType>> fireballSpells = new();
+    [SerializeField] private List<PrefabEnumMapping<SpellType>> ashbindSpells = new();
+    [SerializeField] private List<PrefabEnumMapping<SpellType>> shieldSpells = new();
+    [SerializeField] private List<PrefabEnumMapping<SpellType>> cloakSpells = new();
+    [SerializeField] private List<PrefabEnumMapping<SpellType>> timeDilationSpells = new();
     
 
     protected override void ProcessAllMappings()

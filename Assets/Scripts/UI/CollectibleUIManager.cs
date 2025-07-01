@@ -9,12 +9,12 @@ public class CollectibleUIManager : MonoBehaviour
 
 
     private void OnEnable() {
-        GameEvents.OnCollectionUpdate += OnCollectionUpdate;
+        GameEvents.OnAddCollectible += OnAddCollectible;
     }
 
 
 
-    private void OnCollectionUpdate(PlayerState state) {
+    private void OnAddCollectible(PlayerState state) {
         gemCountText.text = state.gems.ToString();
         coinCountText.text = state.coins.ToString();
     }

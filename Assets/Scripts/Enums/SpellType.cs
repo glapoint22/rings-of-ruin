@@ -1,11 +1,9 @@
-public enum PickupType
+public enum SpellType
 {
     None,
     Shield,
     Cloak,
     TimeDilation,
-    Health,
-    Key,
     Stormbolt,
     Bloodroot,
     Fireball,

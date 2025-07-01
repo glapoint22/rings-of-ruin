@@ -1,6 +1,6 @@
 public class TreasureChestCollect : InteractableBase
 {
-    private PlayerState treasureChestUpdate;
+    private PlayerState treasureChestCollected;
     private bool isLocked = true;
 
     private void Awake()
@@ -10,7 +10,7 @@ public class TreasureChestCollect : InteractableBase
 
     public void SetCoinCount(int count)
     {
-        treasureChestUpdate = new PlayerState
+        treasureChestCollected = new PlayerState
         {
             coins = count
         };
@@ -19,9 +19,9 @@ public class TreasureChestCollect : InteractableBase
     protected override void OnInteract()
     {
         if (!isLocked) {
-            GameEvents.RaiseCollect(treasureChestUpdate);
             GameEvents.RaiseRemoveBuff(BuffType.Key);
-            GameEvents.RaiseCollectionUpdate(treasureChestUpdate);
+            GameEvents.RaiseAddCollectible(treasureChestCollected);
+            GameEvents.RaisePlayerStateUpdate(treasureChestCollected);
         }
     }
 

@@ -32,13 +32,13 @@ public class LevelBuilder : MonoBehaviour
         {
             Transform ringRoot = levelRoot.Find($"Ring_{ringIndex}");
             if (ringRoot == null) continue;
-            
+
             // Loop through each segment in the ring
             for (int i = 0; i < ringRoot.childCount; i++)
             {
                 Transform segmentTransform = ringRoot.GetChild(i);
                 RingSegment ringSegment = segmentTransform.GetComponent<RingSegment>();
-                
+
                 if (ringSegment != null)
                 {
                     // Return object from ground slot if it exists
@@ -47,7 +47,7 @@ public class LevelBuilder : MonoBehaviour
                         GameObject childObject = ringSegment.SlotGround.GetChild(0).gameObject;
                         levelPool.Return(childObject);
                     }
-                    
+
                     // Return object from float slot if it exists
                     if (ringSegment.SlotFloat != null && ringSegment.SlotFloat.childCount > 0)
                     {
@@ -59,7 +59,7 @@ public class LevelBuilder : MonoBehaviour
                 levelPool.Return(segmentTransform.gameObject);
             }
         }
-        
+
         // Reset portal references
         portalA = null;
         portalB = null;
@@ -132,18 +132,37 @@ public class LevelBuilder : MonoBehaviour
         portalB.GetComponent<Portal>().linkedPortal = portalA.GetComponent<Portal>();
     }
 
+
+
     private void ConfigureSegment(RingSegment ringSegment, SegmentConfiguration config)
     {
-        // First check for float slot (pickup)
-        if (config.pickupType != PickupType.None)
+        // First check for float slot (spell)
+        if (config.spellType != SpellType.None)
         {
-            ConfigureSlotFloat(ringSegment, config);
-            return; // If we have a pickup, we don't check for ground elements
+            ConfigureSlotFloat(ringSegment, config.spellType);
+            return;
         }
 
-        // If no pickup, check for ground elements
+        // Check for Health and Key in float slot
+        if (config.hasHealth)
+        {
+            // HERE is where we'd use the computed property:
+            ConfigureSlotFloat(ringSegment, UtilityItem.Health); // This calls the computed property
+            return;
+        }
+
+        if (config.hasKey)
+        {
+            // AND HERE:
+            ConfigureSlotFloat(ringSegment, UtilityItem.Key); // This calls the computed property
+            return;
+        }
+
+        // If no spell, check for ground elements
         ConfigureSlotGround(ringSegment, config);
     }
+
+
 
     private void ConfigureSlotGround(RingSegment ringSegment, SegmentConfiguration config)
     {
@@ -201,17 +220,17 @@ public class LevelBuilder : MonoBehaviour
         }
     }
 
-    private void ConfigureSlotFloat(RingSegment ringSegment, SegmentConfiguration config)
+    private void ConfigureSlotFloat(RingSegment ringSegment, System.Enum enumType)
     {
         if (ringSegment.SlotFloat == null)
             return;
 
-        GameObject pickup = levelPool.Get(config.pickupType);
-        if (pickup != null)
+        GameObject floatObject = levelPool.Get(enumType);
+        if (floatObject != null)
         {
-            pickup.transform.SetPositionAndRotation(ringSegment.SlotFloat.position, ringSegment.SlotFloat.rotation);
-            pickup.transform.SetParent(ringSegment.SlotFloat);
-            pickup.name = $"Pickup_{config.pickupType}";
+            floatObject.transform.SetPositionAndRotation(ringSegment.SlotFloat.position, ringSegment.SlotFloat.rotation);
+            floatObject.transform.SetParent(ringSegment.SlotFloat);
+            floatObject.name = $"Float_{enumType}";
         }
     }
 }

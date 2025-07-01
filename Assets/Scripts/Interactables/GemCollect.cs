@@ -1,13 +1,13 @@
 public class GemCollect : InteractableBase
 {
-    private readonly PlayerState gemUpdate = new()
+    private readonly PlayerState gemCollected = new()
     {
         gems = 1
     };
 
     protected override void OnInteract()
     {
-        GameEvents.RaiseCollect(gemUpdate);
-        GameEvents.RaiseCollectionUpdate(gemUpdate);
+        GameEvents.RaiseAddCollectible(gemCollected);
+        GameEvents.RaisePlayerStateUpdate(gemCollected);
     }
 }

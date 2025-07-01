@@ -10,7 +10,6 @@ public class LevelData : ScriptableObject
     public int levelID;
     public List<RingConfiguration> rings = new();
     public List<EnemySpawn> enemies = new();
-    public bool isAltarLockedByKey = false;
     public bool hasRuneflareHazard = false;
     public int maxConcurrentRuneflares = 1;
     public Vector2 runeflareIntervalRange = new(6f, 10f);
@@ -53,10 +52,14 @@ public class SegmentConfiguration
     public int segmentIndex;
     public SegmentType segmentType = SegmentType.Normal;
     public PortalType portalType = PortalType.None;
-    public PickupType pickupType = PickupType.None;
+    public SpellType spellType = SpellType.None;
     public EnemyType enemyType = EnemyType.None;
     public CollectibleType collectibleType = CollectibleType.None;
     public int treasureChestCoinCount = 1;
+    
+    // Boolean fields for Health and Key
+    public bool hasHealth = false;
+    public bool hasKey = false;
 }
 
 

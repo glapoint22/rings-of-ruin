@@ -14,24 +14,24 @@ public abstract class UIPoolManager : MonoBehaviour
     }
 
 
-    protected void AddIcon(Enum pickupType)
+    protected void AddIcon(Enum iconType)
     {
-        if (activeIcons.ContainsKey(pickupType)) return;
+        if (activeIcons.ContainsKey(iconType)) return;
 
 
-        GameObject icon = uiPool.Get(pickupType);
+        GameObject icon = uiPool.Get(iconType);
         if (icon != null)
         {
-            activeIcons.Add(pickupType, icon);
+            activeIcons.Add(iconType, icon);
         }
     }
 
-    protected void RemoveIcon(Enum pickupType)
+    protected void RemoveIcon(Enum iconType)
     {
-        if (activeIcons.TryGetValue(pickupType, out GameObject icon))
+        if (activeIcons.TryGetValue(iconType, out GameObject icon))
         {
             uiPool.Return(icon);
-            activeIcons.Remove(pickupType);
+            activeIcons.Remove(iconType);
         }
     }
 }

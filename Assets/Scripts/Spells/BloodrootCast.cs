@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class BloodrootSpell : MonoBehaviour
+public class BloodrootCast : MonoBehaviour
 {
     public void OnCast()
     {

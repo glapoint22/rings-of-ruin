@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class StormboltSpell : MonoBehaviour
+public class StormboltCast : MonoBehaviour
 {
     public void OnCast()
     {

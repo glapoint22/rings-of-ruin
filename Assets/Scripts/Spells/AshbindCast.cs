@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class AshbindSpell : MonoBehaviour
+public class AshbindCast : MonoBehaviour
 {
     public void OnCast()
     {

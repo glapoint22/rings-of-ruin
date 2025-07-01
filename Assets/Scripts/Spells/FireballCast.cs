@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class FireballSpell : MonoBehaviour
+public class FireballCast : MonoBehaviour
 {
     public void OnCast()
     {

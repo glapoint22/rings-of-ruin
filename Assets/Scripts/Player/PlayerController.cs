@@ -14,7 +14,7 @@ public class PlayerController : MonoBehaviour
     private void OnEnable()
     {
         GameEvents.OnLevelLoaded += OnLevelLoaded;
-        GameEvents.OnCollectionUpdate += OnCollectionUpdate;
+        GameEvents.OnAddCollectible += OnAddCollectible;
         GameEvents.OnPlayerPlacement += OnPlayerPlacement;
     }
 
@@ -132,7 +132,7 @@ public class PlayerController : MonoBehaviour
     }
 
 
-    private void OnCollectionUpdate(PlayerState state)
+    private void OnAddCollectible(PlayerState state)
     {
         if (state.gems == levelGemCount)
         {

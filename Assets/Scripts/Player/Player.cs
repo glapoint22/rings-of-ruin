@@ -6,21 +6,13 @@ public class Player : MonoBehaviour
 
     private void OnEnable()
     {
-        GameEvents.OnCollect += OnCollect;
-        GameEvents.OnPlayerStateUpdate += OnPickup;
         GameEvents.OnDamage += OnDamage;
         GameEvents.OnLevelLoaded += OnLevelLoaded;
+        GameEvents.OnPlayerStateUpdate += OnPlayerStateUpdate;
     }
 
 
-    private void OnCollect(PlayerState stateUpdate)
-    {
-        playerState.Update(stateUpdate);
-    }
-
-
-
-    private void OnPickup(PlayerState state)
+    private void OnPlayerStateUpdate(PlayerState state)
     {
         playerState.Update(state);
     }
@@ -34,6 +26,6 @@ public class Player : MonoBehaviour
     private void OnLevelLoaded(LevelData levelData)
     {
         playerState.gems = 0;
-        GameEvents.RaiseCollectionUpdate(playerState);
+        GameEvents.RaiseAddCollectible(playerState);
     }
 }

@@ -1,14 +1,14 @@
 using UnityEngine;
 using System.Collections;
 
-public class TimeDilationSpell : MonoBehaviour
+public class CloakCast : MonoBehaviour
 {
     [SerializeField] private float duration;
 
 
     public void OnCast()
     {
-        GameEvents.RaiseAddBuff(BuffType.TimeDilation);
+        GameEvents.RaiseAddBuff(BuffType.Cloak);
         StartCoroutine(HandleTimeBasedBuff());
     }
 
@@ -16,6 +16,6 @@ public class TimeDilationSpell : MonoBehaviour
     private IEnumerator HandleTimeBasedBuff()
     {
         yield return new WaitForSeconds(duration);
-        GameEvents.RaiseRemoveBuff(BuffType.TimeDilation);
+        GameEvents.RaiseRemoveBuff(BuffType.Cloak);
     }
 }

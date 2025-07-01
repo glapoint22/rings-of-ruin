@@ -55,32 +55,26 @@ MonoBehaviour:
     enumValue: 2
   - prefab: {fileID: 1474903583431706141, guid: ce81e27667d8bbd43aad1b79ecae648a, type: 3}
     enumValue: 3
-  pickups:
+  spells:
   - prefab: {fileID: 8136413537345762719, guid: a7b07f4daf0b6c84ab1c479658b22dfc, type: 3}
     enumValue: 1
   - prefab: {fileID: 2350289288454457895, guid: 54f70e3948ba0354aa28843f623948ec, type: 3}
     enumValue: 2
   - prefab: {fileID: 2671347860398254805, guid: fea074d86ede84442ab1067ea3f6bec1, type: 3}
     enumValue: 3
-  - prefab: {fileID: 4311258303650999628, guid: 62bc426a24b13ec4998f2dfa1e75b453, type: 3}
-    enumValue: 4
-  - prefab: {fileID: 366851444705759479, guid: be6aaecb2f22df6409e3b3b7dfb677d0, type: 3}
-    enumValue: 5
   - prefab: {fileID: 4799016877198760528, guid: c25dd7bbb00fd5b4eb529cdb1209bf03, type: 3}
-    enumValue: 6
+    enumValue: 4
   - prefab: {fileID: 4799016877198760528, guid: 823792d3ea7b2dd4faf93518da651a4e, type: 3}
-    enumValue: 7
+    enumValue: 5
   - prefab: {fileID: 4799016877198760528, guid: 6ae96f66658755247a8cce2b15b1d0d5, type: 3}
-    enumValue: 8
+    enumValue: 6
   - prefab: {fileID: 4799016877198760528, guid: ec2a8e8b3964a544fa4211a1f5b90aa3, type: 3}
-    enumValue: 9
-  interactables:
+    enumValue: 7
+  portals:
   - prefab: {fileID: 515101759093858978, guid: 07e59bd7db92da04eb1af62eb99cc347, type: 3}
     enumValue: 1
   - prefab: {fileID: 515101759093858978, guid: c09a9e8ba82c39444aac10cbaa1ba6a5, type: 3}
     enumValue: 2
-  - prefab: {fileID: 6198304022393613139, guid: 93b7c8b9bb09f3442912a870fcfad369, type: 3}
-    enumValue: 3
   enemies:
   - prefab: {fileID: 94538880463379437, guid: d61b32293d6434d4aac3e96affb18e1d, type: 3}
     enumValue: 1
@@ -88,3 +82,8 @@ MonoBehaviour:
     enumValue: 2
   - prefab: {fileID: 1332851432689936905, guid: 674a88931e07a9745a3ca9a3156514a9, type: 3}
     enumValue: 3
+  utilityItems:
+  - prefab: {fileID: 4311258303650999628, guid: 62bc426a24b13ec4998f2dfa1e75b453, type: 3}
+    enumValue: 1
+  - prefab: {fileID: 366851444705759479, guid: be6aaecb2f22df6409e3b3b7dfb677d0, type: 3}
+    enumValue: 2

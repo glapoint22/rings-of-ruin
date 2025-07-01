@@ -13,7 +13,7 @@ public class SegmentIconLibrary : ScriptableObject
     public Sprite crumblingIcon;
     public Sprite spikeIcon;
 
-    [Header("Pickups")]
+    [Header("Spells")]
     public Sprite shieldIcon;
     public Sprite cloakIcon;
     public Sprite timeDilationIcon;
@@ -47,19 +47,27 @@ public class SegmentIconLibrary : ScriptableObject
     }
 
 
-    public Sprite GetPickupIcon(PickupType type)
+    public Sprite GetSpellIcon(SpellType type)
     {
         return type switch
         {
-            PickupType.Shield => shieldIcon,
-            PickupType.Cloak => cloakIcon,
-            PickupType.TimeDilation => timeDilationIcon,
-            PickupType.Health => healthIcon,
-            PickupType.Key => keyIcon,
-            PickupType.Stormbolt => stormboltIcon,
-            PickupType.Bloodroot => bloodrootIcon,
-            PickupType.Fireball => fireballIcon,
-            PickupType.Ashbind => ashbindIcon,
+            SpellType.Shield => shieldIcon,
+            SpellType.Cloak => cloakIcon,
+            SpellType.TimeDilation => timeDilationIcon,
+            SpellType.Stormbolt => stormboltIcon,
+            SpellType.Bloodroot => bloodrootIcon,
+            SpellType.Fireball => fireballIcon,
+            SpellType.Ashbind => ashbindIcon,
+            _ => null
+        };
+    }
+
+    public Sprite GetUtilityItemIcon(UtilityItem type)
+    {
+        return type switch
+        {
+            UtilityItem.Health => healthIcon,
+            UtilityItem.Key => keyIcon,
             _ => null
         };
     }
