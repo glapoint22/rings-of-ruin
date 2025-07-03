@@ -86,6 +86,27 @@ public class PlayerController : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.W)) ChangeRing(-1);
         if (Input.GetKeyDown(KeyCode.S)) ChangeRing(1);
+        
+        // Targeting input - more efficient with else if
+        if (Input.GetKeyDown(KeyCode.Tab))
+        {
+            if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))
+            {
+                GameEvents.RaiseShiftTabPressed(); // Reverse cycling
+            }
+            else
+            {
+                GameEvents.RaiseTabPressed(); // Forward cycling
+            }
+        }
+        else if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            GameEvents.RaiseEscapePressed();
+        }
+        else if (Input.GetMouseButtonDown(0)) // Left mouse button
+        {
+            GameEvents.RaiseMouseTargetPressed(Input.mousePosition);
+        }
     }
 
 

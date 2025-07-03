@@ -74,7 +74,7 @@ MonoBehaviour:
       segmentType: 0
       portalType: 0
       spellType: 0
-      enemyType: 0
+      enemyType: 1
       collectibleType: 0
       treasureChestCoinCount: 10
       hasHealth: 0
@@ -128,7 +128,7 @@ MonoBehaviour:
       segmentType: 0
       portalType: 0
       spellType: 0
-      enemyType: 0
+      enemyType: 3
       collectibleType: 0
       treasureChestCoinCount: 20
       hasHealth: 0

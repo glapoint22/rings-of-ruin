@@ -50,8 +50,10 @@ public abstract class MultiPrefabPool : BasePool
 
     public GameObject Get(System.Enum enumType)
     {
+        // Ensure a pool exists for this enum type, if not add it
         pools.TryAdd(enumType, new Queue<GameObject>());
 
+        // If there are prefabs in the pool, return the first one
         if (pools[enumType].Count > 0)
         {
             GameObject prefab = pools[enumType].Dequeue();
@@ -59,7 +61,7 @@ public abstract class MultiPrefabPool : BasePool
             return prefab;
         }
 
-        // Create new prefab instance of the requested type
+        // If there are no prefabs in the pool, create a new one
         return CreatePrefabInstance(enumType);
     }
 

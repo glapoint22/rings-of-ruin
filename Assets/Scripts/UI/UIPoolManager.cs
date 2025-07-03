@@ -16,6 +16,7 @@ public abstract class UIPoolManager : MonoBehaviour
 
     protected void AddIcon(Enum iconType)
     {
+        // Prevent duplicate icons from being added to the ui
         if (activeIcons.ContainsKey(iconType)) return;
 
 

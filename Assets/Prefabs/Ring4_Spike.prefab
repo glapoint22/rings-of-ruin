@@ -30,6 +30,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 2083069047874648169}
   - {fileID: 4534770609557551173}
   - {fileID: 414190376064584708}
   m_Father: {fileID: 0}
@@ -51,7 +52,6 @@ MonoBehaviour:
   moveSpeed: 5
   activeDuration: 0.5
   cycleDelay: 2
-  damageAmount: 10
 --- !u!1 &5315153968971561563
 GameObject:
   m_ObjectHideFlags: 0
@@ -173,6 +173,73 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 150b4ded95d2c0d4c829f763f1fb03e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &6155874485279353245
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2083069047874648169}
+  - component: {fileID: 1485966503801462310}
+  - component: {fileID: 6909946896410039602}
+  m_Layer: 0
+  m_Name: Target
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2083069047874648169
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6155874485279353245}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8020439656434627691}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &1485966503801462310
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6155874485279353245}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 2.35, y: 0.76, z: 3.76}
+  m_Center: {x: -0.23, y: 0.24, z: -1.96}
+--- !u!114 &6909946896410039602
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6155874485279353245}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b52347788a88dba41a0e0dd348fa3bf3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetName: Spikes
 --- !u!1001 &159251677781322735
 PrefabInstance:
   m_ObjectHideFlags: 0
