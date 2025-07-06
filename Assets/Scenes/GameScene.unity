@@ -148,7 +148,7 @@ Transform:
   m_GameObject: {fileID: 25005107}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -167,7 +167,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4710326df092d9446b2544487be917fc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 4
+  moveSpeed: 90
 --- !u!54 &25005114
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1617,6 +1617,50 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 487769116}
   m_CullTransparentMesh: 1
+--- !u!1 &515682342
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 515682344}
+  - component: {fileID: 515682343}
+  m_Layer: 0
+  m_Name: Input Manager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &515682343
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 515682342}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7f4cc712d45bd62429b0cca9e4ffe481, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &515682344
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 515682342}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &518720094
 GameObject:
   m_ObjectHideFlags: 0
@@ -4781,8 +4825,6 @@ MonoBehaviour:
   levelBuilder: {fileID: 1456701955}
   levels:
   - {fileID: 11400000, guid: d56e4fc654f138b4682d53e8e3b94213, type: 2}
-  - {fileID: 11400000, guid: 5ca1f0882695a0e4fbf57c22f43b21ff, type: 2}
-  - {fileID: 11400000, guid: e47adf5f10c68be45862edecf79ad1a6, type: 2}
 --- !u!4 &1456701957
 Transform:
   m_ObjectHideFlags: 0
@@ -8782,3 +8824,4 @@ SceneRoots:
   - {fileID: 868479019}
   - {fileID: 598344385}
   - {fileID: 718533146}
+  - {fileID: 515682344}

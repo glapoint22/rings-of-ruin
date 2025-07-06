@@ -27,6 +27,7 @@ public static class GameEvents
     public static event Action OnShiftTabPressed;
     public static event Action<Vector3> OnMouseTargetPressed;
     public static event Action OnEscapePressed;
+    public static event Action<Vector3> OnRightMousePressed;
 
     public static void RaiseAddCollectible(PlayerState state) => OnAddCollectible?.Invoke(state);
     public static void RaiseInteracted(GameObject interactable) => OnInteracted?.Invoke(interactable);
@@ -50,4 +51,6 @@ public static class GameEvents
     public static void RaiseShiftTabPressed() => OnShiftTabPressed?.Invoke();
     public static void RaiseMouseTargetPressed(Vector3 worldPosition) => OnMouseTargetPressed?.Invoke(worldPosition);
     public static void RaiseEscapePressed() => OnEscapePressed?.Invoke();
+    public static void RaiseRightMousePressed(Vector3 worldPosition) => OnRightMousePressed?.Invoke(worldPosition);
+
 }

@@ -4,6 +4,7 @@ public class RingSegment : MonoBehaviour
 {
     private int ringIndex;
     private int segmentIndex;
+    [SerializeField] private SegmentType segmentType;
 
     [Header("Slot Anchors")]
     [SerializeField] private Transform slotGround;
@@ -13,6 +14,7 @@ public class RingSegment : MonoBehaviour
     // Segment identification properties
     public int RingIndex => ringIndex;
     public int SegmentIndex => segmentIndex;
+    public SegmentType SegmentType => segmentType;
 
     // Game element slot properties
     public Transform SlotGround => slotGround;
