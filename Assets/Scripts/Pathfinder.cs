@@ -11,7 +11,7 @@ public class Pathfinder
     {
         this.levelData = levelData;
         this.validSegmentsPerRing = new Dictionary<int, List<int>>();
-        
+
         // Initialize the lookup structure
         BuildValidSegmentsLookup();
     }
@@ -21,45 +21,73 @@ public class Pathfinder
         foreach (var ring in levelData.rings)
         {
             List<int> validSegments = new List<int>();
-            
+
             for (int i = 0; i < ring.segments.Count; i++)
             {
                 var segment = ring.segments[i];
-                
+
                 // For now, only Normal segments are valid (ignore crumbling for now)
                 if (segment.segmentType == SegmentType.Normal)
                 {
                     validSegments.Add(i);
                 }
             }
-            
+
             validSegmentsPerRing[ring.ringIndex] = validSegments;
-            Debug.Log($"Ring {ring.ringIndex}: {validSegments.Count} valid segments out of {ring.segments.Count}");
         }
+    }
+
+
+    private float GetSegmentAngle(int segmentIndex)
+    {
+        float angle = 90f - (segmentIndex * 15f);
+
+        // Normalize to 0-360 range
+        while (angle < 0) angle += 360f;
+        while (angle >= 360f) angle -= 360f;
+
+        return angle;
+    }
+
+    private int GetSegmentIndex(float angle)
+    {
+        // Normalize the angle first to match GetSegmentAngle's normalization
+        while (angle < 0) angle += 360f;
+        while (angle >= 360f) angle -= 360f;
+        
+        // Convert angle to segment index (inverse of GetSegmentAngle)
+        // GetSegmentAngle: angle = 90f - (segmentIndex * 15f)
+        // So: segmentIndex = (90f - angle) / 15f
+        int segmentIndex = Mathf.RoundToInt((90f - angle) / 15f);
+        
+        // Normalize to 0-23 range
+        segmentIndex = segmentIndex % 24;
+        if (segmentIndex < 0) segmentIndex += 24;
+        
+        return segmentIndex;
     }
 
     public bool IsValidPosition(int ringIndex, float angle)
     {
         // Convert angle to segment index (matching the actual segment positioning)
-        int segmentIndex = (6 - Mathf.RoundToInt(angle / 15f)) % 24;
-        if (segmentIndex < 0) segmentIndex += 24;
-        
+        int segmentIndex = GetSegmentIndex(angle);
+
         // Check if this ring and segment combination is valid
         if (validSegmentsPerRing.ContainsKey(ringIndex))
         {
             return validSegmentsPerRing[ringIndex].Contains(segmentIndex);
         }
-        
+
         return false; // Ring doesn't exist
     }
 
     public List<(int ringIndex, float angle)> GetValidAdjacentPositions(int currentRing, float currentAngle)
     {
         List<(int ringIndex, float angle)> adjacentPositions = new List<(int ringIndex, float angle)>();
-        
+
         // Check adjacent angles on the same ring
         float[] adjacentAngles = { currentAngle - 15f, currentAngle + 15f };
-        
+
         foreach (float angle in adjacentAngles)
         {
             if (IsValidPosition(currentRing, angle))
@@ -67,10 +95,10 @@ public class Pathfinder
                 adjacentPositions.Add((currentRing, angle));
             }
         }
-        
+
         // Check adjacent rings at the same angle (with bounds checking)
         int[] adjacentRings = { currentRing - 1, currentRing + 1 };
-        
+
         foreach (int ringIndex in adjacentRings)
         {
             // Only check if the ring index is within valid bounds (0 to max ring)
@@ -79,23 +107,29 @@ public class Pathfinder
                 adjacentPositions.Add((ringIndex, currentAngle));
             }
         }
-        
+
         return adjacentPositions;
     }
 
-    public List<(int ringIndex, float angle)> FindPath(int startRing, float startAngle, int targetRing, float targetAngle)
+    
+
+    public List<Waypoint> FindPath(int startRingIndex, int startSegmentIndex, int targetRingIndex, int targetSegmentIndex, Vector3 targetPosition)
     {
+
+        float startAngle = GetSegmentAngle(startSegmentIndex);
+        float targetAngle = GetSegmentAngle(targetSegmentIndex);
+        
         List<PathNode> openSet = new List<PathNode>();
         List<PathNode> closedSet = new List<PathNode>();
         
         // Create start node
-        PathNode startNode = new PathNode(startRing, startAngle);
+        PathNode startNode = new PathNode(startRingIndex, startAngle);
         startNode.gCost = 0;
-        startNode.hCost = CalculateHeuristic(startNode, targetRing, targetAngle);
+        startNode.hCost = CalculateHeuristic(startNode, targetRingIndex, targetAngle);
         
         openSet.Add(startNode);
         
-        Debug.Log($"Starting A* pathfinding from ({startRing}, {startAngle}°) to ({targetRing}, {targetAngle}°)");
+       
         
         // A* main loop
         while (openSet.Count > 0)
@@ -114,13 +148,11 @@ public class Pathfinder
             openSet.Remove(currentNode);
             closedSet.Add(currentNode);
             
-            Debug.Log($"Exploring node: Ring {currentNode.ringIndex}, Angle {currentNode.angle}°");
             
             // Check if we reached the target
-            if (currentNode.ringIndex == targetRing && Mathf.Approximately(currentNode.angle, targetAngle))
+            if (currentNode.ringIndex == targetRingIndex && Mathf.Abs(Mathf.DeltaAngle(currentNode.angle, targetAngle)) < 1f)
             {
-                Debug.Log("Target reached! Reconstructing path...");
-                return ReconstructPath(currentNode);
+                return BuildPath(currentNode, targetPosition);
             }
             
             // Explore neighbors
@@ -128,10 +160,9 @@ public class Pathfinder
             foreach (var adjacent in adjacentPositions)
             {
                 // Skip if already in closed set
-                if (closedSet.Any(node => node.ringIndex == adjacent.ringIndex && Mathf.Approximately(node.angle, adjacent.angle)))
+                if (closedSet.Any(node => node.ringIndex == adjacent.ringIndex && Mathf.Abs(Mathf.DeltaAngle(node.angle, adjacent.angle)) < 1f))
                     continue;
                 
-                Debug.Log($"  Checking neighbor: Ring {adjacent.ringIndex}, Angle {adjacent.angle}°");
                 
                 // Calculate cost to this neighbor
                 float moveCost = CalculateMoveCost(currentNode, adjacent);
@@ -139,7 +170,7 @@ public class Pathfinder
                 
                 // Check if this path is better than previous paths
                 PathNode existingNeighbor = openSet.FirstOrDefault(node => 
-                    node.ringIndex == adjacent.ringIndex && Mathf.Approximately(node.angle, adjacent.angle));
+                    node.ringIndex == adjacent.ringIndex && Mathf.Abs(Mathf.DeltaAngle(node.angle, adjacent.angle)) < 1f);
                 
                 if (existingNeighbor == null)
                 {
@@ -147,7 +178,7 @@ public class Pathfinder
                     PathNode neighborNode = new PathNode(adjacent.ringIndex, adjacent.angle);
                     neighborNode.parent = currentNode;
                     neighborNode.gCost = tentativeGCost;
-                    neighborNode.hCost = CalculateHeuristic(neighborNode, targetRing, targetAngle);
+                    neighborNode.hCost = CalculateHeuristic(neighborNode, targetRingIndex, targetAngle);
                     openSet.Add(neighborNode);
                 }
                 else if (tentativeGCost < existingNeighbor.gCost)
@@ -157,31 +188,30 @@ public class Pathfinder
                     existingNeighbor.gCost = tentativeGCost;
                 }
             }
-            
-            // For now, limit iterations to prevent infinite loop
-            if (closedSet.Count > 100)
-            {
-                Debug.Log("Pathfinding stopped - too many iterations");
-                break;
-            }
         }
-        
-        Debug.Log("No path found!");
-        return new List<(int ringIndex, float angle)>();
+
+        return new List<Waypoint>();
     }
 
-    private List<(int ringIndex, float angle)> ReconstructPath(PathNode endNode)
+    private List<Waypoint> BuildPath(PathNode endNode, Vector3 targetPosition)
     {
-        List<(int ringIndex, float angle)> path = new List<(int ringIndex, float angle)>();
+        List<Waypoint> path = new List<Waypoint>();
         PathNode currentNode = endNode;
-        
+
         while (currentNode != null)
         {
-            path.Insert(0, (currentNode.ringIndex, currentNode.angle));
+            Vector3 position;
+
+            if (path.Count == 0) {
+                position = targetPosition;
+            } else {
+                position = GetPosition(currentNode.ringIndex, currentNode.angle);
+            }
+
+            path.Insert(0, new Waypoint(currentNode.ringIndex, GetSegmentIndex(currentNode.angle), position));
             currentNode = currentNode.parent;
         }
-        
-        Debug.Log($"Path found with {path.Count} steps");
+
         return path;
     }
 
@@ -190,7 +220,7 @@ public class Pathfinder
         // Simple heuristic: distance between rings + angular distance
         float ringDistance = Mathf.Abs(node.ringIndex - targetRing);
         float angleDistance = Mathf.Abs(Mathf.DeltaAngle(node.angle, targetAngle));
-        
+
         return ringDistance + (angleDistance / 15f); // 15 degrees per segment
     }
 
@@ -198,10 +228,20 @@ public class Pathfinder
     {
         // Cost for ring change
         float ringCost = Mathf.Abs(from.ringIndex - to.ringIndex);
-        
+
         // Cost for angle change (normalized to segment count)
         float angleCost = Mathf.Abs(Mathf.DeltaAngle(from.angle, to.angle)) / 15f;
-        
+
         return ringCost + angleCost;
+    }
+
+
+    private Vector3 GetPosition(int ringIndex, float angle)
+    {
+        float ringRadius = RingConstants.BaseRadius + ringIndex * RingConstants.RingSpacing;
+        float angleRad = angle * Mathf.Deg2Rad;
+        float x = Mathf.Cos(angleRad) * ringRadius;
+        float z = Mathf.Sin(angleRad) * ringRadius;
+        return new Vector3(x, 0f, z);
     }
 }
