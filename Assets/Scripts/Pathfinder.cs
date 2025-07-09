@@ -4,8 +4,9 @@ using System.Linq;
 
 public class Pathfinder
 {
-    private LevelData levelData;
-    private Dictionary<int, List<int>> validSegmentsPerRing;
+    private readonly LevelData levelData;
+    private readonly Dictionary<int, List<int>> validSegmentsPerRing;
+
 
     public Pathfinder(LevelData levelData)
     {
@@ -16,11 +17,13 @@ public class Pathfinder
         BuildValidSegmentsLookup();
     }
 
+
+
     private void BuildValidSegmentsLookup()
     {
         foreach (var ring in levelData.rings)
         {
-            List<int> validSegments = new List<int>();
+            List<int> validSegments = new();
 
             for (int i = 0; i < ring.segments.Count; i++)
             {
@@ -32,10 +35,91 @@ public class Pathfinder
                     validSegments.Add(i);
                 }
             }
-
             validSegmentsPerRing[ring.ringIndex] = validSegments;
         }
     }
+
+
+
+    public List<Waypoint> GetPath(int startRingIndex, int startSegmentIndex, int targetRingIndex, int targetSegmentIndex, Vector3 targetPosition)
+    {
+        float startAngle = GetSegmentAngle(startSegmentIndex);
+        float targetAngle = GetSegmentAngle(targetSegmentIndex);
+        
+        List<PathNode> openSet = new();
+        List<PathNode> closedSet = new();
+        
+        // Create start node
+        PathNode startNode = new PathNode(startRingIndex, startAngle);
+        startNode.gCost = 0;
+        startNode.hCost = CalculateHeuristic(startNode, targetRingIndex, targetAngle);
+        
+        openSet.Add(startNode);
+        
+        // A* main loop
+        while (openSet.Count > 0)
+        {
+            // Find node with lowest fCost
+            PathNode parentPathNode = openSet[0];
+            for (int i = 1; i < openSet.Count; i++)
+            {
+                if (openSet[i].fCost < parentPathNode.fCost)
+                {
+                    parentPathNode = openSet[i];
+                }
+            }
+            
+            // Move parent path node from open to closed set
+            openSet.Remove(parentPathNode);
+            closedSet.Add(parentPathNode);
+            
+            
+            // Check if we reached the target
+            if (parentPathNode.ringIndex == targetRingIndex && Mathf.Abs(Mathf.DeltaAngle(parentPathNode.angle, targetAngle)) < 1f)
+            {
+                return BuildPath(parentPathNode, targetPosition);
+            }
+            
+            // Explore all adjacent path nodes
+            List<AdjacentPathNode> adjacentPathNodes = GetAdjacentPathNodes(parentPathNode.ringIndex, parentPathNode.angle);
+            foreach (var adjacentPathNode in adjacentPathNodes)
+            {
+                // Skip if this adjacent path node is already in closed set
+                if (closedSet.Any(node => node.ringIndex == adjacentPathNode.ringIndex && Mathf.Abs(Mathf.DeltaAngle(node.angle, adjacentPathNode.angle)) < 1f))
+                    continue;
+                
+                // Calculate cost to this adjacent path node
+                float moveCost = CalculateMoveCost(parentPathNode, adjacentPathNode);
+                float adjacentPathNodeGCost = parentPathNode.gCost + moveCost;
+                
+                // Check if the current adjacent PathNode already exists in openSet
+                PathNode currentAdjacentPathNode = openSet.FirstOrDefault(node => node.ringIndex == adjacentPathNode.ringIndex && Mathf.Abs(Mathf.DeltaAngle(node.angle, adjacentPathNode.angle)) < 1f);
+                
+                // If the current adjacent PathNode does (NOT) exist in openSet, add it
+                if (currentAdjacentPathNode == null)
+                {
+                    // New node - add to open set for potential future exploration
+                    PathNode childPathNode = new(adjacentPathNode.ringIndex, adjacentPathNode.angle)
+                    {
+                        parent = parentPathNode,
+                        gCost = adjacentPathNodeGCost
+                    };
+                    childPathNode.hCost = CalculateHeuristic(childPathNode, targetRingIndex, targetAngle);
+                    openSet.Add(childPathNode);
+                }
+
+                // This node was already discovered, but we found a cheaper path to reach it
+                else if (adjacentPathNodeGCost < currentAdjacentPathNode.gCost)
+                {
+                    // Update the node to use the cheaper path we just found
+                    currentAdjacentPathNode.parent = parentPathNode;
+                    currentAdjacentPathNode.gCost = adjacentPathNodeGCost;
+                }
+            }
+        }
+        return new List<Waypoint>();
+    }
+
 
 
     private float GetSegmentAngle(int segmentIndex)
@@ -48,6 +132,65 @@ public class Pathfinder
 
         return angle;
     }
+
+
+
+    private float CalculateHeuristic(PathNode node, int targetRing, float targetAngle)
+    {
+        // Simple heuristic: distance between rings + angular distance
+        float ringDistance = Mathf.Abs(node.ringIndex - targetRing);
+        float angleDistance = Mathf.Abs(Mathf.DeltaAngle(node.angle, targetAngle));
+
+        return ringDistance + (angleDistance / 15f); // 15 degrees per segment
+    }
+
+
+
+    private List<AdjacentPathNode> GetAdjacentPathNodes(int currentRing, float currentAngle)
+    {
+        List<AdjacentPathNode> adjacentPositions = new List<AdjacentPathNode>();
+
+        // Check adjacent angles on the same ring
+        float[] adjacentAngles = { currentAngle + 15f, currentAngle - 15f };
+
+        foreach (float angle in adjacentAngles)
+        {
+            if (IsValidPosition(currentRing, angle))
+            {
+                adjacentPositions.Add(new AdjacentPathNode(currentRing, angle));
+            }
+        }
+
+        // Check adjacent rings at the same angle (with bounds checking)
+        int[] adjacentRings = { currentRing + 1, currentRing - 1 };
+
+        foreach (int ringIndex in adjacentRings)
+        {
+            // Only check if the ring index is within valid bounds (0 to max ring)
+            if (ringIndex >= 0 && ringIndex < levelData.rings.Count && IsValidPosition(ringIndex, currentAngle))
+            {
+                adjacentPositions.Add(new AdjacentPathNode(ringIndex, currentAngle));
+            }
+        }
+        return adjacentPositions;
+    }
+
+
+
+    private bool IsValidPosition(int ringIndex, float angle)
+    {
+        // Convert angle to segment index (matching the actual segment positioning)
+        int segmentIndex = GetSegmentIndex(angle);
+
+        // Check if this ring and segment combination is valid
+        if (validSegmentsPerRing.ContainsKey(ringIndex))
+        {
+            return validSegmentsPerRing[ringIndex].Contains(segmentIndex);
+        }
+        return false; // Ring doesn't exist
+    }
+
+
 
     private int GetSegmentIndex(float angle)
     {
@@ -67,131 +210,20 @@ public class Pathfinder
         return segmentIndex;
     }
 
-    public bool IsValidPosition(int ringIndex, float angle)
+
+
+    private float CalculateMoveCost(PathNode parentPathNode, AdjacentPathNode adjacentPathNode)
     {
-        // Convert angle to segment index (matching the actual segment positioning)
-        int segmentIndex = GetSegmentIndex(angle);
+        // Cost for ring change
+        float ringCost = Mathf.Abs(parentPathNode.ringIndex - adjacentPathNode.ringIndex);
 
-        // Check if this ring and segment combination is valid
-        if (validSegmentsPerRing.ContainsKey(ringIndex))
-        {
-            return validSegmentsPerRing[ringIndex].Contains(segmentIndex);
-        }
+        // Cost for angle change (normalized to segment count)
+        float angleCost = Mathf.Abs(Mathf.DeltaAngle(parentPathNode.angle, adjacentPathNode.angle)) / 15f;
 
-        return false; // Ring doesn't exist
-    }
-
-    public List<(int ringIndex, float angle)> GetValidAdjacentPositions(int currentRing, float currentAngle)
-    {
-        List<(int ringIndex, float angle)> adjacentPositions = new List<(int ringIndex, float angle)>();
-
-        // Check adjacent angles on the same ring
-        float[] adjacentAngles = { currentAngle - 15f, currentAngle + 15f };
-
-        foreach (float angle in adjacentAngles)
-        {
-            if (IsValidPosition(currentRing, angle))
-            {
-                adjacentPositions.Add((currentRing, angle));
-            }
-        }
-
-        // Check adjacent rings at the same angle (with bounds checking)
-        int[] adjacentRings = { currentRing - 1, currentRing + 1 };
-
-        foreach (int ringIndex in adjacentRings)
-        {
-            // Only check if the ring index is within valid bounds (0 to max ring)
-            if (ringIndex >= 0 && ringIndex < levelData.rings.Count && IsValidPosition(ringIndex, currentAngle))
-            {
-                adjacentPositions.Add((ringIndex, currentAngle));
-            }
-        }
-
-        return adjacentPositions;
+        return ringCost + angleCost;
     }
 
     
-
-    public List<Waypoint> FindPath(int startRingIndex, int startSegmentIndex, int targetRingIndex, int targetSegmentIndex, Vector3 targetPosition)
-    {
-
-        float startAngle = GetSegmentAngle(startSegmentIndex);
-        float targetAngle = GetSegmentAngle(targetSegmentIndex);
-        
-        List<PathNode> openSet = new List<PathNode>();
-        List<PathNode> closedSet = new List<PathNode>();
-        
-        // Create start node
-        PathNode startNode = new PathNode(startRingIndex, startAngle);
-        startNode.gCost = 0;
-        startNode.hCost = CalculateHeuristic(startNode, targetRingIndex, targetAngle);
-        
-        openSet.Add(startNode);
-        
-       
-        
-        // A* main loop
-        while (openSet.Count > 0)
-        {
-            // Find node with lowest fCost
-            PathNode currentNode = openSet[0];
-            for (int i = 1; i < openSet.Count; i++)
-            {
-                if (openSet[i].fCost < currentNode.fCost)
-                {
-                    currentNode = openSet[i];
-                }
-            }
-            
-            // Move current node from open to closed set
-            openSet.Remove(currentNode);
-            closedSet.Add(currentNode);
-            
-            
-            // Check if we reached the target
-            if (currentNode.ringIndex == targetRingIndex && Mathf.Abs(Mathf.DeltaAngle(currentNode.angle, targetAngle)) < 1f)
-            {
-                return BuildPath(currentNode, targetPosition);
-            }
-            
-            // Explore neighbors
-            var adjacentPositions = GetValidAdjacentPositions(currentNode.ringIndex, currentNode.angle);
-            foreach (var adjacent in adjacentPositions)
-            {
-                // Skip if already in closed set
-                if (closedSet.Any(node => node.ringIndex == adjacent.ringIndex && Mathf.Abs(Mathf.DeltaAngle(node.angle, adjacent.angle)) < 1f))
-                    continue;
-                
-                
-                // Calculate cost to this neighbor
-                float moveCost = CalculateMoveCost(currentNode, adjacent);
-                float tentativeGCost = currentNode.gCost + moveCost;
-                
-                // Check if this path is better than previous paths
-                PathNode existingNeighbor = openSet.FirstOrDefault(node => 
-                    node.ringIndex == adjacent.ringIndex && Mathf.Abs(Mathf.DeltaAngle(node.angle, adjacent.angle)) < 1f);
-                
-                if (existingNeighbor == null)
-                {
-                    // New node - add to open set
-                    PathNode neighborNode = new PathNode(adjacent.ringIndex, adjacent.angle);
-                    neighborNode.parent = currentNode;
-                    neighborNode.gCost = tentativeGCost;
-                    neighborNode.hCost = CalculateHeuristic(neighborNode, targetRingIndex, targetAngle);
-                    openSet.Add(neighborNode);
-                }
-                else if (tentativeGCost < existingNeighbor.gCost)
-                {
-                    // Better path found - update existing node
-                    existingNeighbor.parent = currentNode;
-                    existingNeighbor.gCost = tentativeGCost;
-                }
-            }
-        }
-
-        return new List<Waypoint>();
-    }
 
     private List<Waypoint> BuildPath(PathNode endNode, Vector3 targetPosition)
     {
@@ -213,26 +245,6 @@ public class Pathfinder
         }
 
         return path;
-    }
-
-    private float CalculateHeuristic(PathNode node, int targetRing, float targetAngle)
-    {
-        // Simple heuristic: distance between rings + angular distance
-        float ringDistance = Mathf.Abs(node.ringIndex - targetRing);
-        float angleDistance = Mathf.Abs(Mathf.DeltaAngle(node.angle, targetAngle));
-
-        return ringDistance + (angleDistance / 15f); // 15 degrees per segment
-    }
-
-    private float CalculateMoveCost(PathNode from, (int ringIndex, float angle) to)
-    {
-        // Cost for ring change
-        float ringCost = Mathf.Abs(from.ringIndex - to.ringIndex);
-
-        // Cost for angle change (normalized to segment count)
-        float angleCost = Mathf.Abs(Mathf.DeltaAngle(from.angle, to.angle)) / 15f;
-
-        return ringCost + angleCost;
     }
 
 

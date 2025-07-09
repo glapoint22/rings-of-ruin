@@ -3,7 +3,7 @@
 public class PlayerController : MonoBehaviour
 {
     private bool isMoving = false;
-    [SerializeField] private float moveSpeed = 90f; // degrees per second
+    //[SerializeField] private float moveSpeed = 90f; // degrees per second
 
     private Pathfinder pathfinder;
     private int startRingIndex = 0;
@@ -35,10 +35,13 @@ public class PlayerController : MonoBehaviour
             RingSegment ringSegment = hit.collider.GetComponentInParent<RingSegment>();
             if (ringSegment != null)
             {
+                var path = pathfinder.GetPath(startRingIndex, startSegmentIndex, ringSegment.RingIndex, ringSegment.SegmentIndex, hit.point);
 
-                var path = pathfinder.FindPath(startRingIndex, startSegmentIndex, ringSegment.RingIndex, ringSegment.SegmentIndex, hit.point);
-
-
+                // Debug: Draw the path
+                for (int i = 0; i < path.Count - 1; i++)
+                {
+                    Debug.DrawLine(path[i].position, path[i + 1].position, Color.green, 5f);
+                }
             }
             else
             {
