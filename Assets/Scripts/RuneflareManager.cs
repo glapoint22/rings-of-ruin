@@ -31,7 +31,7 @@ public class RuneflareManager : MonoBehaviour
 
         currentLevelData = levelData;
         int ringCount = levelData.rings.Count;
-        float outerRadius = RingConstants.BaseRadius + (ringCount - 1) * RingConstants.RingSpacing;
+        float outerRadius = RingConstants.BaseRadius + (ringCount - 1) * RingConstants.RingRadiusOffset;
         minRadius = outerRadius + 2f;
         maxRadius = outerRadius + 2f;
 

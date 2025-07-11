@@ -6,8 +6,9 @@ public class RingSegment : MonoBehaviour
     private int segmentIndex;
 
     [Header("Slot Anchors")]
-    [SerializeField] private Transform slotGround;
     [SerializeField] private Transform slotFloat;
+    [SerializeField] private Transform slotGround;
+    
 
 
     // Segment identification properties

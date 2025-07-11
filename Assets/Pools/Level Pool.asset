@@ -12,41 +12,41 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 78eb974493612974bb3f1c00fd87b5f2, type: 3}
   m_Name: Level Pool
   m_EditorClassIdentifier: 
-  ring1Segments:
-  - prefab: {fileID: 2235975708072195948, guid: 1daff7f1703680b48bff238a3436548e, type: 3}
+  ring0Segments:
+  - prefab: {fileID: 5610342747155699350, guid: 8d19b97e8d9c6b04c8d65278fb6b4b84, type: 3}
     enumValue: 0
-  - prefab: {fileID: 1412275854526739006, guid: 5b3b2b093f21ee64c8280ab0c7181c26, type: 3}
+  - prefab: {fileID: 730959778296827824, guid: ffe282a0479944f48a25beab31c676c7, type: 3}
     enumValue: 1
-  - prefab: {fileID: 2235975708072195948, guid: c60143f13f1d6dd41bd0985e2580de15, type: 3}
+  - prefab: {fileID: 7467806825586684674, guid: df832fe1aa1c7d24ca04fa77972b0ddb, type: 3}
     enumValue: 2
-  - prefab: {fileID: 2235975708072195948, guid: ca464a5654a67ed4488d5bc21a9b069c, type: 3}
+  - prefab: {fileID: 6140239559513484827, guid: 67efc0d53063a344283d2d607634c285, type: 3}
     enumValue: 3
-  ring2Segments:
-  - prefab: {fileID: 5859960933196909592, guid: 92bb02f7eee2891448e9c41d849dec59, type: 3}
+  ring1Segments:
+  - prefab: {fileID: 4426497559679088635, guid: 9db2ddbf206e8eb4fa74629b69958591, type: 3}
     enumValue: 4
-  - prefab: {fileID: 2304869420920820612, guid: 05f83ebb3659aec48adbc9f39b6401fd, type: 3}
+  - prefab: {fileID: 8909193990808057320, guid: 085c5a977d51a064285b9cba3c40b976, type: 3}
     enumValue: 5
-  - prefab: {fileID: 5859960933196909592, guid: b22f17254e0a7804ea64c0054b5d6010, type: 3}
+  - prefab: {fileID: 1444546178958082946, guid: 01fa7ac291fb61a458022c975672625e, type: 3}
     enumValue: 6
-  - prefab: {fileID: 5859960933196909592, guid: 1bcb4c97201059347984d4d4f4b39f15, type: 3}
+  - prefab: {fileID: 395341917257423564, guid: 9554bbfa4b85e17409eab9a84156c599, type: 3}
     enumValue: 7
-  ring3Segments:
-  - prefab: {fileID: 3557702605399015103, guid: 7ad0ad223c7c2ef43b27ba1326bb22a2, type: 3}
+  ring2Segments:
+  - prefab: {fileID: 1647323587222142711, guid: c81a2fd4b657e0c44a1ae069f31aed51, type: 3}
     enumValue: 8
-  - prefab: {fileID: 3113857544761921626, guid: 540797ae70c760c4183fdfe5f0a78deb, type: 3}
+  - prefab: {fileID: 3414412074432425541, guid: ff9d6ee311476f14487b8490b85163e5, type: 3}
     enumValue: 9
-  - prefab: {fileID: 3557702605399015103, guid: c270b0572f632e543bbac62e8ac51487, type: 3}
+  - prefab: {fileID: 6645352871225564402, guid: a971fd2cee2a8e046b18546be23ddf8a, type: 3}
     enumValue: 10
-  - prefab: {fileID: 3557702605399015103, guid: f7aef67dc97741c40a3194cc8f4a23ba, type: 3}
+  - prefab: {fileID: 3437010113593238799, guid: fba9d1d06ddee654398e75d2ca6b77ba, type: 3}
     enumValue: 11
-  ring4Segments:
-  - prefab: {fileID: 4696534980819948806, guid: 6fd2b80aefa6f6c41995a63eee1546fa, type: 3}
+  ring3Segments:
+  - prefab: {fileID: 5526439113299804452, guid: 45c5774c47f4ac64b96ff46526912c26, type: 3}
     enumValue: 12
-  - prefab: {fileID: 8665015893421046531, guid: 73fe91cb3b09a4347ac2ce8f81f6f95b, type: 3}
+  - prefab: {fileID: 3276662720653619994, guid: b361075b51e2bc44c93d29ca4e21749b, type: 3}
     enumValue: 13
-  - prefab: {fileID: 4696534980819948806, guid: ccc82fc92eb457f4096887e2b8daf201, type: 3}
+  - prefab: {fileID: 3818714463972283909, guid: 84d94f6af3e65c844b14e867d749021b, type: 3}
     enumValue: 14
-  - prefab: {fileID: 4696534980819948806, guid: 1a8f93d2bfbf30441a85ebb836ef0998, type: 3}
+  - prefab: {fileID: 3497072354136049920, guid: 06336ebe5b03cfe4fb1afaff70476721, type: 3}
     enumValue: 15
   collectibles:
   - prefab: {fileID: 1330952793056581977, guid: 21b70fda3216c4143acc6763d40ffc20, type: 3}

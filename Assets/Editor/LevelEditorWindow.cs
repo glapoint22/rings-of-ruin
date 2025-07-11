@@ -163,7 +163,7 @@ public class LevelEditorWindow : EditorWindow
     {
         GUILayout.BeginHorizontal();
 
-        string[] ringLabels = selectedLevelData.rings.Select((r, i) => $"Ring {i + 1}").ToArray();
+        string[] ringLabels = selectedLevelData.rings.Select((r, i) => $"Ring {i}").ToArray();
         selectedRingIndex = Mathf.Clamp(selectedRingIndex, 0, selectedLevelData.rings.Count - 1);
 
         int newRingIndex = EditorGUILayout.Popup("Selected Ring", selectedRingIndex, ringLabels);

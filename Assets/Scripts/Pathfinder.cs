@@ -250,7 +250,7 @@ public class Pathfinder
 
     private Vector3 GetPosition(int ringIndex, float angle)
     {
-        float ringRadius = RingConstants.BaseRadius + ringIndex * RingConstants.RingSpacing;
+        float ringRadius = RingConstants.BaseRadius + ringIndex * RingConstants.RingRadiusOffset;
         float angleRad = angle * Mathf.Deg2Rad;
         float x = Mathf.Cos(angleRad) * ringRadius;
         float z = Mathf.Sin(angleRad) * ringRadius;

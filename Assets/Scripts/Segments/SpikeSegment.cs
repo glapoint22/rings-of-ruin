@@ -4,7 +4,7 @@ using System.Collections;
 public class SpikeSegment: MonoBehaviour
 {
     [Header("Spike Settings")]
-    [SerializeField] private Transform spikeGroup; // The moving spike mesh
+    [SerializeField] private Transform spikes; // The moving spike mesh
     [SerializeField] private float extendOffset = 0.5f; // How far it moves up
     [SerializeField] private float moveSpeed = 5f;
     [SerializeField] private float activeDuration = 0.5f;
@@ -19,7 +19,7 @@ public class SpikeSegment: MonoBehaviour
 
     private void Start()
     {
-        retractedPosition = spikeGroup.localPosition;
+        retractedPosition = spikes.localPosition;
         extendedPosition = retractedPosition + Vector3.up * extendOffset;
 
         if (cycleSpikesRoutine == null)
@@ -48,12 +48,12 @@ public class SpikeSegment: MonoBehaviour
 
     private IEnumerator MoveTo(Vector3 target)
     {
-        while (Vector3.Distance(spikeGroup.localPosition, target) > 0.01f)
+        while (Vector3.Distance(spikes.localPosition, target) > 0.01f)
         {
-            spikeGroup.localPosition = Vector3.MoveTowards(
-                spikeGroup.localPosition, target, moveSpeed * Time.deltaTime);
+            spikes.localPosition = Vector3.MoveTowards(
+                spikes.localPosition, target, moveSpeed * Time.deltaTime);
             yield return null;
         }
-        spikeGroup.localPosition = target;
+        spikes.localPosition = target;
     }
 }

@@ -82,25 +82,21 @@ public class LevelBuilder : MonoBehaviour
 
     private void BuildRing(RingConfiguration ring)
     {
-        float radius = RingConstants.BaseRadius + ring.ringIndex * RingConstants.RingSpacing;
-
-        // Find existing ring root instead of creating new one
         Transform ringRoot = levelRoot.Find($"Ring_{ring.ringIndex}");
-        if (ringRoot == null)
-        {
-            Debug.LogError($"Ring root 'Ring_{ring.ringIndex}' not found in hierarchy!");
-            return;
-        }
+        if (ringRoot == null) return;
+
+        float ninetyDegreeOffset = Mathf.PI / 2f;
+        float anglePerSegment = (Mathf.PI * 2f) / RingConstants.SegmentCount;
+        float radius = RingConstants.BaseRadius + (ring.ringIndex * RingConstants.RingRadiusOffset);
 
         for (int i = 0; i < ring.segments.Count; i++)
         {
-            SegmentConfiguration segment = ring.segments[i];
-
-            float angle = -i * Mathf.PI * 2f / RingConstants.SegmentCount + Mathf.PI / 2f;
+            float angle = -i * anglePerSegment + ninetyDegreeOffset;
             Vector3 position = new Vector3(Mathf.Cos(angle), 0, Mathf.Sin(angle)) * radius;
             Quaternion rotation = Quaternion.Euler(0, -angle * Mathf.Rad2Deg, 0);
 
             // Get from pool
+            SegmentConfiguration segment = ring.segments[i];
             GameObject segmentGO = levelPool.Get(GetRingSegmentType(ring.ringIndex, segment.segmentType));
             if (segmentGO == null) continue;
 
@@ -119,9 +115,7 @@ public class LevelBuilder : MonoBehaviour
 
     private RingSegmentType GetRingSegmentType(int ringIndex, SegmentType segmentType)
     {
-        // Each ring has 4 segment types (Normal, Gap, Crumbling, Spike)
-        // ringIndex is 0-based, but RingSegmentType enum is 1-based (Ring_1, Ring_2, etc.)
-        // Formula: ringIndex * 4 + (int)segmentType
+        // Converts SegmentType enum to RingSegmentType enum for levelPool compatibility
         return (RingSegmentType)(ringIndex * 4 + (int)segmentType);
     }
 
