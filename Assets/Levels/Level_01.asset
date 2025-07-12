@@ -71,7 +71,7 @@ MonoBehaviour:
       hasHealth: 0
       hasKey: 0
     - segmentIndex: 6
-      segmentType: 0
+      segmentType: 1
       portalType: 0
       spellType: 0
       enemyType: 0
@@ -289,7 +289,7 @@ MonoBehaviour:
       hasHealth: 0
       hasKey: 0
     - segmentIndex: 6
-      segmentType: 0
+      segmentType: 1
       portalType: 0
       spellType: 0
       enemyType: 0
@@ -343,7 +343,7 @@ MonoBehaviour:
       hasHealth: 0
       hasKey: 0
     - segmentIndex: 12
-      segmentType: 0
+      segmentType: 1
       portalType: 0
       spellType: 0
       enemyType: 0
@@ -507,7 +507,7 @@ MonoBehaviour:
       hasHealth: 0
       hasKey: 0
     - segmentIndex: 6
-      segmentType: 0
+      segmentType: 1
       portalType: 0
       spellType: 0
       enemyType: 0
@@ -725,7 +725,7 @@ MonoBehaviour:
       hasHealth: 0
       hasKey: 0
     - segmentIndex: 6
-      segmentType: 0
+      segmentType: 1
       portalType: 0
       spellType: 0
       enemyType: 0

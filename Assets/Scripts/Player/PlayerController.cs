@@ -1,13 +1,19 @@
 ﻿using UnityEngine;
+using System.Collections;
+using System.Collections.Generic;
 
 public class PlayerController : MonoBehaviour
 {
-    private bool isMoving = false;
-    //[SerializeField] private float moveSpeed = 90f; // degrees per second
+    [Header("Movement")]
+    [SerializeField] private float moveSpeed = 5f;
 
     private Pathfinder pathfinder;
     private int startRingIndex = 0;
-    private int startSegmentIndex = 0;
+    private int startSegmentIndex = 12;
+
+    // Movement state
+    private Coroutine currentMovementCoroutine;
+    private List<Path> currentPath;
 
     private void OnEnable()
     {
@@ -35,13 +41,11 @@ public class PlayerController : MonoBehaviour
             RingSegment ringSegment = hit.collider.GetComponentInParent<RingSegment>();
             if (ringSegment != null)
             {
+                
                 var path = pathfinder.GetPath(startRingIndex, startSegmentIndex, ringSegment.RingIndex, ringSegment.SegmentIndex, hit.point);
 
-                // Debug: Draw the path
-                for (int i = 0; i < path.Count - 1; i++)
-                {
-                    Debug.DrawLine(path[i].position, path[i + 1].position, Color.green, 5f);
-                }
+                // Start movement along the path
+                StartMovement(path);
             }
             else
             {
@@ -54,13 +58,56 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-
-
-    private void Update()
+    private void StartMovement(List<Path> path)
     {
-        if (isMoving)
+        // Stop any current movement
+        if (currentMovementCoroutine != null)
         {
-
+            StopCoroutine(currentMovementCoroutine);
         }
+
+        // Store the new path and start movement
+        currentPath = path;
+        currentMovementCoroutine = StartCoroutine(MoveAlongPath());
+    }
+
+    private IEnumerator MoveAlongPath()
+    {
+        if (currentPath == null || currentPath.Count == 0)
+        {
+            yield break;
+        }
+
+        // Move to each path point
+        for (int i = 0; i < currentPath.Count; i++)
+        {
+            Vector3 targetPosition = currentPath[i].position;
+            var lastPathPoint = currentPath[i];
+            startRingIndex = lastPathPoint.ringIndex;
+            startSegmentIndex = lastPathPoint.segmentIndex;
+            
+            // Move towards the target position
+            while (Vector3.Distance(transform.position, targetPosition) > 0.1f)
+            {
+                // Calculate movement direction
+                Vector3 moveDirection = (targetPosition - transform.position).normalized;
+                
+                // Move the player
+                transform.position = Vector3.MoveTowards(transform.position, targetPosition, moveSpeed * Time.deltaTime);
+                
+                // Rotate the player to face movement direction
+                if (moveDirection != Vector3.zero)
+                {
+                    Quaternion targetRotation = Quaternion.LookRotation(moveDirection);
+                    transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, 5f * Time.deltaTime);
+                }
+                
+                yield return null;
+            }
+        }
+
+        // Clear movement state
+        currentMovementCoroutine = null;
+        currentPath = null;
     }
 }

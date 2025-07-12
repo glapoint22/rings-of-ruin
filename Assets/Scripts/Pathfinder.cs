@@ -251,6 +251,8 @@ public class Pathfinder
             path.Insert(0, new Path(currentNode.ringIndex, GetSegmentIndex(currentNode.angle), position));
             currentNode = currentNode.parent;
         }
+        if (path.Count > 1)
+            path.RemoveAt(0);
 
         return path;
     }
