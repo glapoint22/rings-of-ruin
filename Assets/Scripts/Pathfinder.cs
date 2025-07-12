@@ -41,7 +41,7 @@ public class Pathfinder
 
 
 
-    public List<Waypoint> GetPath(int startRingIndex, int startSegmentIndex, int targetRingIndex, int targetSegmentIndex, Vector3 targetPosition)
+    public List<Path> GetPath(int startRingIndex, int startSegmentIndex, int targetRingIndex, int targetSegmentIndex, Vector3 targetPosition)
     {
         float startAngle = GetSegmentAngle(startSegmentIndex);
         float targetAngle = GetSegmentAngle(targetSegmentIndex);
@@ -117,7 +117,7 @@ public class Pathfinder
                 }
             }
         }
-        return new List<Waypoint>();
+        return new List<Path>();
     }
 
 
@@ -154,16 +154,8 @@ public class Pathfinder
         Vector3 fromPosition = GetPosition(fromRing, fromAngle);
         Vector3 toPosition = GetPosition(toRing, toAngle);
 
-        float distance = Vector3.Distance(fromPosition, toPosition);
-
-
-        // Cost for ring change
-        float ringCost = distance;
-
-        // Cost for angle change (normalized to segment count)
-        float angleCost = Mathf.Abs(Mathf.DeltaAngle(fromAngle, toAngle)) / 15f;
-
-        return ringCost + angleCost;
+        // Cost for distance
+        return Vector3.Distance(fromPosition, toPosition);
     }
 
 
@@ -238,9 +230,9 @@ public class Pathfinder
 
 
 
-    private List<Waypoint> BuildPath(PathNode endNode, Vector3 targetPosition)
+    private List<Path> BuildPath(PathNode endNode, Vector3 targetPosition)
     {
-        List<Waypoint> path = new List<Waypoint>();
+        List<Path> path = new List<Path>();
         PathNode currentNode = endNode;
 
         while (currentNode != null)
@@ -256,7 +248,7 @@ public class Pathfinder
                 position = GetPosition(currentNode.ringIndex, currentNode.angle);
             }
 
-            path.Insert(0, new Waypoint(currentNode.ringIndex, GetSegmentIndex(currentNode.angle), position));
+            path.Insert(0, new Path(currentNode.ringIndex, GetSegmentIndex(currentNode.angle), position));
             currentNode = currentNode.parent;
         }
 
