@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 
 
@@ -32,6 +33,42 @@ public class LevelData : ScriptableObject
             }
             return count;
         }
+    }
+
+    // New method to get waypoint groups for enemy spawning
+    public Dictionary<EnemyType, List<WaypointLocation>> GetEnemyWaypointGroups()
+    {
+        var waypointGroups = new Dictionary<EnemyType, List<WaypointLocation>>();
+
+        // Initialize lists for each enemy type
+        foreach (EnemyType enemyType in System.Enum.GetValues(typeof(EnemyType)))
+        {
+            if (enemyType != EnemyType.None)
+            {
+                waypointGroups[enemyType] = new List<WaypointLocation>();
+            }
+        }
+
+        // Build waypoint groups from segment data
+        for (int ringIndex = 0; ringIndex < rings.Count; ringIndex++)
+        {
+            var ring = rings[ringIndex];
+            for (int segmentIndex = 0; segmentIndex < ring.segments.Count; segmentIndex++)
+            {
+                var segment = ring.segments[segmentIndex];
+                if (segment.enemyType != EnemyType.None)
+                {
+                    var waypoint = new WaypointLocation
+                    {
+                        ringIndex = ringIndex,
+                        segmentIndex = segmentIndex
+                    };
+                    waypointGroups[segment.enemyType].Add(waypoint);
+                }
+            }
+        }
+
+        return waypointGroups;
     }
 }
 
@@ -76,6 +113,14 @@ public class EnemySpawn
 
 [System.Serializable]
 public class SpellSpawnPoint
+{
+    public int ringIndex;
+    public int segmentIndex;
+}
+
+// New data structure for waypoint locations
+[System.Serializable]
+public class WaypointLocation
 {
     public int ringIndex;
     public int segmentIndex;

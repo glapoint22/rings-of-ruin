@@ -8,12 +8,15 @@ public class RingSegment : MonoBehaviour
     [Header("Slot Anchors")]
     [SerializeField] private Transform slotFloat;
     [SerializeField] private Transform slotGround;
+    [SerializeField] private Transform waypoint;
     
 
 
     // Segment identification properties
     public int RingIndex => ringIndex;
     public int SegmentIndex => segmentIndex;
+    public Transform Waypoint => waypoint;
+
 
     // Game element slot properties
     public Transform SlotGround => slotGround;

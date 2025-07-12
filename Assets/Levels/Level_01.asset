@@ -129,7 +129,7 @@ MonoBehaviour:
       portalType: 0
       spellType: 0
       enemyType: 0
-      collectibleType: 0
+      collectibleType: 2
       treasureChestCoinCount: 20
       hasHealth: 0
       hasKey: 0

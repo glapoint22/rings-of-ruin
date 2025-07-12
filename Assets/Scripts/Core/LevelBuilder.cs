@@ -78,6 +78,9 @@ public class LevelBuilder : MonoBehaviour
         }
 
         setPortals();
+        
+        // NEW: Spawn enemies at waypoints after all segments are built
+        SpawnEnemiesAtWaypoints(levelData);
     }
 
     private void BuildRing(RingConfiguration ring)
@@ -183,16 +186,7 @@ public class LevelBuilder : MonoBehaviour
                 }
             }
         }
-        else if (config.enemyType != EnemyType.None)
-        {
-            GameObject enemy = levelPool.Get(config.enemyType);
-            if (enemy != null)
-            {
-                enemy.transform.SetPositionAndRotation(ringSegment.SlotGround.position, ringSegment.SlotGround.rotation);
-                enemy.transform.SetParent(ringSegment.SlotGround);
-                enemy.name = $"Enemy_{config.enemyType}";
-            }
-        }
+        // REMOVED: Direct enemy spawning - now handled by SpawnEnemiesAtWaypoints
         else if (config.portalType != PortalType.None)
         {
             GameObject portal = levelPool.Get(config.portalType);
@@ -225,6 +219,44 @@ public class LevelBuilder : MonoBehaviour
             floatObject.transform.SetPositionAndRotation(ringSegment.SlotFloat.position, ringSegment.SlotFloat.rotation);
             floatObject.transform.SetParent(ringSegment.SlotFloat);
             floatObject.name = $"Float_{enumType}";
+        }
+    }
+
+    // NEW: Method to spawn enemies at waypoints
+    private void SpawnEnemiesAtWaypoints(LevelData levelData)
+    {
+        var waypointGroups = levelData.GetEnemyWaypointGroups();
+        
+        foreach (var kvp in waypointGroups)
+        {
+            EnemyType enemyType = kvp.Key;
+            List<WaypointLocation> waypoints = kvp.Value;
+            
+            // Skip if no waypoints for this enemy type
+            if (waypoints.Count == 0) continue;
+            
+            // Randomly select one waypoint for this enemy type
+            int randomIndex = Random.Range(0, waypoints.Count);
+            WaypointLocation selectedWaypoint = waypoints[randomIndex];
+            
+            // Find the ring segment at the selected waypoint
+            Transform ringRoot = levelRoot.Find($"Ring_{selectedWaypoint.ringIndex}");
+            if (ringRoot == null) continue;
+            
+            Transform segmentTransform = ringRoot.Find($"Ring{selectedWaypoint.ringIndex}_Seg{selectedWaypoint.segmentIndex}");
+            if (segmentTransform == null) continue;
+            
+            RingSegment ringSegment = segmentTransform.GetComponent<RingSegment>();
+            if (ringSegment == null || ringSegment.Waypoint == null) continue;
+            
+            // Spawn the enemy at the waypoint
+            GameObject enemy = levelPool.Get(enemyType);
+            if (enemy != null)
+            {
+                enemy.transform.SetPositionAndRotation(ringSegment.Waypoint.position, ringSegment.Waypoint.rotation);
+                enemy.transform.SetParent(ringSegment.Waypoint);
+                enemy.name = $"Enemy_{enemyType}";
+            }
         }
     }
 }
