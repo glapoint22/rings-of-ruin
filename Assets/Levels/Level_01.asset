@@ -129,7 +129,7 @@ MonoBehaviour:
       portalType: 0
       spellType: 0
       enemyType: 0
-      collectibleType: 2
+      collectibleType: 0
       treasureChestCoinCount: 20
       hasHealth: 0
       hasKey: 0
@@ -155,7 +155,7 @@ MonoBehaviour:
       segmentType: 0
       portalType: 0
       spellType: 0
-      enemyType: 0
+      enemyType: 1
       collectibleType: 0
       treasureChestCoinCount: 18
       hasHealth: 0
@@ -173,7 +173,7 @@ MonoBehaviour:
       segmentType: 0
       portalType: 0
       spellType: 0
-      enemyType: 0
+      enemyType: 1
       collectibleType: 0
       treasureChestCoinCount: 1
       hasHealth: 0
@@ -218,7 +218,7 @@ MonoBehaviour:
       segmentType: 0
       portalType: 0
       spellType: 0
-      enemyType: 0
+      enemyType: 1
       collectibleType: 0
       treasureChestCoinCount: 1
       hasHealth: 0
