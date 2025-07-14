@@ -1,20 +1,41 @@
 using UnityEngine;
+using System.Collections.Generic;
 
 public abstract class EnemyStateMachine : MonoBehaviour
 {
+    [SerializeField] private Transform playerTransform;
     protected IEnemyState currentState;
     protected EnemyStateContext context;
+    private List<Vector3> waypoints;
 
-    protected virtual void Start()
+    private void OnEnable()
     {
-        context = new EnemyStateContext();
-        context.transform = transform;
-        context.playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
-        
-        Initialize();
+        GameEvents.OnLevelLoaded += OnLevelLoaded;
+    }
+
+    private void OnLevelLoaded(LevelData levelData)
+    {
+        context = new EnemyStateContext
+        {
+            health = 100f,
+            transform = transform,
+            playerTransform = playerTransform,
+            pathfinder = new Pathfinder(levelData),
+            pathMover = GetComponent<PathMover>(),
+            waypoints = waypoints,
+        };
+        context.pathMover.SetStartPosition(transform.position);
         currentState = GetInitialState();
         currentState.Enter(context);
     }
+
+
+    public void SetWaypoints(List<Vector3> waypoints)
+    {
+        this.waypoints = waypoints;
+    }
+
+    
 
     protected virtual void Update()
     {
@@ -29,6 +50,5 @@ public abstract class EnemyStateMachine : MonoBehaviour
         currentState.Update(context);
     }
 
-    protected abstract void Initialize();
     protected abstract IEnemyState GetInitialState();
 }

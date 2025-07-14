@@ -310,7 +310,7 @@ MonoBehaviour:
       segmentType: 0
       portalType: 0
       spellType: 0
-      enemyType: 0
+      enemyType: 1
       collectibleType: 0
       treasureChestCoinCount: 1
       hasHealth: 0

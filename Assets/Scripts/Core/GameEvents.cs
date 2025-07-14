@@ -29,6 +29,9 @@ public static class GameEvents
     public static event Action OnEscapePressed;
     public static event Action<Vector3> OnRightMousePressed;
 
+    // Path completion events
+    public static event Action OnPathCompleted;
+
     public static void RaiseAddCollectible(PlayerState state) => OnAddCollectible?.Invoke(state);
     public static void RaiseInteracted(GameObject interactable) => OnInteracted?.Invoke(interactable);
     public static void RaisePlayerStateUpdate(PlayerState state) => OnPlayerStateUpdate?.Invoke(state);
@@ -52,5 +55,8 @@ public static class GameEvents
     public static void RaiseMouseTargetPressed(Vector3 worldPosition) => OnMouseTargetPressed?.Invoke(worldPosition);
     public static void RaiseEscapePressed() => OnEscapePressed?.Invoke();
     public static void RaiseRightMousePressed(Vector3 worldPosition) => OnRightMousePressed?.Invoke(worldPosition);
+
+    // Path completion raise method
+    public static void RaisePathCompleted() => OnPathCompleted?.Invoke();
 
 }

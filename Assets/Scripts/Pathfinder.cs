@@ -41,8 +41,13 @@ public class Pathfinder
 
 
 
-    public List<Path> GetPath(int startRingIndex, int startSegmentIndex, int targetRingIndex, int targetSegmentIndex, Vector3 targetPosition)
+    public List<Vector3> GetPath(Vector3 startPosition, Vector3 targetPosition)
     {
+        int startRingIndex = GetRingIndexFromPosition(startPosition);
+        int startSegmentIndex = GetSegmentIndexFromPosition(startPosition);
+        int targetRingIndex = GetRingIndexFromPosition(targetPosition);
+        int targetSegmentIndex = GetSegmentIndexFromPosition(targetPosition);
+        
         float startAngle = GetSegmentAngle(startSegmentIndex);
         float targetAngle = GetSegmentAngle(targetSegmentIndex);
 
@@ -72,7 +77,6 @@ public class Pathfinder
             // Move parent path node from open to closed set
             openSet.Remove(parentPathNode);
             closedSet.Add(parentPathNode);
-
 
             // Check if we reached the target
             if (parentPathNode.ringIndex == targetRingIndex && Mathf.Abs(Mathf.DeltaAngle(parentPathNode.angle, targetAngle)) < 1f)
@@ -117,7 +121,7 @@ public class Pathfinder
                 }
             }
         }
-        return new List<Path>();
+        return new List<Vector3>();
     }
 
 
@@ -230,9 +234,9 @@ public class Pathfinder
 
 
 
-    private List<Path> BuildPath(PathNode endNode, Vector3 targetPosition)
+    private List<Vector3> BuildPath(PathNode endNode, Vector3 targetPosition)
     {
-        List<Path> path = new List<Path>();
+        List<Vector3> path = new List<Vector3>();
         PathNode currentNode = endNode;
 
         while (currentNode != null)
@@ -248,7 +252,7 @@ public class Pathfinder
                 position = GetPosition(currentNode.ringIndex, currentNode.angle);
             }
 
-            path.Insert(0, new Path(currentNode.ringIndex, GetSegmentIndex(currentNode.angle), position));
+            path.Insert(0, position);
             currentNode = currentNode.parent;
         }
         if (path.Count > 1)
@@ -265,5 +269,18 @@ public class Pathfinder
         float x = Mathf.Cos(angleRad) * ringRadius;
         float z = Mathf.Sin(angleRad) * ringRadius;
         return new Vector3(x, 0f, z);
+    }
+
+    private int GetRingIndexFromPosition(Vector3 position)
+    {
+        float distance = new Vector2(position.x, position.z).magnitude;
+        float ringIndex = (distance - RingConstants.BaseRadius) / RingConstants.RingRadiusOffset;
+        return Mathf.RoundToInt(ringIndex);
+    }
+
+    private int GetSegmentIndexFromPosition(Vector3 position)
+    {
+        float angle = Mathf.Atan2(position.z, position.x) * Mathf.Rad2Deg;
+        return GetSegmentIndex(angle);
     }
 }

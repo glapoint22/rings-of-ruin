@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public class LevelBuilder : MonoBehaviour
 {
@@ -78,7 +79,7 @@ public class LevelBuilder : MonoBehaviour
         }
 
         setPortals();
-        
+
         // NEW: Spawn enemies at waypoints after all segments are built
         SpawnEnemiesAtWaypoints(levelData);
     }
@@ -226,35 +227,41 @@ public class LevelBuilder : MonoBehaviour
     private void SpawnEnemiesAtWaypoints(LevelData levelData)
     {
         var waypointGroups = levelData.GetEnemyWaypointGroups();
-        
+
         foreach (var kvp in waypointGroups)
         {
             EnemyType enemyType = kvp.Key;
             List<WaypointLocation> waypoints = kvp.Value;
-            
+
             // Skip if no waypoints for this enemy type
             if (waypoints.Count == 0) continue;
-            
+
+            List<RingSegment> ringSegmentsWithWaypoints = new List<RingSegment>();
+            foreach (var waypoint in waypoints)
+            {
+                Transform ringRoot = levelRoot.Find($"Ring_{waypoint.ringIndex}");
+                if (ringRoot == null) continue;
+
+                Transform segmentTransform = ringRoot.Find($"Ring{waypoint.ringIndex}_Seg{waypoint.segmentIndex}");
+                if (segmentTransform == null) continue;
+
+                RingSegment ringSegment = segmentTransform.GetComponent<RingSegment>();
+                ringSegmentsWithWaypoints.Add(ringSegment);
+            }
+
             // Randomly select one waypoint for this enemy type
-            int randomIndex = Random.Range(0, waypoints.Count);
-            WaypointLocation selectedWaypoint = waypoints[randomIndex];
-            
-            // Find the ring segment at the selected waypoint
-            Transform ringRoot = levelRoot.Find($"Ring_{selectedWaypoint.ringIndex}");
-            if (ringRoot == null) continue;
-            
-            Transform segmentTransform = ringRoot.Find($"Ring{selectedWaypoint.ringIndex}_Seg{selectedWaypoint.segmentIndex}");
-            if (segmentTransform == null) continue;
-            
-            RingSegment ringSegment = segmentTransform.GetComponent<RingSegment>();
-            if (ringSegment == null || ringSegment.Waypoint == null) continue;
-            
+            int randomIndex = Random.Range(0, ringSegmentsWithWaypoints.Count);
+            RingSegment selectedRingSegmentWithWaypoint = ringSegmentsWithWaypoints[randomIndex];
+
+
             // Spawn the enemy at the waypoint
             GameObject enemy = levelPool.Get(enemyType);
+
+            enemy.GetComponent<EnemyStateMachine>().SetWaypoints(ringSegmentsWithWaypoints.Select(rs => rs.Waypoint.position).ToList());
             if (enemy != null)
             {
-                enemy.transform.SetPositionAndRotation(ringSegment.Waypoint.position, ringSegment.Waypoint.rotation);
-                enemy.transform.SetParent(ringSegment.Waypoint);
+                enemy.transform.SetPositionAndRotation(selectedRingSegmentWithWaypoint.Waypoint.position, selectedRingSegmentWithWaypoint.Waypoint.rotation);
+                enemy.transform.SetParent(selectedRingSegmentWithWaypoint.Waypoint);
                 enemy.name = $"Enemy_{enemyType}";
             }
         }

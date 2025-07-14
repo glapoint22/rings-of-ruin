@@ -30,12 +30,12 @@ public class IdleState : IEnemyState
     {
         if (IsPlayerInRange(context))
         {
-            // return new ChaseState(); 
+            return new ChaseState(); 
         }
         
         if (idleTimer <= 0)
         {
-            // return new PatrolState(); 
+            return new PatrolState(); 
         }
         
         return null; // Stay in idle
