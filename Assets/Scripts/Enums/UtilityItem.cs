@@ -2,5 +2,6 @@ public enum UtilityItem
 {
     None,
     Health,
-    Key
+    Key,
+    Player
 }

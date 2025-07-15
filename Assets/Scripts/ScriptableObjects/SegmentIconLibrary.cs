@@ -34,6 +34,9 @@ public class SegmentIconLibrary : ScriptableObject
     public Sprite portalAIcon;
     public Sprite portalBIcon;
 
+    [Header("Player")]
+    public Sprite playerIcon;
+
 
     public Sprite GetCollectibleIcon(CollectibleType type)
     {
@@ -102,5 +105,10 @@ public class SegmentIconLibrary : ScriptableObject
             SegmentType.Spike => spikeIcon,
             _ => null
         };
+    }
+
+    public Sprite GetPlayerIcon()
+    {
+        return playerIcon;
     }
 } 

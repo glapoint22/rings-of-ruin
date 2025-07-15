@@ -281,7 +281,7 @@ public class LevelEditorWindow : EditorWindow
 
     private void DeleteSelectedRing()
     {
-        if (EditorUtility.DisplayDialog("Delete Ring", $"Delete Ring {selectedRingIndex + 1}?", "Delete", "Cancel"))
+        if (EditorUtility.DisplayDialog("Delete Ring", $"Delete Ring {selectedRingIndex}?", "Delete", "Cancel"))
         {
             selectedLevelData.rings.RemoveAt(selectedRingIndex);
             selectedRingIndex = Mathf.Clamp(selectedRingIndex - 1, 0, selectedLevelData.rings.Count - 1);
@@ -399,6 +399,25 @@ public class LevelEditorWindow : EditorWindow
                     icon.texture
                 );
             }
+            // Draw the player icon if this is the player start segment
+            if (segment.isPlayerStart)
+            {
+                Sprite playerIcon = segmentIconLibrary.GetPlayerIcon();
+                if (playerIcon != null)
+                {
+                    float iconSize = 24f; // Slightly larger for visibility
+                    float spacing = 16f;
+                    GUI.DrawTexture(
+                        new Rect(
+                            buttonRect.x + (buttonRect.width - iconSize) / 2,
+                            buttonRect.y + numberHeight + spacing,
+                            iconSize,
+                            iconSize
+                        ),
+                        playerIcon.texture
+                    );
+                }
+            }
         }
 
         // Draw selection outline
@@ -447,6 +466,37 @@ public class LevelEditorWindow : EditorWindow
         EditorGUILayout.Space(10);
 
         EditorGUI.BeginDisabledGroup(segment.segmentType != SegmentType.Normal);
+
+        // Find if any other segment in the level is set as player start
+        bool otherSegmentHasPlayerStart = selectedLevelData.rings
+            .SelectMany((r, ri) => r.segments.Select((s, si) => new { Segment = s, RingIdx = ri, SegIdx = si }))
+            .Any(x => x.Segment.isPlayerStart && (x.RingIdx != selectedRingIndex || x.SegIdx != segment.segmentIndex));
+
+        // Only enable the Player checkbox if either none are set, or this is the one set
+        EditorGUI.BeginDisabledGroup(otherSegmentHasPlayerStart && !segment.isPlayerStart);
+        bool newIsPlayerStart = EditorGUILayout.Toggle("Player", segment.isPlayerStart);
+        EditorGUI.EndDisabledGroup();
+
+        // If the value changed and is now checked, uncheck all others
+        if (newIsPlayerStart != segment.isPlayerStart)
+        {
+            if (newIsPlayerStart)
+            {
+                // Uncheck all others
+                foreach (var ring in selectedLevelData.rings)
+                {
+                    foreach (var seg in ring.segments)
+                    {
+                        seg.isPlayerStart = false;
+                    }
+                }
+                segment.isPlayerStart = true;
+            }
+            else
+            {
+                segment.isPlayerStart = false;
+            }
+        }
 
         // Disable key checkbox if ANY other field is selected
         bool anyOtherFieldSelectedForKey = segment.collectibleType != CollectibleType.None || segment.spellType != SpellType.None || segment.hasHealth || segment.portalType != PortalType.None || segment.enemyType != EnemyType.None;

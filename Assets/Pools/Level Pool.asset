@@ -87,3 +87,5 @@ MonoBehaviour:
     enumValue: 1
   - prefab: {fileID: 366851444705759479, guid: be6aaecb2f22df6409e3b3b7dfb677d0, type: 3}
     enumValue: 2
+  - prefab: {fileID: 8825751606878681401, guid: f24d5c3a5ae9fbe49a43f9da001582f9, type: 3}
+    enumValue: 3

@@ -32,3 +32,4 @@ MonoBehaviour:
   bloodseekerIcon: {fileID: 21300000, guid: 6e65bc84cfe2b8b4e892ce5a6fddf69d, type: 3}
   portalAIcon: {fileID: 21300000, guid: c27c7f8be6cb2c84da23d5d29934b9a5, type: 3}
   portalBIcon: {fileID: 21300000, guid: 79b134b56755b424483eca2ed97f1623, type: 3}
+  playerIcon: {fileID: 21300000, guid: 7703cdfe9ad95c1479b015a28cb955eb, type: 3}

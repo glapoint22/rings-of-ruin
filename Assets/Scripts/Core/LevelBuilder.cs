@@ -167,6 +167,17 @@ public class LevelBuilder : MonoBehaviour
         if (ringSegment.SlotGround == null)
             return;
 
+        if (config.isPlayerStart)
+        {
+            GameObject player = levelPool.Get(UtilityItem.Player);
+            if (player != null)
+            {
+                player.transform.SetPositionAndRotation(ringSegment.SlotGround.position, ringSegment.SlotGround.rotation);
+                player.transform.SetParent(ringSegment.SlotGround);
+                player.name = "Player";
+            }
+        }
+
         if (config.collectibleType != CollectibleType.None)
         {
             GameObject collectible = levelPool.Get(config.collectibleType);

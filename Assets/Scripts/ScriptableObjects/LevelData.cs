@@ -97,6 +97,7 @@ public class SegmentConfiguration
     // Boolean fields for Health and Key
     public bool hasHealth = false;
     public bool hasKey = false;
+    public bool isPlayerStart;
 }
 
 
