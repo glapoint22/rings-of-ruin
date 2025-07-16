@@ -1,6 +1,6 @@
 public static class RingConstants
 {
     public const int SegmentCount = 24;
-    public const float BaseRadius = 5.94011f;
-    public const float RingRadiusOffset = 3.96578f;
+    public const float BaseRadius = 7f;
+    public const float RingRadiusOffset = 5f;
 }

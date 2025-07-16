@@ -98,6 +98,7 @@ public class SegmentConfiguration
     public bool hasHealth = false;
     public bool hasKey = false;
     public bool isPlayerStart;
+    public bool hasBridge = false;
 }
 
 

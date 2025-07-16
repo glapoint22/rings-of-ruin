@@ -179,7 +179,7 @@ public class Pathfinder
             }
         }
 
-        // Check adjacent rings at the same angle (with bounds checking)
+        // Check adjacent rings at the same angle (with bridge validation)
         int[] adjacentRings = { currentRing + 1, currentRing - 1 };
 
         foreach (int ringIndex in adjacentRings)
@@ -187,7 +187,28 @@ public class Pathfinder
             // Only check if the ring index is within valid bounds (0 to max ring)
             if (ringIndex >= 0 && ringIndex < levelData.rings.Count && IsValidPosition(ringIndex, currentAngle))
             {
-                adjacentPositions.Add(new AdjacentPathNode(ringIndex, currentAngle));
+                // Check for bridge existence based on direction
+                bool hasValidBridge = false;
+                
+                if (ringIndex == currentRing - 1)
+                {
+                    // Moving inward - check if current segment has bridge
+                    int currentSegmentIndex = GetSegmentIndex(currentAngle);
+                    var currentSegment = levelData.rings[currentRing].segments[currentSegmentIndex];
+                    hasValidBridge = currentSegment.hasBridge;
+                }
+                else if (ringIndex == currentRing + 1)
+                {
+                    // Moving outward - check if outer ring's segment has bridge
+                    int outerSegmentIndex = GetSegmentIndex(currentAngle);
+                    var outerSegment = levelData.rings[ringIndex].segments[outerSegmentIndex];
+                    hasValidBridge = outerSegment.hasBridge;
+                }
+
+                if (hasValidBridge)
+                {
+                    adjacentPositions.Add(new AdjacentPathNode(ringIndex, currentAngle));
+                }
             }
         }
         return adjacentPositions;
