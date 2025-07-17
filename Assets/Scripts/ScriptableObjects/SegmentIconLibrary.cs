@@ -3,22 +3,22 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Rings of Ruin/Segment Icon Library")]
 public class SegmentIconLibrary : ScriptableObject
 {
-    [Header("Collectibles")]
-    public Sprite gemIcon;
-    public Sprite coinIcon;
-    public Sprite treasureChestIcon;
-
     [Header("Segment Types")]
     public Sprite gapIcon;
     public Sprite crumblingIcon;
     public Sprite spikeIcon;
 
+
+    [Header("Collectibles")]
+    public Sprite gemIcon;
+    public Sprite coinIcon;
+    public Sprite treasureChestIcon;
+
+
     [Header("Spells")]
     public Sprite shieldIcon;
     public Sprite cloakIcon;
     public Sprite timeDilationIcon;
-    public Sprite healthIcon;
-    public Sprite keyIcon;
     public Sprite stormboltIcon;
     public Sprite bloodrootIcon;
     public Sprite fireballIcon;
@@ -30,12 +30,19 @@ public class SegmentIconLibrary : ScriptableObject
     public Sprite gravecallerIcon;
     public Sprite bloodseekerIcon;
 
+
     [Header("Portals")]
     public Sprite portalAIcon;
     public Sprite portalBIcon;
 
-    [Header("Player")]
+
+
+    [Header("Utility Items")]
+    public Sprite keyIcon;
     public Sprite playerIcon;
+    public Sprite bridgeIcon;
+    public Sprite healthIcon;
+    
 
 
     public Sprite GetCollectibleIcon(CollectibleType type)
@@ -61,16 +68,6 @@ public class SegmentIconLibrary : ScriptableObject
             SpellType.Bloodroot => bloodrootIcon,
             SpellType.Fireball => fireballIcon,
             SpellType.Ashbind => ashbindIcon,
-            _ => null
-        };
-    }
-
-    public Sprite GetUtilityItemIcon(UtilityItem type)
-    {
-        return type switch
-        {
-            UtilityItem.Health => healthIcon,
-            UtilityItem.Key => keyIcon,
             _ => null
         };
     }
@@ -107,8 +104,15 @@ public class SegmentIconLibrary : ScriptableObject
         };
     }
 
-    public Sprite GetPlayerIcon()
+     public Sprite GetUtilityItemIcon(UtilityItem type)
     {
-        return playerIcon;
+        return type switch
+        {
+            UtilityItem.Key => keyIcon,
+            UtilityItem.Player => playerIcon,
+            UtilityItem.Bridge => bridgeIcon,
+            UtilityItem.Health => healthIcon,
+            _ => null
+        };
     }
 } 

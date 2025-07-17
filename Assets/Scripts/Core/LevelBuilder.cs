@@ -111,7 +111,7 @@ public class LevelBuilder : MonoBehaviour
             RingSegment ringSegment = segmentGO.GetComponent<RingSegment>();
             if (ringSegment != null)
             {
-                ConfigureSegment(ringSegment, segment);
+                ConfigureSegment(ringSegment, segment, ring.ringIndex);
                 ringSegment.SetSegment(ring.ringIndex, i);
             }
         }
@@ -132,7 +132,7 @@ public class LevelBuilder : MonoBehaviour
 
 
 
-    private void ConfigureSegment(RingSegment ringSegment, SegmentConfiguration config)
+    private void ConfigureSegment(RingSegment ringSegment, SegmentConfiguration config, int ringIndex)
     {
         // First check for float slot (spell)
         if (config.spellType != SpellType.None)
@@ -154,6 +154,32 @@ public class LevelBuilder : MonoBehaviour
             // AND HERE:
             ConfigureSlotFloat(ringSegment, UtilityItem.Key); // This calls the computed property
             return;
+        }
+
+        // Check for Bridge
+        if (config.hasBridge)
+        {
+            GameObject bridge = levelPool.Get(UtilityItem.Bridge);
+            if (bridge != null)
+            {
+                // Calculate bridge position using dynamic math
+                float currentRingRadius = RingConstants.BaseRadius + (ringIndex * RingConstants.RingRadiusOffset);
+                float gapBetweenRings = RingConstants.RingRadiusOffset - RingConstants.SegmentThickness;
+                float bridgeRadius = currentRingRadius - (RingConstants.SegmentThickness / 2f) - (gapBetweenRings / 2f);
+                
+                // Calculate angle (same as segment angle)
+                float ninetyDegreeOffset = Mathf.PI / 2f;
+                float anglePerSegment = (Mathf.PI * 2f) / RingConstants.SegmentCount;
+                float angle = -config.segmentIndex * anglePerSegment + ninetyDegreeOffset;
+                
+                // Position and rotate the bridge
+                Vector3 bridgePosition = new Vector3(Mathf.Cos(angle), 0, Mathf.Sin(angle)) * bridgeRadius;
+                Quaternion bridgeRotation = Quaternion.Euler(0, -angle * Mathf.Rad2Deg + 90f, 0);
+                
+                bridge.transform.SetPositionAndRotation(bridgePosition, bridgeRotation);
+                bridge.transform.SetParent(levelRoot);
+                bridge.name = $"Bridge_Ring{ringIndex}_Seg{config.segmentIndex}";
+            }
         }
 
         // If no spell, check for ground elements

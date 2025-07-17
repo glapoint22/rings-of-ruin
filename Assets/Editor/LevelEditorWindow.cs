@@ -8,8 +8,8 @@ public class LevelEditorWindow : EditorWindow
     // Constants for UI layout and game configuration
     private const int SEGMENT_COUNT = 24;
     private const string LEVEL_DATA_PREF_KEY = "RingsOfRuin_LastLevelDataPath";
-    private const float RING_RADIUS = 300f;
-    private const float BUTTON_SIZE = 60f;
+    private const float RING_RADIUS = 350;
+    private const float BUTTON_SIZE = 80f;
     private const int MAX_RINGS = 4;
     private const int MIN_WINDOW_WIDTH = 750;
     private const int MIN_WINDOW_HEIGHT = 1150;
@@ -45,12 +45,23 @@ public class LevelEditorWindow : EditorWindow
     {
         LoadLevelPool();
         DrawHeader();
+        
+        // Add padding around the entire top section
+        EditorGUILayout.BeginHorizontal();
+        GUILayout.Space(20); // Left padding
+        
+        EditorGUILayout.BeginVertical();
+        GUILayout.BeginHorizontal();
         DrawLevelSelection();
         DrawLevelControls();
+        GUILayout.EndHorizontal();
         
         if (selectedLevelData == null && allLevels.Count > 0)
         {
             EditorGUILayout.HelpBox("Select or create a LevelData asset to begin.", MessageType.Info);
+            EditorGUILayout.EndVertical();
+            GUILayout.Space(20); // Right padding
+            EditorGUILayout.EndHorizontal();
             return;
         }
 
@@ -58,11 +69,15 @@ public class LevelEditorWindow : EditorWindow
         {
             DrawGlobalHazardSettings();
             DrawRingControls();
+            EditorGUILayout.EndVertical();
+            
+            GUILayout.Space(20); // Right padding
+            EditorGUILayout.EndHorizontal();
+            
             DrawRingLayout();
-            GUILayout.Space(150);
+            GUILayout.Space(190);
             DrawSegmentDetails();
             DrawPreviewControls();
-            
         }
     }
 
@@ -116,8 +131,8 @@ public class LevelEditorWindow : EditorWindow
     // Core UI drawing methods for the editor window
     private void DrawHeader()
     {
-        GUILayout.Label("Rings of Ruin – Level Editor", EditorStyles.boldLabel);
-        EditorGUILayout.Space(20);
+        // GUILayout.Label("Rings of Ruin – Level Editor", EditorStyles.boldLabel);
+        EditorGUILayout.Space(10);
     }
 
     private void DrawLevelSelection()
@@ -129,7 +144,7 @@ public class LevelEditorWindow : EditorWindow
         }
 
         string[] levelNames = allLevels.Select(ld => $"Level {ld.levelID}").ToArray();
-        int newIndex = EditorGUILayout.Popup("Select Level", selectedLevelIndex, levelNames);
+        int newIndex = EditorGUILayout.Popup("Selected Level", selectedLevelIndex, levelNames);
 
         if (newIndex != selectedLevelIndex)
         {
@@ -141,22 +156,17 @@ public class LevelEditorWindow : EditorWindow
 
     private void DrawLevelControls()
     {
-        GUILayout.BeginHorizontal();
-
-        if (GUILayout.Button("➕ Create New Level"))
+        if (GUILayout.Button("➕ Add Level", GUILayout.Width(100)))
         {
             CreateNewLevel();
         }
 
         GUI.enabled = selectedLevelData != null;
-        if (GUILayout.Button("🗑️ Delete Selected Level"))
+        if (GUILayout.Button("🗑️ Delete Level", GUILayout.Width(100)))
         {
             DeleteSelectedLevel();
         }
         GUI.enabled = true;
-
-        GUILayout.EndHorizontal();
-        GUILayout.Space(10);
     }
 
     private void DrawRingControls()
@@ -183,7 +193,7 @@ public class LevelEditorWindow : EditorWindow
         GUI.enabled = true;
 
         GUILayout.EndHorizontal();
-        EditorGUILayout.Space(10);
+        EditorGUILayout.Space(30);
 
         EnsureRingSegmentListExists();
     }
@@ -191,10 +201,16 @@ public class LevelEditorWindow : EditorWindow
     private void DrawPreviewControls()
     {
         EditorGUILayout.Space(20);
+        EditorGUILayout.BeginHorizontal();
+        GUILayout.Space(20); // Left padding
+        
         GUILayout.BeginHorizontal();
         if (GUILayout.Button("🛠 Build Preview")) BuildPreview();
         if (GUILayout.Button("🧹 Clear Preview")) ClearPreview();
         GUILayout.EndHorizontal();
+        
+        GUILayout.Space(20); // Right padding
+        EditorGUILayout.EndHorizontal();
     }
     #endregion
 
@@ -258,8 +274,8 @@ public class LevelEditorWindow : EditorWindow
     {
         if (selectedLevelData.rings.Count >= MAX_RINGS)
         {
-            EditorUtility.DisplayDialog("Maximum Rings Reached", 
-                $"Cannot add more rings. Maximum limit of {MAX_RINGS} rings has been reached.", 
+            EditorUtility.DisplayDialog("Maximum Rings Reached",
+                $"Cannot add more rings. Maximum limit of {MAX_RINGS} rings has been reached.",
                 "OK");
             return;
         }
@@ -317,7 +333,7 @@ public class LevelEditorWindow : EditorWindow
         Rect buttonRect = new Rect(buttonCenter.x - BUTTON_SIZE / 2, buttonCenter.y - BUTTON_SIZE / 2, BUTTON_SIZE, BUTTON_SIZE);
 
         SegmentConfiguration segment = selectedLevelData.rings[selectedRingIndex].segments[segmentIndex];
-        
+
         // Draw the button with white background
         GUI.color = Color.white;
         if (GUI.Button(buttonRect, ""))
@@ -351,73 +367,19 @@ public class LevelEditorWindow : EditorWindow
 
         // Draw the number in white
         GUI.color = Color.white;
-        GUI.Label(numberRect, segmentIndex.ToString(), new GUIStyle(GUI.skin.label) 
-        { 
+        GUI.Label(numberRect, segmentIndex.ToString(), new GUIStyle(GUI.skin.label)
+        {
             alignment = TextAnchor.UpperCenter,
             normal = { textColor = Color.white }
         });
 
-        // Draw the appropriate icon if it's a normal segment
-        if (segment.segmentType == SegmentType.Normal)
-        {
-            Sprite icon = null;
-            
-            // Get the appropriate icon based on what's on the segment
-            if (segment.collectibleType == CollectibleType.Gem)
-                icon = segmentIconLibrary.GetCollectibleIcon(CollectibleType.Gem);
-            else if (segment.collectibleType == CollectibleType.Coin)
-                icon = segmentIconLibrary.GetCollectibleIcon(CollectibleType.Coin);
-            else if (segment.collectibleType == CollectibleType.TreasureChest)
-                icon = segmentIconLibrary.GetCollectibleIcon(CollectibleType.TreasureChest);
-            else if (segment.portalType == PortalType.PortalA)
-                icon = segmentIconLibrary.GetPortalIcon(PortalType.PortalA);
-            else if (segment.portalType == PortalType.PortalB)
-                icon = segmentIconLibrary.GetPortalIcon(PortalType.PortalB);
-            else if (segment.enemyType != EnemyType.None)
-                icon = segmentIconLibrary.GetEnemyIcon(segment.enemyType);
-            else if (segment.hasHealth)
-                icon = segmentIconLibrary.GetUtilityItemIcon(UtilityItem.Health);
-            else if (segment.hasKey)
-                icon = segmentIconLibrary.GetUtilityItemIcon(UtilityItem.Key);
-            else if (segment.spellType != SpellType.None)
-                icon = segmentIconLibrary.GetSpellIcon(segment.spellType);
-           
+        // Get all icons for this segment
+        var icons = GetSegmentIcons(segment);
 
-            // Draw the icon if we have one
-            if (icon != null)
-            {
-                float iconSize = 20f;
-                float spacing = 16f;
-                
-                GUI.DrawTexture(
-                    new Rect(
-                        buttonRect.x + (buttonRect.width - iconSize) / 2,
-                        buttonRect.y + numberHeight + spacing,
-                        iconSize,
-                        iconSize
-                    ),
-                    icon.texture
-                );
-            }
-            // Draw the player icon if this is the player start segment
-            if (segment.isPlayerStart)
-            {
-                Sprite playerIcon = segmentIconLibrary.GetPlayerIcon();
-                if (playerIcon != null)
-                {
-                    float iconSize = 24f; // Slightly larger for visibility
-                    float spacing = 16f;
-                    GUI.DrawTexture(
-                        new Rect(
-                            buttonRect.x + (buttonRect.width - iconSize) / 2,
-                            buttonRect.y + numberHeight + spacing,
-                            iconSize,
-                            iconSize
-                        ),
-                        playerIcon.texture
-                    );
-                }
-            }
+        // Draw icons based on count
+        if (icons.Count > 0)
+        {
+            DrawMultipleIcons(buttonRect, icons, numberHeight + topPadding);
         }
 
         // Draw selection outline
@@ -430,7 +392,7 @@ public class LevelEditorWindow : EditorWindow
                 buttonRect.width + (outlineThickness * 2),
                 buttonRect.height + (outlineThickness * 2)
             );
-            
+
             Handles.color = Color.yellow;
             Handles.DrawLine(new Vector3(outlineRect.x, outlineRect.y), new Vector3(outlineRect.x + outlineRect.width, outlineRect.y));
             Handles.DrawLine(new Vector3(outlineRect.x + outlineRect.width, outlineRect.y), new Vector3(outlineRect.x + outlineRect.width, outlineRect.y + outlineRect.height));
@@ -453,7 +415,7 @@ public class LevelEditorWindow : EditorWindow
 
         EditorGUI.BeginChangeCheck();
         DrawSegmentProperties(segment);
-        
+
         if (EditorGUI.EndChangeCheck())
         {
             EditorUtility.SetDirty(selectedLevelData);
@@ -462,18 +424,27 @@ public class LevelEditorWindow : EditorWindow
 
     private void DrawSegmentProperties(SegmentConfiguration segment)
     {
+        EditorGUILayout.BeginHorizontal();
+        GUILayout.Space(20); // Left padding
+        
+        EditorGUILayout.BeginVertical();
+        
         segment.segmentType = (SegmentType)EditorGUILayout.EnumPopup("Segment Type", segment.segmentType);
         EditorGUILayout.Space(10);
 
         EditorGUI.BeginDisabledGroup(segment.segmentType != SegmentType.Normal);
 
+        
+
+        EditorGUI.indentLevel += 2;
         // Find if any other segment in the level is set as player start
         bool otherSegmentHasPlayerStart = selectedLevelData.rings
             .SelectMany((r, ri) => r.segments.Select((s, si) => new { Segment = s, RingIdx = ri, SegIdx = si }))
             .Any(x => x.Segment.isPlayerStart && (x.RingIdx != selectedRingIndex || x.SegIdx != segment.segmentIndex));
 
         // Only enable the Player checkbox if either none are set, or this is the one set
-        EditorGUI.BeginDisabledGroup(otherSegmentHasPlayerStart && !segment.isPlayerStart);
+        bool shouldDisablePlayer = (otherSegmentHasPlayerStart && !segment.isPlayerStart) || HasAnyOtherOccupyingOption(segment, excludePlayer: segment.isPlayerStart);
+        EditorGUI.BeginDisabledGroup(shouldDisablePlayer);
         bool newIsPlayerStart = EditorGUILayout.Toggle("Player", segment.isPlayerStart);
         EditorGUI.EndDisabledGroup();
 
@@ -499,24 +470,24 @@ public class LevelEditorWindow : EditorWindow
         }
 
         // Disable key checkbox if ANY other field is selected
-        bool anyOtherFieldSelectedForKey = segment.collectibleType != CollectibleType.None || segment.spellType != SpellType.None || segment.hasHealth || segment.portalType != PortalType.None || segment.enemyType != EnemyType.None;
+        bool anyOtherFieldSelectedForKey = HasAnyOtherOccupyingOption(segment, excludeKey: segment.hasKey);
         EditorGUI.BeginDisabledGroup(anyOtherFieldSelectedForKey);
-        EditorGUILayout.Space(5);
+        EditorGUILayout.Space(1);
         segment.hasKey = EditorGUILayout.Toggle("Key", segment.hasKey);
         EditorGUI.EndDisabledGroup();
 
         // Disable health checkbox if ANY other field is selected
-        bool anyOtherFieldSelectedForHealth = segment.collectibleType != CollectibleType.None || segment.spellType != SpellType.None || segment.hasKey || segment.portalType != PortalType.None || segment.enemyType != EnemyType.None;
+        bool anyOtherFieldSelectedForHealth = HasAnyOtherOccupyingOption(segment, excludeHealth: segment.hasHealth);
         EditorGUI.BeginDisabledGroup(anyOtherFieldSelectedForHealth);
         segment.hasHealth = EditorGUILayout.Toggle("Health", segment.hasHealth);
         EditorGUI.EndDisabledGroup();
         EditorGUILayout.Space(1);
 
         // Disable collectible if ANY other field is selected
-        bool anyOtherFieldSelected = segment.spellType != SpellType.None || segment.hasHealth || segment.hasKey || segment.portalType != PortalType.None || segment.enemyType != EnemyType.None;
+        bool anyOtherFieldSelected = HasAnyOtherOccupyingOption(segment, excludeCollectible: segment.collectibleType);
         EditorGUI.BeginDisabledGroup(anyOtherFieldSelected);
         segment.collectibleType = (CollectibleType)EditorGUILayout.EnumPopup("Collectible", segment.collectibleType);
-        
+
         // Add the coin count field when treasure chest is selected
         if (segment.collectibleType == CollectibleType.TreasureChest)
         {
@@ -525,29 +496,41 @@ public class LevelEditorWindow : EditorWindow
             EditorGUI.indentLevel--;
         }
         EditorGUI.EndDisabledGroup();
-        
+
         // Disable spell type if ANY other field is selected
-        bool anyOtherFieldSelectedForSpell = segment.collectibleType != CollectibleType.None || segment.hasHealth || segment.hasKey || segment.portalType != PortalType.None || segment.enemyType != EnemyType.None;
+        bool anyOtherFieldSelectedForSpell = HasAnyOtherOccupyingOption(segment, excludeSpell: segment.spellType);
         EditorGUI.BeginDisabledGroup(anyOtherFieldSelectedForSpell);
         segment.spellType = (SpellType)EditorGUILayout.EnumPopup("Spell", segment.spellType);
         EditorGUI.EndDisabledGroup();
-        
-        
-        
-        
+
         // Disable portal type if ANY other field is selected
-        bool anyOtherFieldSelectedForPortal = segment.collectibleType != CollectibleType.None || segment.spellType != SpellType.None || segment.hasHealth || segment.hasKey || segment.enemyType != EnemyType.None;
+        bool anyOtherFieldSelectedForPortal = HasAnyOtherOccupyingOption(segment, excludePortal: segment.portalType);
         EditorGUI.BeginDisabledGroup(anyOtherFieldSelectedForPortal);
         segment.portalType = (PortalType)EditorGUILayout.EnumPopup("Portal", segment.portalType);
         EditorGUI.EndDisabledGroup();
+
+        EditorGUI.indentLevel -= 2;
+        EditorGUILayout.Space(30);
+
         
-        // Disable enemy type if ANY other field is selected
-        bool anyOtherFieldSelectedForEnemy = segment.collectibleType != CollectibleType.None || segment.spellType != SpellType.None || segment.hasHealth || segment.hasKey || segment.portalType != PortalType.None;
-        EditorGUI.BeginDisabledGroup(anyOtherFieldSelectedForEnemy);
-        segment.enemyType = (EnemyType)EditorGUILayout.EnumPopup("Enemy", segment.enemyType);
-        EditorGUI.EndDisabledGroup();
+
+        EditorGUI.indentLevel += 2;
+        // Bridge checkbox - always enabled since it's non-occupying
+        segment.hasBridge = EditorGUILayout.Toggle("Bridge", segment.hasBridge);
+        EditorGUILayout.Space(1);
+
+        // Enemy waypoint dropdown - always enabled since it's non-occupying
+        segment.enemyType = (EnemyType)EditorGUILayout.EnumPopup("Enemy Waypoint", segment.enemyType);
+        EditorGUI.indentLevel -= 2;
 
         EditorGUI.EndDisabledGroup(); // End the segment type disabled group
+        
+        EditorGUILayout.EndVertical();
+        
+        GUILayout.Space(20); // Right padding
+        EditorGUILayout.EndHorizontal();
+
+        EditorGUILayout.Space(20);
     }
 
     #endregion
@@ -585,11 +568,11 @@ public class LevelEditorWindow : EditorWindow
         var so = new SerializedObject(builder);
         var poolProp = so.FindProperty("levelPool");
         poolProp.objectReferenceValue = levelPool;
-        
+
         // Set the level root
         var levelRootProp = so.FindProperty("levelRoot");
         levelRootProp.objectReferenceValue = previewRoot;
-        
+
         so.ApplyModifiedProperties();
 
         // Initialize the pool manually (since Start() won't be called in editor)
@@ -686,6 +669,143 @@ public class LevelEditorWindow : EditorWindow
             {
                 segmentIndex = ring.segments.Count
             });
+        }
+    }
+
+    private bool HasAnyOtherOccupyingOption(SegmentConfiguration segment, CollectibleType excludeCollectible = CollectibleType.None, SpellType excludeSpell = SpellType.None, bool excludeKey = false, bool excludeHealth = false, PortalType excludePortal = PortalType.None, bool excludePlayer = false)
+    {
+        return (segment.collectibleType != CollectibleType.None && segment.collectibleType != excludeCollectible) ||
+               (segment.spellType != SpellType.None && segment.spellType != excludeSpell) ||
+               (segment.hasKey && !excludeKey) ||
+               (segment.hasHealth && !excludeHealth) ||
+               (segment.portalType != PortalType.None && segment.portalType != excludePortal) ||
+               (segment.isPlayerStart && !excludePlayer);
+    }
+
+    private List<Sprite> GetSegmentIcons(SegmentConfiguration segment)
+    {
+        var icons = new List<Sprite>();
+
+        // If it's not a normal segment, only show the segment type icon
+        if (segment.segmentType != SegmentType.Normal)
+        {
+            var typeIcon = segmentIconLibrary.GetSegmentTypeIcon(segment.segmentType);
+            if (typeIcon != null) icons.Add(typeIcon);
+            return icons;
+        }
+
+        // For normal segments, collect all option icons
+        // Collectibles
+        if (segment.collectibleType != CollectibleType.None)
+        {
+            var icon = segmentIconLibrary.GetCollectibleIcon(segment.collectibleType);
+            if (icon != null) icons.Add(icon);
+        }
+
+        // Spells
+        if (segment.spellType != SpellType.None)
+        {
+            var icon = segmentIconLibrary.GetSpellIcon(segment.spellType);
+            if (icon != null) icons.Add(icon);
+        }
+
+        // Portals
+        if (segment.portalType != PortalType.None)
+        {
+            var icon = segmentIconLibrary.GetPortalIcon(segment.portalType);
+            if (icon != null) icons.Add(icon);
+        }
+
+        // Enemies
+        if (segment.enemyType != EnemyType.None)
+        {
+            var icon = segmentIconLibrary.GetEnemyIcon(segment.enemyType);
+            if (icon != null) icons.Add(icon);
+        }
+
+        // Utility Items
+        if (segment.hasKey)
+        {
+            var icon = segmentIconLibrary.GetUtilityItemIcon(UtilityItem.Key);
+            if (icon != null) icons.Add(icon);
+        }
+        if (segment.hasHealth)
+        {
+            var icon = segmentIconLibrary.GetUtilityItemIcon(UtilityItem.Health);
+            if (icon != null) icons.Add(icon);
+        }
+        if (segment.isPlayerStart)
+        {
+            var icon = segmentIconLibrary.GetUtilityItemIcon(UtilityItem.Player);
+            if (icon != null) icons.Add(icon);
+        }
+        if (segment.hasBridge)
+        {
+            var icon = segmentIconLibrary.GetUtilityItemIcon(UtilityItem.Bridge);
+            if (icon != null) icons.Add(icon);
+        }
+
+        return icons;
+    }
+
+    private void DrawMultipleIcons(Rect buttonRect, List<Sprite> icons, float yOffset)
+    {
+        float iconSize = 20f;
+        float spacing = 8f;
+        float extraSpacing = 9f; // Additional spacing for 1 and 2 icons
+        float triangleAdjustment = -5f; // Move triangle formation up by 5px
+        
+        switch (icons.Count)
+        {
+            case 1:
+                // Single icon centered, moved down 9px
+                GUI.DrawTexture(
+                    new Rect(
+                        buttonRect.x + (buttonRect.width - iconSize) / 2,
+                        buttonRect.y + yOffset + spacing + extraSpacing,
+                        iconSize,
+                        iconSize
+                    ),
+                    icons[0].texture
+                );
+                break;
+                
+            case 2:
+                // Two icons side by side, moved down 9px
+                float twoIconWidth = iconSize * 2 + spacing;
+                float startX = buttonRect.x + (buttonRect.width - twoIconWidth) / 2;
+                
+                GUI.DrawTexture(
+                    new Rect(startX, buttonRect.y + yOffset + spacing + extraSpacing, iconSize, iconSize),
+                    icons[0].texture
+                );
+                GUI.DrawTexture(
+                    new Rect(startX + iconSize + spacing, buttonRect.y + yOffset + spacing + extraSpacing, iconSize, iconSize),
+                    icons[1].texture
+                );
+                break;
+                
+            case 3:
+                // Triangle formation: 1 on top, 2 below, moved up 5px
+                float topIconX = buttonRect.x + (buttonRect.width - iconSize) / 2;
+                float bottomStartX = buttonRect.x + (buttonRect.width - (iconSize * 2 + spacing)) / 2;
+                
+                // Top icon - moved down 2px
+                GUI.DrawTexture(
+                    new Rect(topIconX, buttonRect.y + yOffset + spacing + triangleAdjustment + 2f, iconSize, iconSize),
+                    icons[0].texture
+                );
+                
+                // Bottom two icons - moved up 2px
+                GUI.DrawTexture(
+                    new Rect(bottomStartX, buttonRect.y + yOffset + spacing * 2 + iconSize + triangleAdjustment - 2f, iconSize, iconSize),
+                    icons[1].texture
+                );
+                GUI.DrawTexture(
+                    new Rect(bottomStartX + iconSize + spacing, buttonRect.y + yOffset + spacing * 2 + iconSize + triangleAdjustment - 2f, iconSize, iconSize),
+                    icons[2].texture
+                );
+                break;
         }
     }
     #endregion
