@@ -76,7 +76,7 @@ MonoBehaviour:
   - prefab: {fileID: 515101759093858978, guid: c09a9e8ba82c39444aac10cbaa1ba6a5, type: 3}
     enumValue: 2
   enemies:
-  - prefab: {fileID: 94538880463379437, guid: d61b32293d6434d4aac3e96affb18e1d, type: 3}
+  - prefab: {fileID: 4493914613880827488, guid: 6dc4cf4496348884d8ee27743ae38562, type: 3}
     enumValue: 1
   - prefab: {fileID: 4730132979662416648, guid: c55e863a62e5aa34d80f8229f5b5d698, type: 3}
     enumValue: 2
@@ -87,7 +87,7 @@ MonoBehaviour:
     enumValue: 1
   - prefab: {fileID: 366851444705759479, guid: be6aaecb2f22df6409e3b3b7dfb677d0, type: 3}
     enumValue: 2
-  - prefab: {fileID: 8825751606878681401, guid: f24d5c3a5ae9fbe49a43f9da001582f9, type: 3}
+  - prefab: {fileID: 3235965575132758090, guid: 1c443c3abb862244aa6185fe28d5f5bb, type: 3}
     enumValue: 3
   - prefab: {fileID: 1061936302648435300, guid: 55df873377a235341a18c40b0c7e0634, type: 3}
     enumValue: 4

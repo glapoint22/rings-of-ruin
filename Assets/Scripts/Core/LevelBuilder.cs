@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using Unity.AI.Navigation;
 
 public class LevelBuilder : MonoBehaviour
 {
@@ -9,6 +10,11 @@ public class LevelBuilder : MonoBehaviour
     private LevelPool levelPool;
 
     [SerializeField] private Transform levelRoot;
+
+
+    [Header("NavMesh")]
+    [SerializeField]
+    private NavMeshSurface navMeshSurface;
 
     private GameObject portalA;
     private GameObject portalB;
@@ -77,6 +83,8 @@ public class LevelBuilder : MonoBehaviour
         {
             BuildRing(ring);
         }
+
+        navMeshSurface.BuildNavMesh();
 
         setPortals();
 
@@ -294,7 +302,7 @@ public class LevelBuilder : MonoBehaviour
             // Spawn the enemy at the waypoint
             GameObject enemy = levelPool.Get(enemyType);
 
-            enemy.GetComponent<EnemyStateMachine>().SetWaypoints(ringSegmentsWithWaypoints.Select(rs => rs.Waypoint.position).ToList());
+            enemy.GetComponent<EnemyStateMachine>().SetWaypoints(ringSegmentsWithWaypoints.Select(rs => rs.Waypoint.position).ToList(), selectedRingSegmentWithWaypoint.Waypoint.position);
             if (enemy != null)
             {
                 enemy.transform.SetPositionAndRotation(selectedRingSegmentWithWaypoint.Waypoint.position, selectedRingSegmentWithWaypoint.Waypoint.rotation);

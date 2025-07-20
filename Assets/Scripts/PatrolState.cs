@@ -8,27 +8,29 @@ public class PatrolState : IEnemyState
 
     public void Enter(EnemyStateContext context)
     {
-        // Subscribe to path completion event
-        GameEvents.OnPathCompleted += OnPathCompleted;
+        context.animator.SetBool("Patrol", true);
 
         // Get all waypoints except the spawn position
-        var availableWaypoints = context.waypoints.Where(wp => wp != context.pathMover.CurrentPosition).ToList();
+        var availableWaypoints = context.waypoints.Where(wp => wp != context.targetWaypoint).ToList();
+
 
         if (availableWaypoints.Count > 0)
         {
             // Pick a random waypoint from the available ones
             int randomIndex = Random.Range(0, availableWaypoints.Count);
-            Vector3 targetWaypoint = availableWaypoints[randomIndex];
+            context.targetWaypoint = availableWaypoints[randomIndex];
 
-            var path = context.pathfinder.GetPath(context.pathMover.CurrentPosition, targetWaypoint);
-            context.pathMover.MoveAlongPath(path);
+            // Set the destination to the target waypoint
+            context.navMeshAgent.SetDestination(context.targetWaypoint);
         }
+
+
     }
 
     public void Exit(EnemyStateContext context)
     {
-        // Unsubscribe from path completion event
-        GameEvents.OnPathCompleted -= OnPathCompleted;
+        // Set the patrol animation to false
+        context.animator.SetBool("Patrol", false);
     }
 
     public IEnemyState ShouldTransition(EnemyStateContext context)
@@ -52,11 +54,9 @@ public class PatrolState : IEnemyState
 
     public void Update(EnemyStateContext context)
     {
-        // Movement logic will be implemented later
-    }
-
-    private void OnPathCompleted()
-    {
-        pathCompleted = true;
+        if (!context.navMeshAgent.pathPending && !context.navMeshAgent.hasPath && context.navMeshAgent.velocity.magnitude == 0)
+        {
+            pathCompleted = true;
+        }
     }
 }

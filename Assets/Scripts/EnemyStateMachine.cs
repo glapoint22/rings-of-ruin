@@ -1,12 +1,20 @@
 using UnityEngine;
 using System.Collections.Generic;
+using UnityEngine.AI;
 
 public abstract class EnemyStateMachine : MonoBehaviour
 {
-    [SerializeField] private Transform playerTransform;
+    [SerializeField]
+    private NavMeshAgent navMeshAgent;
+
+    [SerializeField]
+    private Animator animator;
+
+
     protected IEnemyState currentState;
     protected EnemyStateContext context;
     private List<Vector3> waypoints;
+    private Vector3 targetWaypoint;
 
     private void OnEnable()
     {
@@ -19,23 +27,23 @@ public abstract class EnemyStateMachine : MonoBehaviour
         {
             health = 100f,
             transform = transform,
-            playerTransform = playerTransform,
-            pathfinder = new Pathfinder(levelData),
-            pathMover = GetComponent<PathMover>(),
+            navMeshAgent = navMeshAgent,
+            animator = animator,
             waypoints = waypoints,
+            targetWaypoint = targetWaypoint
         };
-        context.pathMover.SetStartPosition(transform.position);
         currentState = GetInitialState();
         currentState.Enter(context);
     }
 
 
-    public void SetWaypoints(List<Vector3> waypoints)
+    public void SetWaypoints(List<Vector3> waypoints, Vector3 targetWaypoint)
     {
         this.waypoints = waypoints;
+        this.targetWaypoint = targetWaypoint;
     }
 
-    
+
 
     protected virtual void Update()
     {
@@ -48,6 +56,15 @@ public abstract class EnemyStateMachine : MonoBehaviour
         }
 
         currentState.Update(context);
+    }
+
+
+    void OnAnimatorMove()
+    {
+        if (animator.GetBool("Patrol"))
+        {
+            navMeshAgent.speed = (animator.deltaPosition / Time.deltaTime).magnitude;
+        }
     }
 
     protected abstract IEnemyState GetInitialState();

@@ -7,8 +7,7 @@ public class IdleState : IEnemyState
 
     public void Enter(EnemyStateContext context)
     {
-        idleTimer = Random.Range(2f, 5f);
-        Debug.Log($"Enemy entered idle state");
+        idleTimer = Random.Range(10f, 20f);
     }
 
     public void Update(EnemyStateContext context)
@@ -23,7 +22,6 @@ public class IdleState : IEnemyState
 
     public void Exit(EnemyStateContext context)
     {
-        Debug.Log($"Enemy exited idle state");
     }
 
     public IEnemyState ShouldTransition(EnemyStateContext context)
