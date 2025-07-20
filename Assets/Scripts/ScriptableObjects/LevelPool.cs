@@ -10,7 +10,6 @@ public class LevelPool : MultiPrefabPool
     [SerializeField] private List<PrefabEnumMapping<RingSegmentType>> ring3Segments = new();
     [SerializeField] private List<PrefabEnumMapping<CollectibleType>> collectibles = new();
     [SerializeField] private List<PrefabEnumMapping<SpellType>> spells = new();
-    [SerializeField] private List<PrefabEnumMapping<PortalType>> portals = new();
     [SerializeField] private List<PrefabEnumMapping<EnemyType>> enemies = new();
     [SerializeField] private List<PrefabEnumMapping<UtilityItem>> utilityItems = new();
 
@@ -23,7 +22,6 @@ public class LevelPool : MultiPrefabPool
         ProcessMappingList(ring1Segments);
         ProcessMappingList(ring2Segments);
         ProcessMappingList(ring3Segments);
-        ProcessMappingList(portals);
         ProcessMappingList(utilityItems);
     }
 }

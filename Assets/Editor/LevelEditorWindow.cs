@@ -503,11 +503,6 @@ public class LevelEditorWindow : EditorWindow
         segment.spellType = (SpellType)EditorGUILayout.EnumPopup("Spell", segment.spellType);
         EditorGUI.EndDisabledGroup();
 
-        // Disable portal type if ANY other field is selected
-        bool anyOtherFieldSelectedForPortal = HasAnyOtherOccupyingOption(segment, excludePortal: segment.portalType);
-        EditorGUI.BeginDisabledGroup(anyOtherFieldSelectedForPortal);
-        segment.portalType = (PortalType)EditorGUILayout.EnumPopup("Portal", segment.portalType);
-        EditorGUI.EndDisabledGroup();
 
         EditorGUI.indentLevel -= 2;
         EditorGUILayout.Space(30);
@@ -672,13 +667,12 @@ public class LevelEditorWindow : EditorWindow
         }
     }
 
-    private bool HasAnyOtherOccupyingOption(SegmentConfiguration segment, CollectibleType excludeCollectible = CollectibleType.None, SpellType excludeSpell = SpellType.None, bool excludeKey = false, bool excludeHealth = false, PortalType excludePortal = PortalType.None, bool excludePlayer = false)
+    private bool HasAnyOtherOccupyingOption(SegmentConfiguration segment, CollectibleType excludeCollectible = CollectibleType.None, SpellType excludeSpell = SpellType.None, bool excludeKey = false, bool excludeHealth = false, bool excludePlayer = false)
     {
         return (segment.collectibleType != CollectibleType.None && segment.collectibleType != excludeCollectible) ||
                (segment.spellType != SpellType.None && segment.spellType != excludeSpell) ||
                (segment.hasKey && !excludeKey) ||
                (segment.hasHealth && !excludeHealth) ||
-               (segment.portalType != PortalType.None && segment.portalType != excludePortal) ||
                (segment.isPlayerStart && !excludePlayer);
     }
 
@@ -709,12 +703,7 @@ public class LevelEditorWindow : EditorWindow
             if (icon != null) icons.Add(icon);
         }
 
-        // Portals
-        if (segment.portalType != PortalType.None)
-        {
-            var icon = segmentIconLibrary.GetPortalIcon(segment.portalType);
-            if (icon != null) icons.Add(icon);
-        }
+        
 
         // Enemies
         if (segment.enemyType != EnemyType.None)

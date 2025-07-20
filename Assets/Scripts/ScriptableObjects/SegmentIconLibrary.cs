@@ -31,9 +31,6 @@ public class SegmentIconLibrary : ScriptableObject
     public Sprite bloodseekerIcon;
 
 
-    [Header("Portals")]
-    public Sprite portalAIcon;
-    public Sprite portalBIcon;
 
 
 
@@ -83,15 +80,6 @@ public class SegmentIconLibrary : ScriptableObject
         };
     }
 
-    public Sprite GetPortalIcon(PortalType type)
-    {
-        return type switch
-        {
-            PortalType.PortalA => portalAIcon,
-            PortalType.PortalB => portalBIcon,
-            _ => null
-        };
-    }
 
     public Sprite GetSegmentTypeIcon(SegmentType type)
     {

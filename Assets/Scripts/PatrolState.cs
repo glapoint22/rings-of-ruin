@@ -23,15 +23,15 @@ public class PatrolState : IEnemyState
             // Set the destination to the target waypoint
             context.navMeshAgent.SetDestination(context.targetWaypoint);
         }
-
-
     }
+
 
     public void Exit(EnemyStateContext context)
     {
         // Set the patrol animation to false
         context.animator.SetBool("Patrol", false);
     }
+
 
     public IEnemyState ShouldTransition(EnemyStateContext context)
     {
@@ -51,6 +51,7 @@ public class PatrolState : IEnemyState
             return new IdleState();
         }
     }
+
 
     public void Update(EnemyStateContext context)
     {

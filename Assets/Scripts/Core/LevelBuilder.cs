@@ -5,19 +5,9 @@ using Unity.AI.Navigation;
 
 public class LevelBuilder : MonoBehaviour
 {
-    [Header("Pool Reference")]
-    [SerializeField]
-    private LevelPool levelPool;
-
     [SerializeField] private Transform levelRoot;
-
-
-    [Header("NavMesh")]
-    [SerializeField]
-    private NavMeshSurface navMeshSurface;
-
-    private GameObject portalA;
-    private GameObject portalB;
+    [SerializeField] private LevelPool levelPool;
+    [SerializeField] private NavMeshSurface navMeshSurface;
 
     public static Dictionary<int, Transform> RingRoots = new Dictionary<int, Transform>();
 
@@ -66,10 +56,6 @@ public class LevelBuilder : MonoBehaviour
                 levelPool.Return(segmentTransform.gameObject);
             }
         }
-
-        // Reset portal references
-        portalA = null;
-        portalB = null;
     }
 
     public void BuildLevel(LevelData levelData)
@@ -86,11 +72,12 @@ public class LevelBuilder : MonoBehaviour
 
         navMeshSurface.BuildNavMesh();
 
-        setPortals();
 
         // NEW: Spawn enemies at waypoints after all segments are built
         SpawnEnemiesAtWaypoints(levelData);
     }
+
+    
 
     private void BuildRing(RingConfiguration ring)
     {
@@ -112,7 +99,7 @@ public class LevelBuilder : MonoBehaviour
             GameObject segmentGO = levelPool.Get(GetRingSegmentType(ring.ringIndex, segment.segmentType));
             if (segmentGO == null) continue;
 
-            segmentGO.transform.SetPositionAndRotation(position, rotation);
+            segmentGO.transform.SetPositionAndRotation(position, rotation); 
             segmentGO.transform.SetParent(ringRoot);
             segmentGO.name = $"Ring{ring.ringIndex}_Seg{i}";
 
@@ -131,12 +118,6 @@ public class LevelBuilder : MonoBehaviour
         return (RingSegmentType)(ringIndex * 4 + (int)segmentType);
     }
 
-    private void setPortals()
-    {
-        if (portalA == null || portalB == null) return;
-        portalA.GetComponent<Portal>().linkedPortal = portalB.GetComponent<Portal>();
-        portalB.GetComponent<Portal>().linkedPortal = portalA.GetComponent<Portal>();
-    }
 
 
 
@@ -229,26 +210,6 @@ public class LevelBuilder : MonoBehaviour
                     {
                         treasureChest.SetCoinCount(config.treasureChestCoinCount);
                     }
-                }
-            }
-        }
-        // REMOVED: Direct enemy spawning - now handled by SpawnEnemiesAtWaypoints
-        else if (config.portalType != PortalType.None)
-        {
-            GameObject portal = levelPool.Get(config.portalType);
-            if (portal != null)
-            {
-                portal.transform.SetPositionAndRotation(ringSegment.SlotGround.position, ringSegment.SlotGround.rotation);
-                portal.transform.SetParent(ringSegment.SlotGround);
-                portal.name = $"{config.portalType}";
-
-                if (config.portalType == PortalType.PortalA)
-                {
-                    portalA = portal;
-                }
-                else if (config.portalType == PortalType.PortalB)
-                {
-                    portalB = portal;
                 }
             }
         }
