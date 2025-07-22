@@ -7,7 +7,7 @@ public class RuneflareManager : MonoBehaviour
 
     private float minRadius;
     private float maxRadius;
-    private LevelData currentLevelData;
+    private LevelDataOld currentLevelData;
     private Transform poolParent = null;
     private List<RuneflareProjectile> activeRuneflares = new();
 
@@ -25,7 +25,7 @@ public class RuneflareManager : MonoBehaviour
 
 
 
-    private void OnLevelLoaded(LevelData levelData)
+    private void OnLevelLoaded(LevelDataOld levelData)
     {
         if (!levelData.hasRuneflareHazard) return;
 

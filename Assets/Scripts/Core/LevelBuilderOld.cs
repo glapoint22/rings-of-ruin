@@ -3,7 +3,7 @@ using UnityEngine;
 using System.Linq;
 using Unity.AI.Navigation;
 
-public class LevelBuilder : MonoBehaviour
+public class LevelBuilderOld : MonoBehaviour
 {
     [SerializeField] private Transform levelRoot;
     [SerializeField] private LevelPool levelPool;
@@ -34,23 +34,23 @@ public class LevelBuilder : MonoBehaviour
             for (int i = 0; i < ringRoot.childCount; i++)
             {
                 Transform segmentTransform = ringRoot.GetChild(i);
-                RingSegment ringSegment = segmentTransform.GetComponent<RingSegment>();
+                Slot ringSegment = segmentTransform.GetComponent<Slot>();
 
                 if (ringSegment != null)
                 {
                     // Return object from ground slot if it exists
-                    if (ringSegment.SlotGround != null && ringSegment.SlotGround.childCount > 0)
+                    if (ringSegment.SpawnPoint != null && ringSegment.SpawnPoint.childCount > 0)
                     {
-                        GameObject childObject = ringSegment.SlotGround.GetChild(0).gameObject;
+                        GameObject childObject = ringSegment.SpawnPoint.GetChild(0).gameObject;
                         levelPool.Return(childObject);
                     }
 
-                    // Return object from float slot if it exists
-                    if (ringSegment.SlotFloat != null && ringSegment.SlotFloat.childCount > 0)
-                    {
-                        GameObject childObject = ringSegment.SlotFloat.GetChild(0).gameObject;
-                        levelPool.Return(childObject);
-                    }
+                    // // Return object from float slot if it exists
+                    // if (ringSegment.SlotFloat != null && ringSegment.SlotFloat.childCount > 0)
+                    // {
+                    //     GameObject childObject = ringSegment.SlotFloat.GetChild(0).gameObject;
+                    //     levelPool.Return(childObject);
+                    // }
                 }
 
                 levelPool.Return(segmentTransform.gameObject);
@@ -58,7 +58,7 @@ public class LevelBuilder : MonoBehaviour
         }
     }
 
-    public void BuildLevel(LevelData levelData)
+    public void BuildLevel(LevelDataOld levelData)
     {
         if (levelData == null)
         {
@@ -103,11 +103,11 @@ public class LevelBuilder : MonoBehaviour
             segmentGO.transform.SetParent(ringRoot);
             segmentGO.name = $"Ring{ring.ringIndex}_Seg{i}";
 
-            RingSegment ringSegment = segmentGO.GetComponent<RingSegment>();
+            Slot ringSegment = segmentGO.GetComponent<Slot>();
             if (ringSegment != null)
             {
                 ConfigureSegment(ringSegment, segment, ring.ringIndex);
-                ringSegment.SetSegment(ring.ringIndex, i);
+                // ringSegment.SetSegment(ring.ringIndex, i);
             }
         }
     }
@@ -121,7 +121,7 @@ public class LevelBuilder : MonoBehaviour
 
 
 
-    private void ConfigureSegment(RingSegment ringSegment, SegmentConfiguration config, int ringIndex)
+    private void ConfigureSegment(Slot ringSegment, SegmentConfiguration config, int ringIndex)
     {
         // First check for float slot (spell)
         if (config.spellType != SpellType.None)
@@ -177,9 +177,9 @@ public class LevelBuilder : MonoBehaviour
 
 
 
-    private void ConfigureSlotGround(RingSegment ringSegment, SegmentConfiguration config)
+    private void ConfigureSlotGround(Slot ringSegment, SegmentConfiguration config)
     {
-        if (ringSegment.SlotGround == null)
+        if (ringSegment.SpawnPoint == null)
             return;
 
         if (config.isPlayerStart)
@@ -187,8 +187,8 @@ public class LevelBuilder : MonoBehaviour
             GameObject player = levelPool.Get(UtilityItem.Player);
             if (player != null)
             {
-                player.transform.SetPositionAndRotation(ringSegment.SlotGround.position, ringSegment.SlotGround.rotation);
-                player.transform.SetParent(ringSegment.SlotGround);
+                player.transform.SetPositionAndRotation(ringSegment.SpawnPoint.position, ringSegment.SpawnPoint.rotation);
+                player.transform.SetParent(ringSegment.SpawnPoint);
                 player.name = "Player";
             }
         }
@@ -198,8 +198,8 @@ public class LevelBuilder : MonoBehaviour
             GameObject collectible = levelPool.Get(config.collectibleType);
             if (collectible != null)
             {
-                collectible.transform.SetPositionAndRotation(ringSegment.SlotGround.position, ringSegment.SlotGround.rotation);
-                collectible.transform.SetParent(ringSegment.SlotGround);
+                collectible.transform.SetPositionAndRotation(ringSegment.SpawnPoint.position, ringSegment.SpawnPoint.rotation);
+                collectible.transform.SetParent(ringSegment.SpawnPoint);
                 collectible.name = $"Collectible_{config.collectibleType}";
 
                 // Set coin count for treasure chests
@@ -215,22 +215,22 @@ public class LevelBuilder : MonoBehaviour
         }
     }
 
-    private void ConfigureSlotFloat(RingSegment ringSegment, System.Enum enumType)
+    private void ConfigureSlotFloat(Slot ringSegment, System.Enum enumType)
     {
-        if (ringSegment.SlotFloat == null)
-            return;
+        // if (ringSegment.SlotFloat == null)
+        //     return;
 
-        GameObject floatObject = levelPool.Get(enumType);
-        if (floatObject != null)
-        {
-            floatObject.transform.SetPositionAndRotation(ringSegment.SlotFloat.position, ringSegment.SlotFloat.rotation);
-            floatObject.transform.SetParent(ringSegment.SlotFloat);
-            floatObject.name = $"Float_{enumType}";
-        }
+        // GameObject floatObject = levelPool.Get(enumType);
+        // if (floatObject != null)
+        // {
+        //     floatObject.transform.SetPositionAndRotation(ringSegment.SlotFloat.position, ringSegment.SlotFloat.rotation);
+        //     floatObject.transform.SetParent(ringSegment.SlotFloat);
+        //     floatObject.name = $"Float_{enumType}";
+        // }
     }
 
     // NEW: Method to spawn enemies at waypoints
-    private void SpawnEnemiesAtWaypoints(LevelData levelData)
+    private void SpawnEnemiesAtWaypoints(LevelDataOld levelData)
     {
         var waypointGroups = levelData.GetEnemyWaypointGroups();
 
@@ -242,7 +242,7 @@ public class LevelBuilder : MonoBehaviour
             // Skip if no waypoints for this enemy type
             if (waypoints.Count == 0) continue;
 
-            List<RingSegment> ringSegmentsWithWaypoints = new List<RingSegment>();
+            List<Slot> ringSegmentsWithWaypoints = new List<Slot>();
             foreach (var waypoint in waypoints)
             {
                 Transform ringRoot = levelRoot.Find($"Ring_{waypoint.ringIndex}");
@@ -251,13 +251,13 @@ public class LevelBuilder : MonoBehaviour
                 Transform segmentTransform = ringRoot.Find($"Ring{waypoint.ringIndex}_Seg{waypoint.segmentIndex}");
                 if (segmentTransform == null) continue;
 
-                RingSegment ringSegment = segmentTransform.GetComponent<RingSegment>();
+                Slot ringSegment = segmentTransform.GetComponent<Slot>();
                 ringSegmentsWithWaypoints.Add(ringSegment);
             }
 
             // Randomly select one waypoint for this enemy type
             int randomIndex = Random.Range(0, ringSegmentsWithWaypoints.Count);
-            RingSegment selectedRingSegmentWithWaypoint = ringSegmentsWithWaypoints[randomIndex];
+            Slot selectedRingSegmentWithWaypoint = ringSegmentsWithWaypoints[randomIndex];
 
 
             // Spawn the enemy at the waypoint

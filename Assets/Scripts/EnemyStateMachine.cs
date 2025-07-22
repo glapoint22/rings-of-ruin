@@ -21,7 +21,7 @@ public abstract class EnemyStateMachine : MonoBehaviour
         GameEvents.OnLevelLoaded += OnLevelLoaded;
     }
 
-    private void OnLevelLoaded(LevelData levelData)
+    private void OnLevelLoaded(LevelDataOld levelData)
     {
         context = new EnemyStateContext
         {

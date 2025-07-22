@@ -4374,8 +4374,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 098a3ff7794fb3a4794bbe4ecacf3df8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  levelPool: {fileID: 11400000, guid: bf4759443f19aaf439698e4eff13632a, type: 2}
   levelRoot: {fileID: 894394372}
+  levelPool: {fileID: 11400000, guid: bf4759443f19aaf439698e4eff13632a, type: 2}
   navMeshSurface: {fileID: 1456701958}
 --- !u!114 &1456701956
 MonoBehaviour:
@@ -4391,7 +4391,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   levelBuilder: {fileID: 1456701955}
   levels:
-  - {fileID: 11400000, guid: d56e4fc654f138b4682d53e8e3b94213, type: 2}
+  - {fileID: 0}
 --- !u!4 &1456701957
 Transform:
   m_ObjectHideFlags: 0
@@ -4435,7 +4435,7 @@ MonoBehaviour:
   m_OverrideTileSize: 0
   m_TileSize: 256
   m_OverrideVoxelSize: 0
-  m_VoxelSize: 0.16666667
+  m_VoxelSize: 0.06666667
   m_MinRegionArea: 2
   m_NavMeshData: {fileID: 0}
   m_BuildHeightMesh: 0

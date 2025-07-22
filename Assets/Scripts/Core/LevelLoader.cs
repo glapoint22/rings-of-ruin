@@ -3,13 +3,13 @@ using System.Collections.Generic;
 
 public class LevelLoader : MonoBehaviour
 {
-    [SerializeField] private LevelBuilder levelBuilder;
-    [SerializeField] private List<LevelData> levels;
+    [SerializeField] private LevelBuilderOld levelBuilder;
+    [SerializeField] private List<LevelDataOld> levels;
 
 
-    public LevelData LoadLevel(int levelIndex)
+    public LevelDataOld LoadLevel(int levelIndex)
     {
-        LevelData levelData = levels[levelIndex];
+        LevelDataOld levelData = levels[levelIndex];
         if (levelBuilder == null || levelData == null) return null;
 
         levelBuilder.BuildLevel(levelData);

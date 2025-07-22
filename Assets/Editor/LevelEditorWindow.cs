@@ -15,20 +15,20 @@ public class LevelEditorWindow : EditorWindow
     private const int MIN_WINDOW_HEIGHT = 1150;
 
     // State variables for the editor
-    private List<LevelData> allLevels = new List<LevelData>();
+    private List<LevelDataOld> allLevels = new List<LevelDataOld>();
     private LevelPool levelPool;
     private SegmentIconLibrary segmentIconLibrary;
-    private LevelData selectedLevelData;
+    private LevelDataOld selectedLevelData;
     private int selectedLevelIndex = 0;
     private int selectedRingIndex = 0;
     private int selectedSegmentIndex = -1;
 
 
 
-    [MenuItem("Window/Rings of Ruin/Level Editor")]
+    [MenuItem("Window/Rings of Ruin/Level Editor Old")]
     public static void ShowWindow()
     {
-        LevelEditorWindow window = GetWindow<LevelEditorWindow>("Level Editor");
+        LevelEditorWindow window = GetWindow<LevelEditorWindow>("Level Editor Old");
         window.minSize = new Vector2(MIN_WINDOW_WIDTH, MIN_WINDOW_HEIGHT);
     }
 
@@ -86,7 +86,7 @@ public class LevelEditorWindow : EditorWindow
     private void LoadAllLevels()
     {
         allLevels = AssetDatabase.FindAssets("t:LevelData")
-            .Select(guid => AssetDatabase.LoadAssetAtPath<LevelData>(AssetDatabase.GUIDToAssetPath(guid)))
+            .Select(guid => AssetDatabase.LoadAssetAtPath<LevelDataOld>(AssetDatabase.GUIDToAssetPath(guid)))
             .Where(ld => ld != null)
             .OrderBy(ld => ld.levelID)
             .ToList();
@@ -244,9 +244,9 @@ public class LevelEditorWindow : EditorWindow
 
 
 
-    private LevelData CreateLevelAsset(int levelId)
+    private LevelDataOld CreateLevelAsset(int levelId)
     {
-        var newLevel = ScriptableObject.CreateInstance<LevelData>();
+        var newLevel = ScriptableObject.CreateInstance<LevelDataOld>();
         newLevel.levelID = levelId;
         var newRing = new RingConfiguration { ringIndex = 0 };
         for (int i = 0; i < SEGMENT_COUNT; i++)
@@ -557,7 +557,7 @@ public class LevelEditorWindow : EditorWindow
         }
 
         var tempGO = new GameObject("EditorPreviewBuilder_TEMP");
-        var builder = tempGO.AddComponent<LevelBuilder>();
+        var builder = tempGO.AddComponent<LevelBuilderOld>();
 
         // Inject multi prefab pool
         var so = new SerializedObject(builder);

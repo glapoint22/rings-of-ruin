@@ -4,13 +4,13 @@ using System.Linq;
 
 
 
-[CreateAssetMenu(menuName = "Rings of Ruin/Level Data")]
-public class LevelData : ScriptableObject
+[CreateAssetMenu(menuName = "Rings of Ruin/Level Data Old")]
+public class LevelDataOld : ScriptableObject
 {
 
     public int levelID;
     public List<RingConfiguration> rings = new();
-    public List<EnemySpawn> enemies = new();
+    public List<EnemySpawnOld> enemies = new();
     public bool hasRuneflareHazard = false;
     public int maxConcurrentRuneflares = 1;
     public Vector2 runeflareIntervalRange = new(6f, 10f);
@@ -103,7 +103,7 @@ public class SegmentConfiguration
 
 
 [System.Serializable]
-public class EnemySpawn
+public class EnemySpawnOld
 {
     public EnemyType enemyType;
     public int ringIndex;

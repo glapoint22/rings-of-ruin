@@ -23,7 +23,7 @@ public class Player : MonoBehaviour
         damage.UpdateState(playerState);
     }
 
-    private void OnLevelLoaded(LevelData levelData)
+    private void OnLevelLoaded(LevelDataOld levelData)
     {
         playerState.gems = 0;
         GameEvents.RaiseAddCollectible(playerState);

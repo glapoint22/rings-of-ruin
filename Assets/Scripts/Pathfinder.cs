@@ -4,11 +4,11 @@ using System.Linq;
 
 public class Pathfinder
 {
-    private readonly LevelData levelData;
+    private readonly LevelDataOld levelData;
     private readonly Dictionary<int, List<int>> validSegmentsPerRing;
 
 
-    public Pathfinder(LevelData levelData)
+    public Pathfinder(LevelDataOld levelData)
     {
         this.levelData = levelData;
         this.validSegmentsPerRing = new Dictionary<int, List<int>>();
