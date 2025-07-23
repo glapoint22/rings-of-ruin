@@ -48,46 +48,8 @@ MonoBehaviour:
     enumValue: 14
   - prefab: {fileID: 3497072354136049920, guid: 06336ebe5b03cfe4fb1afaff70476721, type: 3}
     enumValue: 15
-  collectibles:
+  spawnTypes:
+  - prefab: {fileID: 3235965575132758090, guid: 1c443c3abb862244aa6185fe28d5f5bb, type: 3}
+    enumValue: 13
   - prefab: {fileID: 1330952793056581977, guid: 21b70fda3216c4143acc6763d40ffc20, type: 3}
     enumValue: 1
-  - prefab: {fileID: 3045200245669249379, guid: b6a82ed13bc494e4588d1e53a6dfcfc7, type: 3}
-    enumValue: 2
-  - prefab: {fileID: 1474903583431706141, guid: ce81e27667d8bbd43aad1b79ecae648a, type: 3}
-    enumValue: 3
-  spells:
-  - prefab: {fileID: 8136413537345762719, guid: a7b07f4daf0b6c84ab1c479658b22dfc, type: 3}
-    enumValue: 1
-  - prefab: {fileID: 2350289288454457895, guid: 54f70e3948ba0354aa28843f623948ec, type: 3}
-    enumValue: 2
-  - prefab: {fileID: 2671347860398254805, guid: fea074d86ede84442ab1067ea3f6bec1, type: 3}
-    enumValue: 3
-  - prefab: {fileID: 4799016877198760528, guid: c25dd7bbb00fd5b4eb529cdb1209bf03, type: 3}
-    enumValue: 4
-  - prefab: {fileID: 4799016877198760528, guid: 823792d3ea7b2dd4faf93518da651a4e, type: 3}
-    enumValue: 5
-  - prefab: {fileID: 4799016877198760528, guid: 6ae96f66658755247a8cce2b15b1d0d5, type: 3}
-    enumValue: 6
-  - prefab: {fileID: 4799016877198760528, guid: ec2a8e8b3964a544fa4211a1f5b90aa3, type: 3}
-    enumValue: 7
-  portals:
-  - prefab: {fileID: 515101759093858978, guid: 07e59bd7db92da04eb1af62eb99cc347, type: 3}
-    enumValue: 1
-  - prefab: {fileID: 515101759093858978, guid: c09a9e8ba82c39444aac10cbaa1ba6a5, type: 3}
-    enumValue: 2
-  enemies:
-  - prefab: {fileID: 4493914613880827488, guid: 6dc4cf4496348884d8ee27743ae38562, type: 3}
-    enumValue: 1
-  - prefab: {fileID: 4730132979662416648, guid: c55e863a62e5aa34d80f8229f5b5d698, type: 3}
-    enumValue: 2
-  - prefab: {fileID: 1332851432689936905, guid: 674a88931e07a9745a3ca9a3156514a9, type: 3}
-    enumValue: 3
-  utilityItems:
-  - prefab: {fileID: 4311258303650999628, guid: 62bc426a24b13ec4998f2dfa1e75b453, type: 3}
-    enumValue: 1
-  - prefab: {fileID: 366851444705759479, guid: be6aaecb2f22df6409e3b3b7dfb677d0, type: 3}
-    enumValue: 2
-  - prefab: {fileID: 3235965575132758090, guid: 1c443c3abb862244aa6185fe28d5f5bb, type: 3}
-    enumValue: 3
-  - prefab: {fileID: 1061936302648435300, guid: 55df873377a235341a18c40b0c7e0634, type: 3}
-    enumValue: 4

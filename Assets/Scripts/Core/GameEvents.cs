@@ -13,7 +13,7 @@ public static class GameEvents
     public static event Action<BuffType> OnRemoveBuff;
 
     public static event Action OnKeyPickup;
-    public static event Action<LevelDataOld> OnLevelLoaded;
+    public static event Action<LevelData> OnLevelLoaded;
     public static event Action OnLevelCompleted;
 
     public static event Action<int, int> OnPlayerPlacement;
@@ -37,7 +37,7 @@ public static class GameEvents
     public static void RaisePlayerStateUpdate(PlayerState state) => OnPlayerStateUpdate?.Invoke(state);
     public static void RaiseDamage(Damage damage) => OnDamage?.Invoke(damage);
     public static void RaiseKeyPickup() => OnKeyPickup?.Invoke();
-    public static void RaiseLevelLoaded(LevelDataOld levelData) => OnLevelLoaded?.Invoke(levelData);
+    public static void RaiseLevelLoaded(LevelData levelData) => OnLevelLoaded?.Invoke(levelData);
     public static void RaiseLevelCompleted() => OnLevelCompleted?.Invoke();
     public static void RaisePlayerPlacement(int ringIndex, int segmentIndex) => OnPlayerPlacement?.Invoke(ringIndex, segmentIndex);
     public static void RaiseAddSpell(SpellType spell) => OnAddSpell?.Invoke(spell);

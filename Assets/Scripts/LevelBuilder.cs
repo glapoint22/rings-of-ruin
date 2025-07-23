@@ -16,6 +16,7 @@ public class LevelBuilder
     private List<Waypoint> waypoints = new();
     private Dictionary<WaypointType, List<Waypoint>> groupedWaypoints;
 
+
     public LevelBuilder(LevelPool levelPool, Transform levelRoot, NavMeshSurface navMeshSurface = null)
     {
         this.levelPool = levelPool;
@@ -28,8 +29,6 @@ public class LevelBuilder
         BuildRings(levelData.rings);
         GroupWaypoints();
         BuildNavMesh();
-        SpawnPlayer();
-        SpawnEnemies();
     }
 
 
@@ -59,11 +58,12 @@ public class LevelBuilder
     {
         var (position, rotation) = GetSegmentPositionAndRotation(segment);
 
-        GameObject ringSegment = levelPool.Get(segment.segmentType);
+        GameObject ringSegment = levelPool.Get(segment.ringSegmentType);
 
         SetupGameObject(ringSegment, position, rotation, levelRoot);
 
         Slot slot = ringSegment.GetComponent<Slot>();
+        slots.TryAdd(segment.ringIndex, new List<Slot>());
         slots[segment.ringIndex].Add(slot);
     }
 
@@ -87,7 +87,7 @@ public class LevelBuilder
 
     private void SpawnItem(Segment segment)
     {
-        if (segment.spawnType == SpawnType.None) return;
+        if (segment.spawnType == SpawnType.None || segment.spawnType == SpawnType.Player || segment.spawnType == SpawnType.Enemy) return;
 
         Slot slot = GetSlot(segment.ringIndex, segment.segmentIndex);
 
@@ -155,7 +155,7 @@ public class LevelBuilder
     }
 
 
-    private void SpawnPlayer()
+    public void SpawnPlayer()
     {
         GameObject player = levelPool.Get(SpawnType.Player);
 
@@ -171,7 +171,7 @@ public class LevelBuilder
     }
 
 
-    private void SpawnEnemies()
+    public void SpawnEnemies()
     {
         foreach (EnemySpawn enemySpawn in enemySpawns)
         {
@@ -199,9 +199,9 @@ public class LevelBuilder
             }
         }
 
-        // Assign waypoints if found
-        // var waypointComponent = enemy.GetComponent<EnemyWaypointController>();
-        // waypointComponent.SetWaypoints(waypointsToAssign);
+        // Assign waypoints
+        var waypointComponent = enemy.GetComponent<EnemyStateMachine>();
+        waypointComponent.SetWaypoints(waypointsToAssign.Select(w => w.position).ToList());
 
         // Remove the used waypoint group
         groupedWaypoints.Remove(waypointTypeToRemove);

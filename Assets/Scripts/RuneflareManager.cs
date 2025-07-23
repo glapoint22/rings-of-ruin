@@ -7,7 +7,7 @@ public class RuneflareManager : MonoBehaviour
 
     private float minRadius;
     private float maxRadius;
-    private LevelDataOld currentLevelData;
+    private LevelData currentLevelData;
     private Transform poolParent = null;
     private List<RuneflareProjectile> activeRuneflares = new();
 
@@ -25,9 +25,9 @@ public class RuneflareManager : MonoBehaviour
 
 
 
-    private void OnLevelLoaded(LevelDataOld levelData)
+    private void OnLevelLoaded(LevelData levelData)
     {
-        if (!levelData.hasRuneflareHazard) return;
+        if (!levelData.hasRuneFlares) return;
 
         currentLevelData = levelData;
         int ringCount = levelData.rings.Count;
@@ -36,7 +36,7 @@ public class RuneflareManager : MonoBehaviour
         maxRadius = outerRadius + 2f;
 
         // Pre-populate the pool with the initial amount of runeflares
-        runeflarePool.PrePopulateRuneflarePool(currentLevelData.maxConcurrentRuneflares);
+        // runeflarePool.PrePopulateRuneflarePool(currentLevelData.maxConcurrentRuneflares);
 
         // Assign event handler and spawn timer to each pooled runeflare
         foreach (var runeflare in runeflarePool.GetInactiveRuneflares())
@@ -51,7 +51,7 @@ public class RuneflareManager : MonoBehaviour
 
     private void Update()
     {
-        if (currentLevelData == null || !currentLevelData.hasRuneflareHazard || activeRuneflares.Count >= currentLevelData.maxConcurrentRuneflares) return;
+        if (currentLevelData == null) return;
 
         // Check all inactive runeflares in the pool for spawning
         foreach (var runeflare in runeflarePool.GetInactiveRuneflares())
@@ -87,7 +87,7 @@ public class RuneflareManager : MonoBehaviour
 
     private void AssignNewSpawnTimer(RuneflareProjectile runeflare)
     {
-        float randomInterval = Random.Range(currentLevelData.runeflareIntervalRange.x, currentLevelData.runeflareIntervalRange.y);
+        float randomInterval = Random.Range(currentLevelData.minRuneFlaresSpawnInterval, currentLevelData.maxRuneFlaresSpawnInterval);
         runeflare.UpdateSpawnTimer(randomInterval);
     }
 

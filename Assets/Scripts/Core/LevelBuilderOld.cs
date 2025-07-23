@@ -263,7 +263,7 @@ public class LevelBuilderOld : MonoBehaviour
             // Spawn the enemy at the waypoint
             GameObject enemy = levelPool.Get(enemyType);
 
-            enemy.GetComponent<EnemyStateMachine>().SetWaypoints(ringSegmentsWithWaypoints.Select(rs => rs.Waypoint.position).ToList(), selectedRingSegmentWithWaypoint.Waypoint.position);
+            // enemy.GetComponent<EnemyStateMachine>().SetWaypoints(ringSegmentsWithWaypoints.Select(rs => rs.Waypoint.position).ToList(), selectedRingSegmentWithWaypoint.Waypoint.position);
             if (enemy != null)
             {
                 enemy.transform.SetPositionAndRotation(selectedRingSegmentWithWaypoint.Waypoint.position, selectedRingSegmentWithWaypoint.Waypoint.rotation);

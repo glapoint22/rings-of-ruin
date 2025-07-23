@@ -3,7 +3,7 @@ public class Segment
 {
     public int ringIndex;
     public int segmentIndex;
-    public SegmentType segmentType;
+    public RingSegmentType ringSegmentType;
     public SpawnType spawnType;
     public bool hasBridge;
     public WaypointType waypointType;

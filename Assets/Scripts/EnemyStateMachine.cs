@@ -14,14 +14,14 @@ public abstract class EnemyStateMachine : MonoBehaviour
     protected IEnemyState currentState;
     protected EnemyStateContext context;
     private List<Vector3> waypoints;
-    private Vector3 targetWaypoint;
+    
 
     private void OnEnable()
     {
         GameEvents.OnLevelLoaded += OnLevelLoaded;
     }
 
-    private void OnLevelLoaded(LevelDataOld levelData)
+    private void OnLevelLoaded(LevelData levelData)
     {
         context = new EnemyStateContext
         {
@@ -30,17 +30,16 @@ public abstract class EnemyStateMachine : MonoBehaviour
             navMeshAgent = navMeshAgent,
             animator = animator,
             waypoints = waypoints,
-            targetWaypoint = targetWaypoint
+            targetWaypoint = transform.position
         };
         currentState = GetInitialState();
         currentState.Enter(context);
     }
 
 
-    public void SetWaypoints(List<Vector3> waypoints, Vector3 targetWaypoint)
+    public void SetWaypoints(List<Vector3> waypoints)
     {
         this.waypoints = waypoints;
-        this.targetWaypoint = targetWaypoint;
     }
 
 

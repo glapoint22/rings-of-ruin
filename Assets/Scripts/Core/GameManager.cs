@@ -1,22 +1,42 @@
 using UnityEngine;
+using System.Collections.Generic;
+using Unity.AI.Navigation;
+using System.Collections;
 
 public class GameManager : MonoBehaviour
 {
 
-    [SerializeField] private LevelLoader levelLoader;
+    [SerializeField] private List<LevelData> levels;
+    [SerializeField] private LevelPool levelPool;
+    [SerializeField] private Transform levelRoot;
+    [SerializeField] private NavMeshSurface navMeshSurface;
 
     private int currentLevelIndex = 0;
+    private LevelBuilder levelBuilder;
 
 
-    private void OnEnable() {
+    private void Awake()
+    {
+        levelBuilder = new LevelBuilder(levelPool, levelRoot, navMeshSurface);
+        levelPool.Initialize(levelRoot);
+    }
+
+
+    private void OnEnable()
+    {
         GameEvents.OnLevelCompleted += OnLevelCompleted;
     }
 
 
-    public void LoadLevel() {
-        levelLoader.LoadLevel(currentLevelIndex);
-        PauseGame();
+    public void LoadLevel()
+    {
+        // PauseGame();
+        levelBuilder.BuildLevel(levels[currentLevelIndex]);
+        GameEvents.RaiseLevelLoaded(levels[currentLevelIndex]);
+        levelBuilder.SpawnPlayer();
     }
+
+    
 
 
     public void PlayGame()
@@ -30,7 +50,8 @@ public class GameManager : MonoBehaviour
         Time.timeScale = 0f; // Pause game time
     }
 
-    private void OnLevelCompleted() {
+    private void OnLevelCompleted()
+    {
         currentLevelIndex++;
     }
 
