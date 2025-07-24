@@ -36,14 +36,14 @@ public class LevelDataOld : ScriptableObject
     }
 
     // New method to get waypoint groups for enemy spawning
-    public Dictionary<EnemyType, List<WaypointLocation>> GetEnemyWaypointGroups()
+    public Dictionary<EnemySpawnType, List<WaypointLocation>> GetEnemyWaypointGroups()
     {
-        var waypointGroups = new Dictionary<EnemyType, List<WaypointLocation>>();
+        var waypointGroups = new Dictionary<EnemySpawnType, List<WaypointLocation>>();
 
         // Initialize lists for each enemy type
-        foreach (EnemyType enemyType in System.Enum.GetValues(typeof(EnemyType)))
+        foreach (EnemySpawnType enemyType in System.Enum.GetValues(typeof(EnemySpawnType)))
         {
-            if (enemyType != EnemyType.None)
+            if (enemyType != EnemySpawnType.None)
             {
                 waypointGroups[enemyType] = new List<WaypointLocation>();
             }
@@ -56,7 +56,7 @@ public class LevelDataOld : ScriptableObject
             for (int segmentIndex = 0; segmentIndex < ring.segments.Count; segmentIndex++)
             {
                 var segment = ring.segments[segmentIndex];
-                if (segment.enemyType != EnemyType.None)
+                if (segment.enemyType != EnemySpawnType.None)
                 {
                     var waypoint = new WaypointLocation
                     {
@@ -89,7 +89,7 @@ public class SegmentConfiguration
     public int segmentIndex;
     public SegmentType segmentType = SegmentType.Normal;
     public SpellType spellType = SpellType.None;
-    public EnemyType enemyType = EnemyType.None;
+    public EnemySpawnType enemyType = EnemySpawnType.None;
     public CollectibleType collectibleType = CollectibleType.None;
     public int treasureChestCoinCount = 1;
     
@@ -105,7 +105,7 @@ public class SegmentConfiguration
 [System.Serializable]
 public class EnemySpawnOld
 {
-    public EnemyType enemyType;
+    public EnemySpawnType enemyType;
     public int ringIndex;
     public int segmentIndex;
 }

@@ -236,7 +236,7 @@ public class LevelBuilderOld : MonoBehaviour
 
         foreach (var kvp in waypointGroups)
         {
-            EnemyType enemyType = kvp.Key;
+            EnemySpawnType enemyType = kvp.Key;
             List<WaypointLocation> waypoints = kvp.Value;
 
             // Skip if no waypoints for this enemy type

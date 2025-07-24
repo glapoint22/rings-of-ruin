@@ -30,13 +30,20 @@ public class GameManager : MonoBehaviour
 
     public void LoadLevel()
     {
-        // PauseGame();
+        
         levelBuilder.BuildLevel(levels[currentLevelIndex]);
+        StartCoroutine(SpawnPlayer());
         GameEvents.RaiseLevelLoaded(levels[currentLevelIndex]);
-        levelBuilder.SpawnPlayer();
+        
+        PauseGame();
+        
     }
 
-    
+    private IEnumerator SpawnPlayer()
+    {
+        yield return new WaitForEndOfFrame();
+        levelBuilder.SpawnPlayer();
+    }
 
 
     public void PlayGame()

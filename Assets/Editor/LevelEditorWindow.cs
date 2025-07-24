@@ -343,16 +343,16 @@ public class LevelEditorWindow : EditorWindow
         }
 
         // Draw segment type icon if not normal
-        if (segment.segmentType != SegmentType.Normal)
-        {
-            Sprite typeIcon = segmentIconLibrary.GetSegmentTypeIcon(segment.segmentType);
-            if (typeIcon != null)
-            {
-                // Draw the icon at full button size
-                GUI.color = Color.white;
-                GUI.DrawTexture(buttonRect, typeIcon.texture, ScaleMode.ScaleToFit);
-            }
-        }
+        // if (segment.segmentType != SegmentType.Normal)
+        // {
+        //     Sprite typeIcon = segmentIconLibrary.GetSegmentTypeIcon(segment.segmentType);
+        //     if (typeIcon != null)
+        //     {
+        //         // Draw the icon at full button size
+        //         GUI.color = Color.white;
+        //         GUI.DrawTexture(buttonRect, typeIcon.texture, ScaleMode.ScaleToFit);
+        //     }
+        // }
 
         // Draw the segment number
         float topPadding = 8f;
@@ -515,7 +515,7 @@ public class LevelEditorWindow : EditorWindow
         EditorGUILayout.Space(1);
 
         // Enemy waypoint dropdown - always enabled since it's non-occupying
-        segment.enemyType = (EnemyType)EditorGUILayout.EnumPopup("Enemy Waypoint", segment.enemyType);
+        segment.enemyType = (EnemySpawnType)EditorGUILayout.EnumPopup("Enemy Waypoint", segment.enemyType);
         EditorGUI.indentLevel -= 2;
 
         EditorGUI.EndDisabledGroup(); // End the segment type disabled group
@@ -683,8 +683,8 @@ public class LevelEditorWindow : EditorWindow
         // If it's not a normal segment, only show the segment type icon
         if (segment.segmentType != SegmentType.Normal)
         {
-            var typeIcon = segmentIconLibrary.GetSegmentTypeIcon(segment.segmentType);
-            if (typeIcon != null) icons.Add(typeIcon);
+            // var typeIcon = segmentIconLibrary.GetSegmentTypeIcon(segment.segmentType);
+            // if (typeIcon != null) icons.Add(typeIcon);
             return icons;
         }
 
@@ -692,46 +692,46 @@ public class LevelEditorWindow : EditorWindow
         // Collectibles
         if (segment.collectibleType != CollectibleType.None)
         {
-            var icon = segmentIconLibrary.GetCollectibleIcon(segment.collectibleType);
-            if (icon != null) icons.Add(icon);
+            // var icon = segmentIconLibrary.GetCollectibleIcon(segment.collectibleType);
+            // if (icon != null) icons.Add(icon);
         }
 
         // Spells
         if (segment.spellType != SpellType.None)
         {
-            var icon = segmentIconLibrary.GetSpellIcon(segment.spellType);
-            if (icon != null) icons.Add(icon);
+            // var icon = segmentIconLibrary.GetSpellIcon(segment.spellType);
+            // if (icon != null) icons.Add(icon);
         }
 
         
 
         // Enemies
-        if (segment.enemyType != EnemyType.None)
+        if (segment.enemyType != EnemySpawnType.None)
         {
-            var icon = segmentIconLibrary.GetEnemyIcon(segment.enemyType);
+            var icon = segmentIconLibrary.GetEnemySpawnTypeIcon(segment.enemyType);
             if (icon != null) icons.Add(icon);
         }
 
         // Utility Items
         if (segment.hasKey)
         {
-            var icon = segmentIconLibrary.GetUtilityItemIcon(UtilityItem.Key);
-            if (icon != null) icons.Add(icon);
+            // var icon = segmentIconLibrary.GetUtilityItemIcon(UtilityItem.Key);
+            // if (icon != null) icons.Add(icon);
         }
         if (segment.hasHealth)
         {
-            var icon = segmentIconLibrary.GetUtilityItemIcon(UtilityItem.Health);
-            if (icon != null) icons.Add(icon);
+            // var icon = segmentIconLibrary.GetUtilityItemIcon(UtilityItem.Health);
+            // if (icon != null) icons.Add(icon);
         }
         if (segment.isPlayerStart)
         {
-            var icon = segmentIconLibrary.GetUtilityItemIcon(UtilityItem.Player);
-            if (icon != null) icons.Add(icon);
+            // var icon = segmentIconLibrary.GetUtilityItemIcon(UtilityItem.Player);
+            // if (icon != null) icons.Add(icon);
         }
         if (segment.hasBridge)
         {
-            var icon = segmentIconLibrary.GetUtilityItemIcon(UtilityItem.Bridge);
-            if (icon != null) icons.Add(icon);
+            // var icon = segmentIconLibrary.GetUtilityItemIcon(UtilityItem.Bridge);
+            // if (icon != null) icons.Add(icon);
         }
 
         return icons;

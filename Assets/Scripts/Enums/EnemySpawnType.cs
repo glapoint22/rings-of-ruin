@@ -1,4 +1,4 @@
-public enum EnemyType
+public enum EnemySpawnType
 {
     None,
     Ruinwalker,

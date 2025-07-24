@@ -53,3 +53,6 @@ MonoBehaviour:
     enumValue: 13
   - prefab: {fileID: 1330952793056581977, guid: 21b70fda3216c4143acc6763d40ffc20, type: 3}
     enumValue: 1
+  utilityItems:
+  - prefab: {fileID: 1061936302648435300, guid: 55df873377a235341a18c40b0c7e0634, type: 3}
+    enumValue: 4

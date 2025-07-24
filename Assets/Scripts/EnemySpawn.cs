@@ -1,11 +1,11 @@
 public struct EnemySpawn
 {
-    public EnemyType enemyType;
+    public EnemySpawnType enemySpawnType;
     public Slot slot;
 
-    public EnemySpawn(EnemyType enemyType, Slot slot)
+    public EnemySpawn(EnemySpawnType enemySpawnType, Slot slot)
     {
-        this.enemyType = enemyType;
+        this.enemySpawnType = enemySpawnType;
         this.slot = slot;
     }
 }

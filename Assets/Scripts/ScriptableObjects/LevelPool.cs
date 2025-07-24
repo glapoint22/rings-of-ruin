@@ -11,7 +11,7 @@ public class LevelPool : MultiPrefabPool
     [SerializeField] private List<PrefabEnumMapping<SpawnType>> spawnTypes = new();
     // [SerializeField] private List<PrefabEnumMapping<SpellType>> spells = new();
     // [SerializeField] private List<PrefabEnumMapping<EnemyType>> enemies = new();
-    // [SerializeField] private List<PrefabEnumMapping<UtilityItem>> utilityItems = new();
+    [SerializeField] private List<PrefabEnumMapping<UtilityItem>> utilityItems = new();
 
     protected override void ProcessAllMappings()
     {
@@ -22,6 +22,6 @@ public class LevelPool : MultiPrefabPool
         ProcessMappingList(ring1Segments);
         ProcessMappingList(ring2Segments);
         ProcessMappingList(ring3Segments);
-        // ProcessMappingList(utilityItems);
+        ProcessMappingList(utilityItems);
     }
 }
