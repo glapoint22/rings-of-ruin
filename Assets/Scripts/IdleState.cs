@@ -41,9 +41,9 @@ public class IdleState : IEnemyState
 
     private bool IsPlayerInRange(EnemyStateContext context)
     {
-        if (context.playerTransform == null) return false;
+        if (context.player == null) return false;
         
-        float distance = Vector3.Distance(context.transform.position, context.playerTransform.position);
+        float distance = Vector3.Distance(context.transform.position, context.player.position);
         return distance <= detectionRange;
     }
 }

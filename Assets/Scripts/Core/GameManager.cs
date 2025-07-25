@@ -25,6 +25,7 @@ public class GameManager : MonoBehaviour
     private void OnEnable()
     {
         GameEvents.OnLevelCompleted += OnLevelCompleted;
+        GameEvents.OnInteracted += OnInteracted;
     }
 
 
@@ -32,17 +33,18 @@ public class GameManager : MonoBehaviour
     {
         
         levelBuilder.BuildLevel(levels[currentLevelIndex]);
-        StartCoroutine(SpawnPlayer());
+        StartCoroutine(SpawnEntities());
         GameEvents.RaiseLevelLoaded(levels[currentLevelIndex]);
         
         PauseGame();
         
     }
 
-    private IEnumerator SpawnPlayer()
+    private IEnumerator SpawnEntities()
     {
         yield return new WaitForEndOfFrame();
         levelBuilder.SpawnPlayer();
+        levelBuilder.SpawnEnemies();
     }
 
 
@@ -60,6 +62,11 @@ public class GameManager : MonoBehaviour
     private void OnLevelCompleted()
     {
         currentLevelIndex++;
+    }
+
+    private void OnInteracted(GameObject interactable)
+    {
+        levelPool.Return(interactable);
     }
 
 }

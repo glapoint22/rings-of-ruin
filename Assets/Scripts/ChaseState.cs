@@ -4,21 +4,21 @@ public class ChaseState : IEnemyState
 {
     public void Enter(EnemyStateContext context)
     {
-        throw new System.NotImplementedException();
+        Debug.Log("Entering Chase State");
     }
 
     public void Exit(EnemyStateContext context)
     {
-        throw new System.NotImplementedException();
+        
     }
 
     public IEnemyState ShouldTransition(EnemyStateContext context)
     {
-        throw new System.NotImplementedException();
+        return null; // No transition logic for now
     }
 
     public void Update(EnemyStateContext context)
     {
-        throw new System.NotImplementedException();
+        Debug.Log("Chasing Player");
     }
 }

@@ -14,16 +14,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   stormboltSpells:
   - prefab: {fileID: 4083789948579601647, guid: 086a02ffa1b8fd64796bd9a2c73e6ef9, type: 3}
-    enumValue: 6
+    enumValue: 4
   bloodrootSpells:
   - prefab: {fileID: 4083789948579601647, guid: c571f07f44855aa49b04e48f3cd628a7, type: 3}
-    enumValue: 7
+    enumValue: 5
   fireballSpells:
   - prefab: {fileID: 4083789948579601647, guid: 3eb5c6d0089501642bebb01cab03565e, type: 3}
-    enumValue: 8
+    enumValue: 6
   ashbindSpells:
   - prefab: {fileID: 4083789948579601647, guid: 29af4a15e49aa0446a3fcfa373d38167, type: 3}
-    enumValue: 9
+    enumValue: 7
   shieldSpells:
   - prefab: {fileID: 4083789948579601647, guid: 8bf1d1e25fc70314e8c46cc3918e049d, type: 3}
     enumValue: 1

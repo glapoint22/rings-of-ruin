@@ -7,4 +7,5 @@ public class Segment
     public SpawnType spawnType;
     public bool hasBridge;
     public WaypointType waypointType;
+    public EnemySpawnType enemySpawnType;
 }

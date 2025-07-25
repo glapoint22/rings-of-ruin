@@ -10,17 +10,15 @@ public class LevelEditor : EditorWindow
     private const int MIN_WINDOW_WIDTH = 750;
     private const int MIN_WINDOW_HEIGHT = 1150;
     private const float SEGMENT_BUTTON_TOP_PADDING = 5f;
-     private const float SEGMENT_BUTTON_NUMBER_WIDTH = 30f;
+    private const float SEGMENT_BUTTON_NUMBER_WIDTH = 30f;
     private const float SEGMENT_BUTTON_NUMBER_HEIGHT = 15f;
     private int selectedLevelIndex = 0;
     private int selectedRingIndex = 0;
     private int selectedSegmentIndex = 0;
-    // private Segment selectedSegment;
     private LevelData selectedLevelData;
-    private bool hasLevels = false;
     private LevelPool levelPool;
     private SegmentIconLibrary segmentIconLibrary;
-    private Segment selectedSegment;
+    private bool segmentTypeNormal = true;
 
 
     [MenuItem("Window/Rings of Ruin/Level Editor")]
@@ -42,7 +40,7 @@ public class LevelEditor : EditorWindow
     {
         if (selectedLevelData == null)
         {
-            CreateLevel();
+            AddFirstLevel();
         }
         else
         {
@@ -91,7 +89,7 @@ public class LevelEditor : EditorWindow
         }
     }
 
-    private void CreateLevel()
+    private void AddFirstLevel()
     {
         // Create a centered vertical layout
         EditorGUILayout.BeginVertical();
@@ -203,18 +201,27 @@ public class LevelEditor : EditorWindow
         DrawArea(() =>
         {
             EditorGUILayout.LabelField("Segment Type", EditorStyles.label, GUILayout.Width(110));
+            GUI.enabled = segmentTypeNormal;
             EditorGUILayout.LabelField("Bridge", EditorStyles.label, GUILayout.Width(110));
+            var segment = selectedLevelData.rings[selectedRingIndex].segments[selectedSegmentIndex];
+            GUI.enabled = segment.waypointType != WaypointType.None;
+            EditorGUILayout.LabelField("Enemy Spawn", EditorStyles.label, GUILayout.Width(110));
+            GUI.enabled = segmentTypeNormal;
             EditorGUILayout.LabelField("Spawn Type", EditorStyles.label, GUILayout.Width(110));
             EditorGUILayout.LabelField("Enemy Waypoint", EditorStyles.label, GUILayout.Width(110));
+            GUI.enabled = true;
 
         }, 1, new RectOffset(40, 46, 0, 0));
 
         DrawArea(() =>
         {
             SegmentTypePopup();
+            GUI.enabled = segmentTypeNormal;
             BridgeCheckbox();
+            EnemySpawnCheckbox();
             SpawnTypePopup();
             EnemyWaypointPopup();
+            GUI.enabled = true;
         }, 0, new RectOffset(0, 6, 0, 0));
     }
 
@@ -230,7 +237,7 @@ public class LevelEditor : EditorWindow
 
     private void PreviewButtons()
     {
-        EditorGUILayout.Space(90);
+        EditorGUILayout.Space(70);
         EditorGUILayout.BeginHorizontal();
         // GUILayout.Space(30);
         GUILayout.FlexibleSpace();
@@ -245,9 +252,6 @@ public class LevelEditor : EditorWindow
     {
         // Get all existing LevelData assets and create level options
         string[] levelOptions = GetLevelOptions();
-        hasLevels = levelOptions.Length > 0;
-
-        GUI.enabled = hasLevels;
         int newSelectedIndex = EditorGUILayout.Popup(selectedLevelIndex, levelOptions);
 
         // Check if selection changed
@@ -256,7 +260,7 @@ public class LevelEditor : EditorWindow
             selectedLevelIndex = newSelectedIndex;
 
             // Load the selected level data
-            if (hasLevels && newSelectedIndex >= 0 && newSelectedIndex < levelOptions.Length)
+            if (newSelectedIndex >= 0 && newSelectedIndex < levelOptions.Length)
             {
                 string folderPath = "Assets/Levels";
                 string[] guids = AssetDatabase.FindAssets("t:LevelData", new[] { folderPath });
@@ -300,11 +304,31 @@ public class LevelEditor : EditorWindow
 
     private void DeleteLevelButton()
     {
-        GUI.enabled = hasLevels;
+        // Get all level options to determine if this is the last level
+        string[] levelOptions = GetLevelOptions();
+        bool isLastLevel = selectedLevelIndex == levelOptions.Length - 1;
+
+        // Disable the button if this is not the last level
+        GUI.enabled = isLastLevel;
+
         if (GUILayout.Button("Delete Level", GUILayout.Width(100)))
         {
-            // Defer the deletion to the next frame to avoid GUI layout issues
-            EditorApplication.delayCall += DeleteSelectedLevel;
+            // Show confirmation dialog when button is enabled (last level selected)
+            if (isLastLevel)
+            {
+                bool confirmed = EditorUtility.DisplayDialog(
+                    "Confirm Level Deletion",
+                    $"Are you sure you want to delete '{selectedLevelData.name}'? This action cannot be undone.",
+                    "Delete",
+                    "Cancel"
+                );
+
+                if (confirmed)
+                {
+                    // Defer the deletion to the next frame to avoid GUI layout issues
+                    EditorApplication.delayCall += DeleteSelectedLevel;
+                }
+            }
         }
         GUI.enabled = true;
     }
@@ -429,7 +453,17 @@ public class LevelEditor : EditorWindow
         GUI.enabled = selectedRingIndex == selectedLevelData.rings.Count - 1 && selectedRingIndex != 0;
         if (GUILayout.Button("Delete Ring", GUILayout.Width(100)))
         {
-            DeleteRing(selectedRingIndex);
+            bool confirmed = EditorUtility.DisplayDialog(
+                "Confirm Ring Deletion",
+                $"Are you sure you want to delete Ring {selectedRingIndex}? This action cannot be undone.",
+                "Delete",
+                "Cancel"
+            );
+
+            if (confirmed)
+            {
+                 DeleteRing(selectedRingIndex);
+            }
         }
         GUI.enabled = true;
     }
@@ -476,7 +510,6 @@ public class LevelEditor : EditorWindow
         if (GUI.Button(buttonRect, ""))
         {
             selectedSegmentIndex = segmentIndex;
-            selectedSegment = selectedLevelData.rings[selectedRingIndex].segments[selectedSegmentIndex];
         }
         SetSegmentButtonContent(segmentIndex, buttonRect);
         SetSelectedSegmentButton(segmentIndex, buttonRect);
@@ -557,7 +590,7 @@ public class LevelEditor : EditorWindow
     private void SetSpawnTypeIcon(Rect buttonRect, int segmentIndex)
     {
         List<Sprite> icons = GetSegmentIconList(segmentIndex);
-        if (icons.Count > 0) DrawMultipleIcons(buttonRect, icons);
+        if (icons.Count > 0) DrawIcons(buttonRect, icons);
     }
 
 
@@ -565,6 +598,18 @@ public class LevelEditor : EditorWindow
     {
         var icons = new List<Sprite>();
         Segment segment = selectedLevelData.rings[selectedRingIndex].segments[segmentIndex];
+
+        if (segment.hasBridge)
+        {
+            var icon = segmentIconLibrary.bridgeIcon;
+            if (icon != null) icons.Add(icon);
+        }
+
+        if (segment.enemySpawnType != EnemySpawnType.None)
+        {
+            var icon = segmentIconLibrary.GetEnemySpawnTypeIcon(segment.enemySpawnType);
+            if (icon != null) icons.Add(icon);
+        }
 
         if (segment.spawnType != SpawnType.None)
         {
@@ -577,74 +622,39 @@ public class LevelEditor : EditorWindow
             var icon = segmentIconLibrary.GetWaypointTypeIcon(segment.waypointType);
             if (icon != null) icons.Add(icon);
         }
-
-        if (segment.hasBridge)
-        {
-            var icon = segmentIconLibrary.bridgeIcon;
-            if (icon != null) icons.Add(icon);
-        }
         return icons;
     }
 
 
-    private void DrawMultipleIcons(Rect buttonRect, List<Sprite> icons)
+    private void DrawIcons(Rect buttonRect, List<Sprite> icons)
     {
         float iconSize = 20f;
-        float spacing = 8f;
-        float extraSpacing = 9f; // Additional spacing for 1 and 2 icons
-        float triangleAdjustment = -5f; // Move triangle formation up by 5px
-        float yOffset = SEGMENT_BUTTON_NUMBER_HEIGHT + SEGMENT_BUTTON_TOP_PADDING;
+        float numberOffset = 7f;
+        float centerX = (buttonRect.width - iconSize) / 2;
+        float centerY = (buttonRect.height - iconSize) / 2 + numberOffset;
 
         switch (icons.Count)
         {
             case 1:
-                // Single icon centered, moved down 9px
-                GUI.DrawTexture(
-                    new Rect(
-                        buttonRect.x + (buttonRect.width - iconSize) / 2,
-                        buttonRect.y + yOffset + spacing + extraSpacing,
-                        iconSize,
-                        iconSize
-                    ),
-                    icons[0].texture
-                );
+                GUI.DrawTexture(new Rect(buttonRect.x + centerX, buttonRect.y + centerY, iconSize, iconSize), icons[0].texture);
                 break;
 
             case 2:
-                // Two icons side by side, moved down 9px
-                float twoIconWidth = iconSize * 2 + spacing;
-                float startX = buttonRect.x + (buttonRect.width - twoIconWidth) / 2;
-
-                GUI.DrawTexture(
-                    new Rect(startX, buttonRect.y + yOffset + spacing + extraSpacing, iconSize, iconSize),
-                    icons[0].texture
-                );
-                GUI.DrawTexture(
-                    new Rect(startX + iconSize + spacing, buttonRect.y + yOffset + spacing + extraSpacing, iconSize, iconSize),
-                    icons[1].texture
-                );
+                GUI.DrawTexture(new Rect(buttonRect.x + centerX / 2, buttonRect.y + centerY, iconSize, iconSize), icons[0].texture);
+                GUI.DrawTexture(new Rect(buttonRect.x + centerX + centerX / 2, buttonRect.y + centerY, iconSize, iconSize), icons[1].texture);
                 break;
 
             case 3:
-                // Triangle formation: 1 on top, 2 below, moved up 5px
-                float topIconX = buttonRect.x + (buttonRect.width - iconSize) / 2;
-                float bottomStartX = buttonRect.x + (buttonRect.width - (iconSize * 2 + spacing)) / 2;
+                GUI.DrawTexture(new Rect(buttonRect.x + centerX, buttonRect.y + centerY - 10, iconSize, iconSize), icons[0].texture);
+                GUI.DrawTexture(new Rect(buttonRect.x + centerX / 2, buttonRect.y + centerY + 14, iconSize, iconSize), icons[1].texture);
+                GUI.DrawTexture(new Rect(buttonRect.x + centerX + centerX / 2, buttonRect.y + centerY + 14, iconSize, iconSize), icons[2].texture);
+                break;
 
-                // Top icon - moved down 2px
-                GUI.DrawTexture(
-                    new Rect(topIconX, buttonRect.y + yOffset + spacing + triangleAdjustment + 2f, iconSize, iconSize),
-                    icons[0].texture
-                );
-
-                // Bottom two icons - moved up 2px
-                GUI.DrawTexture(
-                    new Rect(bottomStartX, buttonRect.y + yOffset + spacing * 2 + iconSize + triangleAdjustment - 2f, iconSize, iconSize),
-                    icons[1].texture
-                );
-                GUI.DrawTexture(
-                    new Rect(bottomStartX + iconSize + spacing, buttonRect.y + yOffset + spacing * 2 + iconSize + triangleAdjustment - 2f, iconSize, iconSize),
-                    icons[2].texture
-                );
+            case 4:
+                GUI.DrawTexture(new Rect(buttonRect.x + centerX / 2, buttonRect.y + centerY - 10, iconSize, iconSize), icons[0].texture);
+                GUI.DrawTexture(new Rect(buttonRect.x + centerX + centerX / 2, buttonRect.y + centerY - 10, iconSize, iconSize), icons[1].texture);
+                GUI.DrawTexture(new Rect(buttonRect.x + centerX / 2, buttonRect.y + centerY + 14, iconSize, iconSize), icons[2].texture);
+                GUI.DrawTexture(new Rect(buttonRect.x + centerX + centerX / 2, buttonRect.y + centerY + 14, iconSize, iconSize), icons[3].texture);
                 break;
         }
     }
@@ -652,13 +662,14 @@ public class LevelEditor : EditorWindow
 
     private void SegmentTypePopup()
     {
+        var segment = selectedLevelData.rings[selectedRingIndex].segments[selectedSegmentIndex];
         EditorGUI.BeginChangeCheck();
-        int currentSegmentTypeIndex = GetSegmentTypeIndex(selectedSegment.ringSegmentType);
+        int currentSegmentTypeIndex = GetSegmentTypeIndex(segment.ringSegmentType);
         int newSegmentTypeIndex = EditorGUILayout.Popup(currentSegmentTypeIndex, new string[] { "Normal", "Gap", "Crumbling", "Spike" });
 
         if (newSegmentTypeIndex != currentSegmentTypeIndex)
         {
-            selectedSegment.ringSegmentType = GetRingSegmentType(newSegmentTypeIndex);
+            OnSegmentTypeChange(newSegmentTypeIndex, segment);
             EditorUtility.SetDirty(selectedLevelData);
         }
     }
@@ -676,15 +687,77 @@ public class LevelEditor : EditorWindow
     }
 
 
+    private void OnSegmentTypeChange(int segmentTypeIndex, Segment segment)
+    {
+        segment.ringSegmentType = GetRingSegmentType(segmentTypeIndex);
+        segmentTypeNormal = segmentTypeIndex == 0;
+        if (!segmentTypeNormal)
+        {
+            segment.hasBridge = false;
+            segment.spawnType = SpawnType.None;
+            segment.waypointType = WaypointType.None;
+            segment.enemySpawnType = EnemySpawnType.None;
+        }
+    }
+
+    private void BridgeCheckbox()
+    {
+        var segment = selectedLevelData.rings[selectedRingIndex].segments[selectedSegmentIndex];
+        EditorGUI.BeginChangeCheck();
+        segment.hasBridge = EditorGUILayout.Toggle(segment.hasBridge);
+        if (EditorGUI.EndChangeCheck())
+        {
+            EditorUtility.SetDirty(selectedLevelData);
+        }
+    }
+
+
+    private void EnemySpawnCheckbox()
+    {
+        var segment = selectedLevelData.rings[selectedRingIndex].segments[selectedSegmentIndex];
+        GUI.enabled = segment.waypointType != WaypointType.None && segmentTypeNormal;
+        EditorGUI.BeginChangeCheck();
+
+        bool hasEnemySpawn = segment.enemySpawnType != EnemySpawnType.None;
+        bool newHasEnemySpawn = EditorGUILayout.Toggle(hasEnemySpawn);
+
+        if (EditorGUI.EndChangeCheck())
+        {
+            if (newHasEnemySpawn)
+            {
+                segment.enemySpawnType = ConvertWaypointTypeToEnemySpawnType(segment.waypointType);
+            }
+            else
+            {
+                segment.enemySpawnType = EnemySpawnType.None;
+            }
+            EditorUtility.SetDirty(selectedLevelData);
+        }
+        GUI.enabled = segmentTypeNormal;
+    }
+
+
+    private EnemySpawnType ConvertWaypointTypeToEnemySpawnType(WaypointType waypointType)
+    {
+        if (waypointType == WaypointType.None) return EnemySpawnType.None;
+
+        string waypointName = waypointType.ToString();
+        string enemyName = waypointName.Substring(0, waypointName.Length - 1); // Remove last character
+
+        return System.Enum.TryParse<EnemySpawnType>(enemyName, out var enemySpawnType) ? enemySpawnType : EnemySpawnType.None;
+    }
+
+
     private void SpawnTypePopup()
     {
+        var segment = selectedLevelData.rings[selectedRingIndex].segments[selectedSegmentIndex];
         string[] spawnItemOptions = System.Enum.GetNames(typeof(SpawnType));
-        int currentSpawnTypeIndex = (int)selectedSegment.spawnType;
+        int currentSpawnTypeIndex = (int)segment.spawnType;
         int newSpawnTypeIndex = EditorGUILayout.Popup(currentSpawnTypeIndex, spawnItemOptions);
 
         if (newSpawnTypeIndex != currentSpawnTypeIndex)
         {
-            selectedSegment.spawnType = (SpawnType)newSpawnTypeIndex;
+            segment.spawnType = (SpawnType)newSpawnTypeIndex;
             EditorUtility.SetDirty(selectedLevelData);
         }
     }
@@ -692,24 +765,18 @@ public class LevelEditor : EditorWindow
 
     private void EnemyWaypointPopup()
     {
+        var segment = selectedLevelData.rings[selectedRingIndex].segments[selectedSegmentIndex];
         string[] enemyWayPointOptions = System.Enum.GetNames(typeof(WaypointType));
-        int currentEnemyWayPointIndex = (int)selectedSegment.waypointType;
+        int currentEnemyWayPointIndex = (int)segment.waypointType;
         int newEnemyWayPointIndex = EditorGUILayout.Popup(currentEnemyWayPointIndex, enemyWayPointOptions);
 
         if (newEnemyWayPointIndex != currentEnemyWayPointIndex)
         {
-            selectedSegment.waypointType = (WaypointType)newEnemyWayPointIndex;
-            EditorUtility.SetDirty(selectedLevelData);
-        }
-    }
-
-
-    private void BridgeCheckbox()
-    {
-        EditorGUI.BeginChangeCheck();
-        selectedSegment.hasBridge = EditorGUILayout.Toggle(selectedSegment.hasBridge);
-        if (EditorGUI.EndChangeCheck())
-        {
+            segment.waypointType = (WaypointType)newEnemyWayPointIndex;
+            if (segment.enemySpawnType != EnemySpawnType.None)
+            {
+                segment.enemySpawnType = ConvertWaypointTypeToEnemySpawnType(segment.waypointType);
+            }
             EditorUtility.SetDirty(selectedLevelData);
         }
     }

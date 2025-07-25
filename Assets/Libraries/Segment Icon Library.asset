@@ -25,12 +25,22 @@ MonoBehaviour:
   bloodrootIcon: {fileID: 21300000, guid: 17e9b2e4da088b241bad27c54735ab0e, type: 3}
   fireballIcon: {fileID: 21300000, guid: 807b31a08620f3c499237b465b1f05fc, type: 3}
   ashbindIcon: {fileID: 21300000, guid: 1ceadd78f138d1343b86c3f72e64b7e2, type: 3}
+  healthIcon: {fileID: 21300000, guid: 1e2279539982f2949a8b5b456059a66b, type: 3}
+  keyIcon: {fileID: 21300000, guid: d969a097c7b804f41aa118d5734f5ab4, type: 3}
+  playerIcon: {fileID: 21300000, guid: 7703cdfe9ad95c1479b015a28cb955eb, type: 3}
   ruinwalkerIcon: {fileID: 21300000, guid: 3568c44289f78bb46b866e4c06409186, type: 3}
   gravecallerIcon: {fileID: 21300000, guid: 568c892dccbac304fb92afad18a822eb, type: 3}
   bloodseekerIcon: {fileID: 21300000, guid: 6e65bc84cfe2b8b4e892ce5a6fddf69d, type: 3}
-  portalAIcon: {fileID: 21300000, guid: c27c7f8be6cb2c84da23d5d29934b9a5, type: 3}
-  portalBIcon: {fileID: 21300000, guid: 79b134b56755b424483eca2ed97f1623, type: 3}
-  keyIcon: {fileID: 21300000, guid: d969a097c7b804f41aa118d5734f5ab4, type: 3}
-  playerIcon: {fileID: 21300000, guid: 7703cdfe9ad95c1479b015a28cb955eb, type: 3}
+  ruinwalker1Icon: {fileID: 21300000, guid: 255c9e5a3e14eab449b403628a256223, type: 3}
+  ruinwalker2Icon: {fileID: 21300000, guid: dbe6ae1b475742a49b57bb51467289c9, type: 3}
+  ruinwalker3Icon: {fileID: 21300000, guid: 4957abfbe1dd62e4c994ab64ad999437, type: 3}
+  ruinwalker4Icon: {fileID: 21300000, guid: 6eaab53f319575e48a0829dbc3a575cf, type: 3}
+  gravecaller1Icon: {fileID: 21300000, guid: 17451d81ada542f4fb2c9603dedd8700, type: 3}
+  gravecaller2Icon: {fileID: 21300000, guid: a1eea4365d18c1c40ab72f5a5d4fbb02, type: 3}
+  gravecaller3Icon: {fileID: 21300000, guid: 5b0b83c5b2d07b64c9631c57e8c5925d, type: 3}
+  gravecaller4Icon: {fileID: 21300000, guid: b45e2512f7eb42d44b14c0be2fb3afc6, type: 3}
+  bloodseeker1Icon: {fileID: 21300000, guid: c6b84c3120d69be4e80c926bbd8b58d1, type: 3}
+  bloodseeker2Icon: {fileID: 21300000, guid: e1166fff3d145ed4abb1208db9cad883, type: 3}
+  bloodseeker3Icon: {fileID: 21300000, guid: a5250a31b60a70e4aae4a260c8807f48, type: 3}
+  bloodseeker4Icon: {fileID: 21300000, guid: 21aaad037bb25c04080312dd5ba7d7c8, type: 3}
   bridgeIcon: {fileID: 21300000, guid: d21fca1c9b85dc84ca4a3e135953e7e4, type: 3}
-  healthIcon: {fileID: 21300000, guid: 1e2279539982f2949a8b5b456059a66b, type: 3}

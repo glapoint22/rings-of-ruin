@@ -13,6 +13,5 @@ public enum SpawnType
     Ashbind,
     Health,
     Key,
-    Player,
-    Enemy
+    Player
 }

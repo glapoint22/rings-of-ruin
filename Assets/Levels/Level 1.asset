@@ -20,144 +20,168 @@ MonoBehaviour:
       spawnType: 0
       hasBridge: 0
       waypointType: 0
+      enemySpawnType: 0
     - ringIndex: 0
       segmentIndex: 1
       ringSegmentType: 0
       spawnType: 0
       hasBridge: 0
       waypointType: 0
+      enemySpawnType: 0
     - ringIndex: 0
       segmentIndex: 2
       ringSegmentType: 0
       spawnType: 0
       hasBridge: 0
       waypointType: 0
+      enemySpawnType: 0
     - ringIndex: 0
       segmentIndex: 3
       ringSegmentType: 0
       spawnType: 0
       hasBridge: 0
       waypointType: 0
+      enemySpawnType: 0
     - ringIndex: 0
       segmentIndex: 4
       ringSegmentType: 0
       spawnType: 0
       hasBridge: 0
       waypointType: 0
+      enemySpawnType: 0
     - ringIndex: 0
       segmentIndex: 5
       ringSegmentType: 0
       spawnType: 0
       hasBridge: 0
       waypointType: 0
+      enemySpawnType: 0
     - ringIndex: 0
       segmentIndex: 6
       ringSegmentType: 0
       spawnType: 0
       hasBridge: 0
       waypointType: 0
+      enemySpawnType: 0
     - ringIndex: 0
       segmentIndex: 7
       ringSegmentType: 0
       spawnType: 0
       hasBridge: 0
       waypointType: 0
+      enemySpawnType: 0
     - ringIndex: 0
       segmentIndex: 8
       ringSegmentType: 0
       spawnType: 0
       hasBridge: 0
       waypointType: 0
+      enemySpawnType: 0
     - ringIndex: 0
       segmentIndex: 9
       ringSegmentType: 0
       spawnType: 0
       hasBridge: 0
       waypointType: 0
+      enemySpawnType: 0
     - ringIndex: 0
       segmentIndex: 10
       ringSegmentType: 0
       spawnType: 0
       hasBridge: 0
       waypointType: 0
+      enemySpawnType: 0
     - ringIndex: 0
       segmentIndex: 11
       ringSegmentType: 0
       spawnType: 0
       hasBridge: 0
       waypointType: 0
+      enemySpawnType: 0
     - ringIndex: 0
       segmentIndex: 12
       ringSegmentType: 0
       spawnType: 0
       hasBridge: 0
       waypointType: 0
+      enemySpawnType: 0
     - ringIndex: 0
       segmentIndex: 13
       ringSegmentType: 0
       spawnType: 0
       hasBridge: 0
       waypointType: 0
+      enemySpawnType: 0
     - ringIndex: 0
       segmentIndex: 14
       ringSegmentType: 0
       spawnType: 0
       hasBridge: 0
       waypointType: 0
+      enemySpawnType: 0
     - ringIndex: 0
       segmentIndex: 15
       ringSegmentType: 0
       spawnType: 0
       hasBridge: 0
       waypointType: 0
+      enemySpawnType: 0
     - ringIndex: 0
       segmentIndex: 16
       ringSegmentType: 0
       spawnType: 0
       hasBridge: 0
       waypointType: 0
+      enemySpawnType: 0
     - ringIndex: 0
       segmentIndex: 17
       ringSegmentType: 0
       spawnType: 0
       hasBridge: 0
       waypointType: 0
+      enemySpawnType: 0
     - ringIndex: 0
       segmentIndex: 18
       ringSegmentType: 0
-      spawnType: 0
+      spawnType: 13
       hasBridge: 0
       waypointType: 0
+      enemySpawnType: 0
     - ringIndex: 0
       segmentIndex: 19
       ringSegmentType: 0
       spawnType: 0
       hasBridge: 0
       waypointType: 0
+      enemySpawnType: 0
     - ringIndex: 0
       segmentIndex: 20
       ringSegmentType: 0
       spawnType: 0
       hasBridge: 0
       waypointType: 0
+      enemySpawnType: 0
     - ringIndex: 0
       segmentIndex: 21
       ringSegmentType: 0
       spawnType: 0
       hasBridge: 0
       waypointType: 0
+      enemySpawnType: 0
     - ringIndex: 0
       segmentIndex: 22
       ringSegmentType: 0
       spawnType: 0
       hasBridge: 0
       waypointType: 0
+      enemySpawnType: 0
     - ringIndex: 0
       segmentIndex: 23
       ringSegmentType: 0
       spawnType: 0
       hasBridge: 0
       waypointType: 0
+      enemySpawnType: 0
   - segments:
     - ringIndex: 1
       segmentIndex: 0
@@ -165,144 +189,168 @@ MonoBehaviour:
       spawnType: 0
       hasBridge: 0
       waypointType: 0
+      enemySpawnType: 0
     - ringIndex: 1
       segmentIndex: 1
       ringSegmentType: 4
       spawnType: 0
       hasBridge: 0
       waypointType: 0
+      enemySpawnType: 0
     - ringIndex: 1
       segmentIndex: 2
       ringSegmentType: 4
       spawnType: 0
       hasBridge: 0
       waypointType: 0
+      enemySpawnType: 0
     - ringIndex: 1
       segmentIndex: 3
       ringSegmentType: 4
       spawnType: 0
       hasBridge: 0
       waypointType: 0
+      enemySpawnType: 0
     - ringIndex: 1
       segmentIndex: 4
       ringSegmentType: 4
       spawnType: 0
       hasBridge: 0
       waypointType: 0
+      enemySpawnType: 0
     - ringIndex: 1
       segmentIndex: 5
       ringSegmentType: 4
       spawnType: 0
       hasBridge: 0
       waypointType: 0
+      enemySpawnType: 0
     - ringIndex: 1
       segmentIndex: 6
       ringSegmentType: 4
-      spawnType: 1
+      spawnType: 0
       hasBridge: 0
-      waypointType: 0
+      waypointType: 1
+      enemySpawnType: 0
     - ringIndex: 1
       segmentIndex: 7
       ringSegmentType: 4
       spawnType: 0
       hasBridge: 0
       waypointType: 0
+      enemySpawnType: 0
     - ringIndex: 1
       segmentIndex: 8
       ringSegmentType: 4
       spawnType: 0
       hasBridge: 0
       waypointType: 0
+      enemySpawnType: 0
     - ringIndex: 1
       segmentIndex: 9
       ringSegmentType: 4
       spawnType: 0
-      hasBridge: 1
+      hasBridge: 0
       waypointType: 0
+      enemySpawnType: 0
     - ringIndex: 1
       segmentIndex: 10
       ringSegmentType: 4
       spawnType: 0
       hasBridge: 0
       waypointType: 0
+      enemySpawnType: 0
     - ringIndex: 1
       segmentIndex: 11
       ringSegmentType: 4
       spawnType: 0
       hasBridge: 0
       waypointType: 0
+      enemySpawnType: 0
     - ringIndex: 1
       segmentIndex: 12
       ringSegmentType: 4
-      spawnType: 13
+      spawnType: 0
       hasBridge: 0
-      waypointType: 0
+      waypointType: 1
+      enemySpawnType: 1
     - ringIndex: 1
       segmentIndex: 13
       ringSegmentType: 4
       spawnType: 0
       hasBridge: 0
       waypointType: 0
+      enemySpawnType: 0
     - ringIndex: 1
       segmentIndex: 14
       ringSegmentType: 4
       spawnType: 0
       hasBridge: 0
       waypointType: 0
+      enemySpawnType: 0
     - ringIndex: 1
       segmentIndex: 15
       ringSegmentType: 4
       spawnType: 0
       hasBridge: 0
       waypointType: 0
+      enemySpawnType: 0
     - ringIndex: 1
       segmentIndex: 16
       ringSegmentType: 4
       spawnType: 0
       hasBridge: 0
       waypointType: 0
+      enemySpawnType: 0
     - ringIndex: 1
       segmentIndex: 17
       ringSegmentType: 4
       spawnType: 0
       hasBridge: 0
       waypointType: 0
+      enemySpawnType: 0
     - ringIndex: 1
       segmentIndex: 18
       ringSegmentType: 4
       spawnType: 0
-      hasBridge: 0
-      waypointType: 0
+      hasBridge: 1
+      waypointType: 1
+      enemySpawnType: 0
     - ringIndex: 1
       segmentIndex: 19
       ringSegmentType: 4
       spawnType: 0
       hasBridge: 0
       waypointType: 0
+      enemySpawnType: 0
     - ringIndex: 1
       segmentIndex: 20
       ringSegmentType: 4
       spawnType: 0
       hasBridge: 0
       waypointType: 0
+      enemySpawnType: 0
     - ringIndex: 1
       segmentIndex: 21
       ringSegmentType: 4
       spawnType: 0
       hasBridge: 0
       waypointType: 0
+      enemySpawnType: 0
     - ringIndex: 1
       segmentIndex: 22
       ringSegmentType: 4
       spawnType: 0
       hasBridge: 0
       waypointType: 0
+      enemySpawnType: 0
     - ringIndex: 1
       segmentIndex: 23
       ringSegmentType: 4
       spawnType: 0
       hasBridge: 0
       waypointType: 0
+      enemySpawnType: 0
   hasRuneFlares: 0
   minRuneFlaresSpawnInterval: 0
   maxRuneFlaresSpawnInterval: 0

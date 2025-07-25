@@ -11,17 +11,17 @@ public class PatrolState : IEnemyState
         context.animator.SetBool("Patrol", true);
 
         // Get all waypoints except the spawn position
-        var availableWaypoints = context.waypoints.Where(wp => wp != context.targetWaypoint).ToList();
+        var availableWaypoints = context.waypoints.Where(wp => wp != context.spawnPoint).ToList();
 
 
         if (availableWaypoints.Count > 0)
         {
             // Pick a random waypoint from the available ones
             int randomIndex = Random.Range(0, availableWaypoints.Count);
-            context.targetWaypoint = availableWaypoints[randomIndex];
+            context.spawnPoint = availableWaypoints[randomIndex];
 
             // Set the destination to the target waypoint
-            context.navMeshAgent.SetDestination(context.targetWaypoint);
+            context.navMeshAgent.SetDestination(context.spawnPoint);
         }
     }
 

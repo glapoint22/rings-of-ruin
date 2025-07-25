@@ -16,6 +16,7 @@ public class LevelBuilder
     private List<EnemySpawn> enemySpawns = new();
     private List<Waypoint> waypoints = new();
     private Dictionary<WaypointType, List<Waypoint>> groupedWaypoints;
+    private Transform player;
 
 
     public LevelBuilder(LevelPool levelPool, Transform levelRoot, NavMeshSurface navMeshSurface = null)
@@ -24,6 +25,7 @@ public class LevelBuilder
         this.levelRoot = levelRoot;
         this.navMeshSurface = navMeshSurface;
     }
+
 
     public void BuildLevel(LevelData levelData)
     {
@@ -81,18 +83,18 @@ public class LevelBuilder
                 float currentRingRadius = RingConstants.BaseRadius + (segment.ringIndex * RingConstants.RingRadiusOffset);
                 float gapBetweenRings = RingConstants.RingRadiusOffset - RingConstants.SegmentThickness;
                 float bridgeRadius = currentRingRadius - (RingConstants.SegmentThickness / 2f) - (gapBetweenRings / 2f);
-                
+
                 // Calculate angle (same as segment angle)
                 float ninetyDegreeOffset = Mathf.PI / 2f;
                 float anglePerSegment = (Mathf.PI * 2f) / RingConstants.SegmentCount;
                 float angle = -segment.segmentIndex * anglePerSegment + ninetyDegreeOffset;
-                
+
                 // Position and rotate the bridge
                 Vector3 bridgePosition = new Vector3(Mathf.Cos(angle), 0, Mathf.Sin(angle)) * bridgeRadius;
                 Quaternion bridgeRotation = Quaternion.Euler(0, -angle * Mathf.Rad2Deg + 90f, 0);
-                
+
                 SetupGameObject(bridge, bridgePosition, bridgeRotation, levelRoot);
-                
+
             }
         }
     }
@@ -117,7 +119,7 @@ public class LevelBuilder
 
     private void SpawnItem(Segment segment)
     {
-        if (segment.spawnType == SpawnType.None || segment.spawnType == SpawnType.Player || segment.spawnType == SpawnType.Enemy) return;
+        if (segment.spawnType == SpawnType.None || segment.spawnType == SpawnType.Player || segment.enemySpawnType != EnemySpawnType.None) return;
 
         Slot slot = GetSlot(segment.ringIndex, segment.segmentIndex);
 
@@ -130,7 +132,8 @@ public class LevelBuilder
 
     private void CachePlayerSpawn(Segment segment)
     {
-        if (segment.spawnType == SpawnType.Player) {
+        if (segment.spawnType == SpawnType.Player)
+        {
             playerSpawnSlot = GetSlot(segment.ringIndex, segment.segmentIndex);
         }
     }
@@ -138,13 +141,10 @@ public class LevelBuilder
 
     private void CacheEnemySpawn(Segment segment)
     {
-        if (segment.spawnType == SpawnType.Enemy)
+        if (segment.enemySpawnType != EnemySpawnType.None)
         {
-            EnemySpawnType enemySpawnType = ConvertWaypointTypeToEnemySpawnType(segment.waypointType);
             Slot slot = GetSlot(segment.ringIndex, segment.segmentIndex);
-
-            EnemySpawn enemySpawn = new EnemySpawn(enemySpawnType, slot);
-            enemySpawns.Add(enemySpawn);
+            enemySpawns.Add(new EnemySpawn(segment.enemySpawnType, slot));
         }
     }
 
@@ -160,12 +160,10 @@ public class LevelBuilder
     }
 
 
-
     private Slot GetSlot(int ringIndex, int segmentIndex)
     {
         return slots[ringIndex][segmentIndex];
     }
-
 
 
     private void SetupGameObject(GameObject gameObject, Vector3 position, Quaternion rotation, Transform parent)
@@ -174,22 +172,12 @@ public class LevelBuilder
         gameObject.transform.SetParent(parent);
     }
 
-    private EnemySpawnType ConvertWaypointTypeToEnemySpawnType(WaypointType waypointType)
-    {
-        if (waypointType == WaypointType.None) return EnemySpawnType.None;
-
-        string waypointName = waypointType.ToString();
-        string enemyName = waypointName.Substring(0, waypointName.Length - 1); // Remove last character
-
-        return System.Enum.TryParse<EnemySpawnType>(enemyName, out var enemySpawnType) ? enemySpawnType : EnemySpawnType.None;
-    }
-
 
     public void SpawnPlayer()
     {
         GameObject player = levelPool.Get(SpawnType.Player);
-        player.transform.SetPositionAndRotation(playerSpawnSlot.SpawnPoint.position, playerSpawnSlot.SpawnPoint.rotation);
-        player.GetComponent<NavMeshAgent>().enabled = true;
+        this.player = player.transform;
+        player.GetComponent<NavMeshAgent>().Warp(playerSpawnSlot.SpawnPoint.position);
     }
 
 
@@ -206,14 +194,16 @@ public class LevelBuilder
         foreach (EnemySpawn enemySpawn in enemySpawns)
         {
             GameObject enemy = levelPool.Get(enemySpawn.enemySpawnType);
-            SetupGameObject(enemy, enemySpawn.slot.SpawnPoint.position, enemySpawn.slot.SpawnPoint.rotation, enemySpawn.slot.SpawnPoint);
+            enemy.transform.rotation = enemySpawn.slot.SpawnPoint.rotation;
+            enemy.GetComponent<NavMeshAgent>().Warp(enemySpawn.slot.SpawnPoint.position);
 
             // Find and assign waypoints for this enemy
-            AssignWaypointsToEnemy(enemy, enemySpawn.enemySpawnType);
+            AssignWaypointsToEnemy(enemy, enemySpawn.enemySpawnType, enemySpawn.slot.SpawnPoint.position);
         }
     }
 
-    private void AssignWaypointsToEnemy(GameObject enemy, EnemySpawnType enemySpawnType)
+
+    private void AssignWaypointsToEnemy(GameObject enemy, EnemySpawnType enemySpawnType, Vector3 spawnPoint)
     {
         // Find the first available waypoint group for this enemy type
         WaypointType waypointTypeToRemove = WaypointType.None; // Use a default value
@@ -230,10 +220,21 @@ public class LevelBuilder
         }
 
         // Assign waypoints
-        var waypointComponent = enemy.GetComponent<EnemyStateMachine>();
-        waypointComponent.SetWaypoints(waypointsToAssign.Select(w => w.position).ToList());
+        var enemyStateMachine = enemy.GetComponent<EnemyStateMachine>();
+        enemyStateMachine.Initialize(waypointsToAssign.Select(w => w.position).ToList(), player, spawnPoint);
 
         // Remove the used waypoint group
         groupedWaypoints.Remove(waypointTypeToRemove);
+    }
+
+
+    private EnemySpawnType ConvertWaypointTypeToEnemySpawnType(WaypointType waypointType)
+    {
+        if (waypointType == WaypointType.None) return EnemySpawnType.None;
+
+        string waypointName = waypointType.ToString();
+        string enemyName = waypointName.Substring(0, waypointName.Length - 1); // Remove last character
+
+        return System.Enum.TryParse<EnemySpawnType>(enemyName, out var enemySpawnType) ? enemySpawnType : EnemySpawnType.None;
     }
 }

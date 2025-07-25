@@ -5,7 +5,7 @@ using UnityEngine.AI;
 public class EnemyStateContext
 {
     public Transform transform;
-    public Transform playerTransform;
+    public Transform player;
     public float health;
 
     public NavMeshAgent navMeshAgent;
@@ -16,5 +16,6 @@ public class EnemyStateContext
     // public Pathfinder pathfinder;
     // public PathMover pathMover;
     public List<Vector3> waypoints;
-    public Vector3 targetWaypoint;
+    public Vector3 spawnPoint;
+    // public Vector3 targetWaypoint;
 }
