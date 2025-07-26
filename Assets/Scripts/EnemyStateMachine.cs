@@ -74,7 +74,7 @@ public abstract class EnemyStateMachine : MonoBehaviour
 
     void OnAnimatorMove()
     {
-        if (animator.GetBool("Patrol"))
+        if (animator.GetBool("Patrol") || animator.GetBool("Chase"))
         {
             navMeshAgent.speed = (animator.deltaPosition / Time.deltaTime).magnitude;
         }

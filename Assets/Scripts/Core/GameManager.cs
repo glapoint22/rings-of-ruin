@@ -31,13 +31,11 @@ public class GameManager : MonoBehaviour
 
     public void LoadLevel()
     {
-        
         levelBuilder.BuildLevel(levels[currentLevelIndex]);
         StartCoroutine(SpawnEntities());
         GameEvents.RaiseLevelLoaded(levels[currentLevelIndex]);
         
         PauseGame();
-        
     }
 
     private IEnumerator SpawnEntities()

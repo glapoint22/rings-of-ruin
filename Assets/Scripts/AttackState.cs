@@ -1,47 +1,42 @@
 using UnityEngine;
 
-public class IdleState : IEnemyState
+public class AttackState : IEnemyState
 {
-    private float idleTimer;
-    private float detectionRange = 10f;
-
     private float lineOfSightAngle = 90f;
 
     public void Enter(EnemyStateContext context)
     {
-        idleTimer = Random.Range(10f, 20f);
+        context.animator.SetBool("Attack", true);
+    }
+
+    public void Exit(EnemyStateContext context)
+    {
+        context.animator.SetBool("Attack", false);
+    }
+
+    public IEnemyState ShouldTransition(EnemyStateContext context)
+    {
+        if (IsPlayerOutOfAttackRange(context))
+        {
+            return new ChaseState();
+        }
+       
+        return null;
     }
 
     public void Update(EnemyStateContext context)
     {
-        idleTimer -= Time.deltaTime;
+        // throw new System.NotImplementedException();
     }
 
-    public void Exit(EnemyStateContext context) { }
 
-    public IEnemyState ShouldTransition(EnemyStateContext context)
-    {
-        if (IsPlayerInRange(context) && IsInLineOfSight(context))
-        {
-            return new ChaseState();
-        }
-
-        if (idleTimer <= 0)
-        {
-            return new PatrolState();
-        }
-
-        return null; // Stay in idle
-    }
-
-    private bool IsPlayerInRange(EnemyStateContext context)
+    private bool IsPlayerOutOfAttackRange(EnemyStateContext context)
     {
         if (context.player == null) return false;
 
         float distance = Vector3.Distance(context.transform.position, context.player.position);
-        return distance <= detectionRange;
+        return distance > context.navMeshAgent.stoppingDistance;
     }
-
 
 
     private bool IsInLineOfSight(EnemyStateContext context)

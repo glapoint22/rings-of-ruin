@@ -3,12 +3,13 @@ using System.Linq;
 
 public class PatrolState : IEnemyState
 {
-    private bool pathCompleted = false;
+    // private bool pathCompleted = false;
     private const float CONTINUE_PATROL_CHANCE = 0.7f; // 70% chance to continue patrolling
 
     public void Enter(EnemyStateContext context)
     {
         context.animator.SetBool("Patrol", true);
+        context.navMeshAgent.stoppingDistance = 0;
 
         // Get all waypoints except the spawn position
         var availableWaypoints = context.waypoints.Where(wp => wp != context.spawnPoint).ToList();
@@ -35,29 +36,30 @@ public class PatrolState : IEnemyState
 
     public IEnemyState ShouldTransition(EnemyStateContext context)
     {
-        if (!pathCompleted) return null;
-
-        pathCompleted = false;
-
-        // Make random decision
-        float randomValue = Random.Range(0f, 1f);
-
-        if (randomValue <= CONTINUE_PATROL_CHANCE)
+        if (context.navMeshAgent.velocity.magnitude == 0 && context.navMeshAgent.remainingDistance <= context.navMeshAgent.stoppingDistance)
         {
-            return new PatrolState();
+            // Make random decision
+            float randomValue = Random.Range(0f, 1f);
+
+            if (randomValue <= CONTINUE_PATROL_CHANCE)
+            {
+                return new PatrolState();
+            }
+            else
+            {
+                return new IdleState();
+            }
         }
-        else
-        {
-            return new IdleState();
-        }
+        return null;
+
     }
 
 
     public void Update(EnemyStateContext context)
     {
-        if (!context.navMeshAgent.pathPending && !context.navMeshAgent.hasPath && context.navMeshAgent.velocity.magnitude == 0)
-        {
-            pathCompleted = true;
-        }
+        // if (!context.navMeshAgent.pathPending && !context.navMeshAgent.hasPath && context.navMeshAgent.velocity.magnitude == 0)
+        // {
+        //     pathCompleted = true;
+        // }
     }
 }
