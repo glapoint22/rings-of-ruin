@@ -2,7 +2,10 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    private PlayerState playerState = new ();
+    public PlayerState playerState = new();
+    [SerializeField] private Animator animator;
+
+    
 
     private void OnEnable()
     {
@@ -21,6 +24,12 @@ public class Player : MonoBehaviour
     private void OnDamage(Damage damage)
     {
         damage.UpdateState(playerState);
+        if (playerState.shieldHealth <= 0) animator.SetTrigger("Hit");
+        if (playerState.health <= 0) 
+        {
+            animator.SetTrigger("Death");
+            playerState.isDead = true;
+        }
     }
 
     private void OnLevelLoaded(LevelData levelData)

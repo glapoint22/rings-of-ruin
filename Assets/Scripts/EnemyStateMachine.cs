@@ -9,39 +9,12 @@ public abstract class EnemyStateMachine : MonoBehaviour
 
     [SerializeField]
     private Animator animator;
-
-
     protected IEnemyState currentState;
     protected EnemyStateContext context;
-    //private List<Vector3> waypoints;
-    //private Transform player;
-
-    //private void OnEnable()
-    //{
-    //    GameEvents.OnLevelLoaded += OnLevelLoaded;
-    //}
-
-    //private void OnLevelLoaded(LevelData levelData)
-    //{
-    //    context = new EnemyStateContext
-    //    {
-    //        health = 100f,
-    //        transform = transform,
-    //        navMeshAgent = navMeshAgent,
-    //        animator = animator,
-    //        waypoints = waypoints,
-    //        player = player,
-    //    };
-    //    currentState = GetInitialState();
-    //    currentState.Enter(context);
-    //}
 
 
-    public void Initialize(List<Vector3> waypoints, Transform player, Vector3 spawnPoint)
+    public void Initialize(List<Vector3> waypoints, Player player, Vector3 currentWaypoint)
     {
-        //this.waypoints = waypoints;
-        //this.player = player;
-
         context = new EnemyStateContext
         {
             health = 100f,
@@ -50,7 +23,7 @@ public abstract class EnemyStateMachine : MonoBehaviour
             animator = animator,
             waypoints = waypoints,
             player = player,
-            spawnPoint = spawnPoint
+            currentWaypoint = currentWaypoint
         };
         currentState = GetInitialState();
         currentState.Enter(context);

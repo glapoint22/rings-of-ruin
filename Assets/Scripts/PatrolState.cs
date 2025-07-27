@@ -3,26 +3,28 @@ using System.Linq;
 
 public class PatrolState : IEnemyState
 {
-    // private bool pathCompleted = false;
     private const float CONTINUE_PATROL_CHANCE = 0.7f; // 70% chance to continue patrolling
+    private float detectionRange = 10f;
+
+    private float lineOfSightAngle = 90f;
 
     public void Enter(EnemyStateContext context)
     {
         context.animator.SetBool("Patrol", true);
         context.navMeshAgent.stoppingDistance = 0;
 
-        // Get all waypoints except the spawn position
-        var availableWaypoints = context.waypoints.Where(wp => wp != context.spawnPoint).ToList();
+        // Get all waypoints except the current waypoint
+        var availableWaypoints = context.waypoints.Where(wp => wp != context.currentWaypoint).ToList();
 
 
         if (availableWaypoints.Count > 0)
         {
             // Pick a random waypoint from the available ones
             int randomIndex = Random.Range(0, availableWaypoints.Count);
-            context.spawnPoint = availableWaypoints[randomIndex];
+            context.currentWaypoint = availableWaypoints[randomIndex];
 
             // Set the destination to the target waypoint
-            context.navMeshAgent.SetDestination(context.spawnPoint);
+            context.navMeshAgent.SetDestination(context.currentWaypoint);
         }
     }
 
@@ -50,16 +52,41 @@ public class PatrolState : IEnemyState
                 return new IdleState();
             }
         }
+
+        if (IsPlayerInRange(context) && IsInLineOfSight(context) && !context.player.playerState.isDead)
+        {
+            return new ChaseState();
+        }
         return null;
 
     }
 
 
-    public void Update(EnemyStateContext context)
+    public void Update(EnemyStateContext context) { }
+
+
+    private bool IsPlayerInRange(EnemyStateContext context)
     {
-        // if (!context.navMeshAgent.pathPending && !context.navMeshAgent.hasPath && context.navMeshAgent.velocity.magnitude == 0)
-        // {
-        //     pathCompleted = true;
-        // }
+        if (context.player == null) return false;
+
+        float distance = Vector3.Distance(context.transform.position, context.player.transform.position);
+        return distance <= detectionRange;
+    }
+
+
+
+    private bool IsInLineOfSight(EnemyStateContext context)
+    {
+        // Get direction from player to target
+        Vector3 directionToTarget = (context.player.transform.position - context.transform.position).normalized;
+
+        // Get enemy's forward direction
+        Vector3 enemyForward = context.transform.forward;
+
+        // Calculate angle between player forward and direction to target
+        float angle = Vector3.Angle(enemyForward, directionToTarget);
+
+        // Check if target is within the line of sight angle (half on each side)
+        return angle <= lineOfSightAngle * 0.5f;
     }
 }

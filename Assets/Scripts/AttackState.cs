@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class AttackState : IEnemyState
 {
-    private float lineOfSightAngle = 90f;
+    private readonly float rotationSpeed = 5f;
 
     public void Enter(EnemyStateContext context)
     {
@@ -20,37 +20,36 @@ public class AttackState : IEnemyState
         {
             return new ChaseState();
         }
-       
+        if (context.player.playerState.isDead)
+        {
+            context.animator.SetBool("Player Dead", true);
+            return new PatrolState();
+        }
+
         return null;
     }
 
     public void Update(EnemyStateContext context)
     {
-        // throw new System.NotImplementedException();
+        FacePlayer(context);
     }
 
+    private void FacePlayer(EnemyStateContext context)
+    {
+        Vector3 directionToPlayer = (context.player.transform.position - context.transform.position).normalized;
+
+        if (directionToPlayer != Vector3.zero)
+        {
+            Quaternion targetRotation = Quaternion.LookRotation(directionToPlayer);
+            context.transform.rotation = Quaternion.Slerp(context.transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
+        }
+    }
 
     private bool IsPlayerOutOfAttackRange(EnemyStateContext context)
     {
         if (context.player == null) return false;
 
-        float distance = Vector3.Distance(context.transform.position, context.player.position);
+        float distance = Vector3.Distance(context.transform.position, context.player.transform.position);
         return distance > context.navMeshAgent.stoppingDistance;
-    }
-
-
-    private bool IsInLineOfSight(EnemyStateContext context)
-    {
-        // Get direction from player to target
-        Vector3 directionToTarget = (context.player.position - context.transform.position).normalized;
-
-        // Get enemy's forward direction
-        Vector3 enemyForward = context.transform.forward;
-
-        // Calculate angle between player forward and direction to target
-        float angle = Vector3.Angle(enemyForward, directionToTarget);
-
-        // Check if target is within the line of sight angle (half on each side)
-        return angle <= lineOfSightAngle * 0.5f;
     }
 }

@@ -6,4 +6,15 @@ public class Ruinwalker : EnemyStateMachine
     {
         return new IdleState();
     }
+
+
+    public void DealDamage()
+    {
+        DamageInfo damageInfo = new()
+        {
+            damage = 15,
+            source = DamageSource.Ruinwalker
+        };
+        GameEvents.RaiseDamage(new Damage(damageInfo));
+    }
 }

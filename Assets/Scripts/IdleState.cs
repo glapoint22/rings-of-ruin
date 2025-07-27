@@ -21,7 +21,7 @@ public class IdleState : IEnemyState
 
     public IEnemyState ShouldTransition(EnemyStateContext context)
     {
-        if (IsPlayerInRange(context) && IsInLineOfSight(context))
+        if (IsPlayerInRange(context) && IsInLineOfSight(context) && !context.player.playerState.isDead)
         {
             return new ChaseState();
         }
@@ -36,9 +36,7 @@ public class IdleState : IEnemyState
 
     private bool IsPlayerInRange(EnemyStateContext context)
     {
-        if (context.player == null) return false;
-
-        float distance = Vector3.Distance(context.transform.position, context.player.position);
+        float distance = Vector3.Distance(context.transform.position, context.player.transform.position);
         return distance <= detectionRange;
     }
 
@@ -47,7 +45,7 @@ public class IdleState : IEnemyState
     private bool IsInLineOfSight(EnemyStateContext context)
     {
         // Get direction from player to target
-        Vector3 directionToTarget = (context.player.position - context.transform.position).normalized;
+        Vector3 directionToTarget = (context.player.transform.position - context.transform.position).normalized;
 
         // Get enemy's forward direction
         Vector3 enemyForward = context.transform.forward;

@@ -16,7 +16,7 @@ public class LevelBuilder
     private List<EnemySpawn> enemySpawns = new();
     private List<Waypoint> waypoints = new();
     private Dictionary<WaypointType, List<Waypoint>> groupedWaypoints;
-    private Transform player;
+    private Player player;
 
 
     public LevelBuilder(LevelPool levelPool, Transform levelRoot, NavMeshSurface navMeshSurface = null)
@@ -176,7 +176,7 @@ public class LevelBuilder
     public void SpawnPlayer()
     {
         GameObject player = levelPool.Get(SpawnType.Player);
-        this.player = player.transform;
+        this.player = player.GetComponent<Player>();
         player.GetComponent<NavMeshAgent>().Warp(playerSpawnSlot.SpawnPoint.position);
     }
 

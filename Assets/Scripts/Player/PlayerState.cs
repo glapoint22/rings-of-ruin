@@ -13,6 +13,7 @@ public class PlayerState {
     public bool hasFireball;
     public bool hasAshbind;
     public int armor;
+    public bool isDead;
 
     public PlayerState()
     {
