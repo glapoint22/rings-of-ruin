@@ -203,25 +203,25 @@ public class LevelBuilder
     }
 
 
-    private void AssignWaypointsToEnemy(GameObject enemy, EnemySpawnType enemySpawnType, Vector3 spawnPoint)
+    private void AssignWaypointsToEnemy(GameObject enemy, EnemySpawnType enemySpawnType, Vector3 enemySpawnPoint)
     {
         // Find the first available waypoint group for this enemy type
-        WaypointType waypointTypeToRemove = WaypointType.None; // Use a default value
-        List<Waypoint> waypointsToAssign = null;
+        WaypointType waypointTypeToRemove = WaypointType.None;
+        List<Waypoint> enemyWaypointsToAssign = null;
 
         foreach (var kvp in groupedWaypoints)
         {
             if (ConvertWaypointTypeToEnemySpawnType(kvp.Key) == enemySpawnType)
             {
                 waypointTypeToRemove = kvp.Key;
-                waypointsToAssign = kvp.Value;
+                enemyWaypointsToAssign = kvp.Value;
                 break;
             }
         }
 
         // Assign waypoints
-        var enemyStateMachine = enemy.GetComponent<EnemyStateMachine>();
-        enemyStateMachine.Initialize(waypointsToAssign.Select(w => w.position).ToList(), player, spawnPoint);
+        var enemyAI = enemy.GetComponent<EnemyAI>();
+        enemyAI.Initialize(enemyWaypointsToAssign.Select(enemyWaypoint => enemyWaypoint.position).ToList(), enemySpawnPoint, player);
 
         // Remove the used waypoint group
         groupedWaypoints.Remove(waypointTypeToRemove);

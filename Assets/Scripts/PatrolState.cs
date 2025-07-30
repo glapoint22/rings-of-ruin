@@ -1,12 +1,10 @@
 using UnityEngine;
 using System.Linq;
 
-public class PatrolState : IEnemyState
+public class PatrolState : EnemyState, IEnemyState
 {
     private const float CONTINUE_PATROL_CHANCE = 0.7f; // 70% chance to continue patrolling
-    private float detectionRange = 10f;
 
-    private float lineOfSightAngle = 90f;
 
     public void Enter(EnemyStateContext context)
     {
@@ -29,12 +27,8 @@ public class PatrolState : IEnemyState
     }
 
 
-    public void Exit(EnemyStateContext context)
-    {
-        // Set the patrol animation to false
-        context.animator.SetBool("Patrol", false);
-    }
-
+    public void Update(EnemyStateContext context) { }
+    
 
     public IEnemyState ShouldTransition(EnemyStateContext context)
     {
@@ -62,31 +56,9 @@ public class PatrolState : IEnemyState
     }
 
 
-    public void Update(EnemyStateContext context) { }
-
-
-    private bool IsPlayerInRange(EnemyStateContext context)
+    public void Exit(EnemyStateContext context)
     {
-        if (context.player == null) return false;
-
-        float distance = Vector3.Distance(context.transform.position, context.player.transform.position);
-        return distance <= detectionRange;
-    }
-
-
-
-    private bool IsInLineOfSight(EnemyStateContext context)
-    {
-        // Get direction from player to target
-        Vector3 directionToTarget = (context.player.transform.position - context.transform.position).normalized;
-
-        // Get enemy's forward direction
-        Vector3 enemyForward = context.transform.forward;
-
-        // Calculate angle between player forward and direction to target
-        float angle = Vector3.Angle(enemyForward, directionToTarget);
-
-        // Check if target is within the line of sight angle (half on each side)
-        return angle <= lineOfSightAngle * 0.5f;
+        // Set the patrol animation to false
+        context.animator.SetBool("Patrol", false);
     }
 }

@@ -1,7 +1,10 @@
-using UnityEngine;
+using System.Diagnostics;
 
-public class Ruinwalker : EnemyStateMachine
+public class Ruinwalker : EnemyAI
 {
+    private DamageInfo damageInfo = new(15, DamageSource.Ruinwalker);
+
+
     protected override IEnemyState GetInitialState()
     {
         return new IdleState();
@@ -10,11 +13,6 @@ public class Ruinwalker : EnemyStateMachine
 
     public void DealDamage()
     {
-        DamageInfo damageInfo = new()
-        {
-            damage = 15,
-            source = DamageSource.Ruinwalker
-        };
         GameEvents.RaiseDamage(new Damage(damageInfo));
     }
 }

@@ -5,6 +5,7 @@ public class ChaseState : IEnemyState
     private float updateTimer;
     private readonly float updateInterval = 0.2f;
 
+
     public void Enter(EnemyStateContext context)
     {
         context.animator.SetBool("Chase", true);
@@ -12,10 +13,17 @@ public class ChaseState : IEnemyState
         context.navMeshAgent.stoppingDistance = 1.3f;
     }
 
-    public void Exit(EnemyStateContext context)
+
+    public void Update(EnemyStateContext context)
     {
-        context.animator.SetBool("Chase", false);
+        updateTimer += Time.deltaTime;
+        if (updateTimer >= updateInterval)
+        {
+            updateTimer = 0f;
+            context.navMeshAgent.SetDestination(context.player.transform.position);
+        }
     }
+
 
     public IEnemyState ShouldTransition(EnemyStateContext context)
     {
@@ -27,13 +35,9 @@ public class ChaseState : IEnemyState
         return null;
     }
 
-    public void Update(EnemyStateContext context)
+    
+     public void Exit(EnemyStateContext context)
     {
-        updateTimer += Time.deltaTime;
-        if (updateTimer >= updateInterval)
-        {
-            updateTimer = 0f;
-            context.navMeshAgent.SetDestination(context.player.transform.position);
-        }
+        context.animator.SetBool("Chase", false);
     }
 }

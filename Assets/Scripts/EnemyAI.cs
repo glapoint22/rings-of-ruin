@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.AI;
 
-public abstract class EnemyStateMachine : MonoBehaviour
+public abstract class EnemyAI : MonoBehaviour
 {
     [SerializeField]
     private NavMeshAgent navMeshAgent;
@@ -13,7 +13,7 @@ public abstract class EnemyStateMachine : MonoBehaviour
     protected EnemyStateContext context;
 
 
-    public void Initialize(List<Vector3> waypoints, Player player, Vector3 currentWaypoint)
+    public void Initialize(List<Vector3> waypoints, Vector3 currentWaypoint, Player player)
     {
         context = new EnemyStateContext
         {

@@ -4,15 +4,18 @@ public class AttackState : IEnemyState
 {
     private readonly float rotationSpeed = 5f;
 
+
     public void Enter(EnemyStateContext context)
     {
         context.animator.SetBool("Attack", true);
     }
 
-    public void Exit(EnemyStateContext context)
+    
+    public void Update(EnemyStateContext context)
     {
-        context.animator.SetBool("Attack", false);
+        FacePlayer(context);
     }
+
 
     public IEnemyState ShouldTransition(EnemyStateContext context)
     {
@@ -29,10 +32,12 @@ public class AttackState : IEnemyState
         return null;
     }
 
-    public void Update(EnemyStateContext context)
+
+    public void Exit(EnemyStateContext context)
     {
-        FacePlayer(context);
+        context.animator.SetBool("Attack", false);
     }
+
 
     private void FacePlayer(EnemyStateContext context)
     {

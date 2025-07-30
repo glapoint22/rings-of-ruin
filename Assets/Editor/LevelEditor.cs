@@ -462,7 +462,7 @@ public class LevelEditor : EditorWindow
 
             if (confirmed)
             {
-                 DeleteRing(selectedRingIndex);
+                DeleteRing(selectedRingIndex);
             }
         }
         GUI.enabled = true;
@@ -665,7 +665,7 @@ public class LevelEditor : EditorWindow
         var segment = selectedLevelData.rings[selectedRingIndex].segments[selectedSegmentIndex];
         EditorGUI.BeginChangeCheck();
         int currentSegmentTypeIndex = GetSegmentTypeIndex(segment.ringSegmentType);
-        int newSegmentTypeIndex = EditorGUILayout.Popup(currentSegmentTypeIndex, new string[] { "Normal", "Gap", "Crumbling", "Spike" });
+        int newSegmentTypeIndex = EditorGUILayout.Popup(currentSegmentTypeIndex, new string[] { "Normal", "Gap" });
 
         if (newSegmentTypeIndex != currentSegmentTypeIndex)
         {
@@ -676,14 +676,14 @@ public class LevelEditor : EditorWindow
 
     private int GetSegmentTypeIndex(RingSegmentType ringSegmentType)
     {
-        // Converts RingSegmentType enum back to small index (0-3) for popup
-        return (int)ringSegmentType % 4;
+        // Converts RingSegmentType enum back to small index (0-1) for popup
+        return (int)ringSegmentType % 2;
     }
 
     private RingSegmentType GetRingSegmentType(int segmentTypeIndex)
     {
         // Converts SegmentType enum to RingSegmentType enum for levelPool compatibility
-        return (RingSegmentType)(selectedRingIndex * 4 + segmentTypeIndex);
+        return (RingSegmentType)(selectedRingIndex * 2 + segmentTypeIndex);
     }
 
 
