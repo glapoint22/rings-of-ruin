@@ -11,7 +11,6 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Transform levelRoot;
     [SerializeField] private NavMeshSurface navMeshSurface;
 
-    private int currentLevelIndex = 0;
     private LevelBuilder levelBuilder;
 
 
@@ -22,18 +21,13 @@ public class GameManager : MonoBehaviour
     }
 
 
-    private void OnEnable()
-    {
-        GameEvents.OnLevelCompleted += OnLevelCompleted;
-        GameEvents.OnInteracted += OnInteracted;
-    }
+    
 
 
     public void LoadLevel()
     {
-        levelBuilder.BuildLevel(levels[currentLevelIndex]);
+        levelBuilder.BuildLevel(levels[0]);
         StartCoroutine(SpawnEntities());
-        GameEvents.RaiseLevelLoaded(levels[currentLevelIndex]);
         
         PauseGame();
     }
@@ -56,15 +50,4 @@ public class GameManager : MonoBehaviour
     {
         Time.timeScale = 0f; // Pause game time
     }
-
-    private void OnLevelCompleted()
-    {
-        currentLevelIndex++;
-    }
-
-    private void OnInteracted(GameObject interactable)
-    {
-        levelPool.Return(interactable);
-    }
-
 }

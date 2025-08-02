@@ -10,7 +10,6 @@ public class Player : MonoBehaviour
     private void OnEnable()
     {
         GameEvents.OnDamage += OnDamage;
-        GameEvents.OnLevelLoaded += OnLevelLoaded;
         GameEvents.OnPlayerStateUpdate += OnPlayerStateUpdate;
     }
 
@@ -30,11 +29,5 @@ public class Player : MonoBehaviour
             animator.SetTrigger("Death");
             playerState.isDead = true;
         }
-    }
-
-    private void OnLevelLoaded(LevelData levelData)
-    {
-        playerState.gems = 0;
-        GameEvents.RaiseAddCollectible(playerState);
     }
 }

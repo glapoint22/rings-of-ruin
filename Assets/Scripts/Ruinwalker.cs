@@ -1,5 +1,3 @@
-using System.Diagnostics;
-
 public class Ruinwalker : EnemyAI
 {
     private DamageInfo damageInfo = new(15, DamageSource.Ruinwalker);

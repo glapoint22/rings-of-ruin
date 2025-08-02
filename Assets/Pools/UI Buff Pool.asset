@@ -24,6 +24,4 @@ MonoBehaviour:
   ashbindBuffs:
   - prefab: {fileID: 5312864317431951565, guid: f2ab4de11f5c69645b19da16f0af6292, type: 3}
     enumValue: 3
-  keyBuffs:
-  - prefab: {fileID: 5052226572675603279, guid: 2bd559e1525125a4a99dfda20a6511f2, type: 3}
-    enumValue: 4
+  keyBuffs: []

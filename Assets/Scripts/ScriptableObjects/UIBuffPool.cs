@@ -8,7 +8,6 @@ public class UIBuffPool : MultiPrefabPool
     [SerializeField] private List<PrefabEnumMapping<BuffType>> cloakBuffs = new();
     [SerializeField] private List<PrefabEnumMapping<BuffType>> timeDilationBuffs = new();
     [SerializeField] private List<PrefabEnumMapping<BuffType>> ashbindBuffs = new();
-    [SerializeField] private List<PrefabEnumMapping<BuffType>> keyBuffs = new();
 
     
 
@@ -18,6 +17,5 @@ public class UIBuffPool : MultiPrefabPool
         ProcessMappingList(cloakBuffs);
         ProcessMappingList(timeDilationBuffs);
         ProcessMappingList(ashbindBuffs);
-        ProcessMappingList(keyBuffs);
     }
 }
