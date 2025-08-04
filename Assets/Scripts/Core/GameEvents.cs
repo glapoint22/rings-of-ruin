@@ -7,6 +7,7 @@ public static class GameEvents
     public static event Action<Damage> OnDamage;
     public static event Action<BuffType> OnAddBuff;
     public static event Action<BuffType> OnRemoveBuff;
+    public static event Action<int> OnItemCollectionClick;
 
 
 
@@ -20,6 +21,7 @@ public static class GameEvents
     public static event Action<Vector3> OnMouseTargetPressed;
     public static event Action OnEscapePressed;
     public static event Action<Vector3> OnRightMousePressed;
+    public static event Action OnShiftPressed;
 
     // Path completion events
 
@@ -38,4 +40,8 @@ public static class GameEvents
     public static void RaiseMouseTargetPressed(Vector3 worldPosition) => OnMouseTargetPressed?.Invoke(worldPosition);
     public static void RaiseEscapePressed() => OnEscapePressed?.Invoke();
     public static void RaiseRightMousePressed(Vector3 worldPosition) => OnRightMousePressed?.Invoke(worldPosition);
+
+    // Item collection raise methods
+    public static void RaiseItemCollectionClick(int quantity) => OnItemCollectionClick?.Invoke(quantity);
+    public static void RaiseShiftPressed() => OnShiftPressed?.Invoke();
 }

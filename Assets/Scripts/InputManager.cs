@@ -28,5 +28,9 @@ public class InputManager : MonoBehaviour
         {
             GameEvents.RaiseRightMousePressed(Input.mousePosition);
         }
+        else if (Input.GetKeyDown(KeyCode.LeftShift) || Input.GetKeyDown(KeyCode.RightShift))
+        {
+            GameEvents.RaiseShiftPressed();
+        }
     }
 }

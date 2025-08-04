@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-public class ItemSlot: MonoBehaviour
+public class ItemSlot : MonoBehaviour
 {
 
     [SerializeField] private Image itemIcon;
@@ -19,21 +19,22 @@ public class ItemSlot: MonoBehaviour
     {
         item = null;
         quantity = 0;
-        itemIcon.sprite = null;
-        itemIcon.enabled = false;
-        quantityText.text = "";
+        UpdateUI();
     }
 
 
     public void AddItem(Item newItem, int amount)
     {
         item = newItem;
-        quantity = item.IsStackable
-            ? Mathf.Clamp(amount, 1, item.MaxStackSize)
-            : 1;
-        itemIcon.sprite = item.Icon;
-        itemIcon.enabled = true;
-        quantityText.text =  item.IsStackable ? quantity.ToString() : "";
+        quantity = amount;
+        UpdateUI();
+    }
+
+
+    private void UpdateUI()
+    {
+        itemIcon.sprite = item != null ? item.Icon : null;
+        quantityText.text = item != null && item.IsStackable ? quantity.ToString() : "";
     }
 
     public bool CanStackWith(Item otherItem)
@@ -50,24 +51,11 @@ public class ItemSlot: MonoBehaviour
         int spaceLeft = item.MaxStackSize - quantity;
         int amountToAdd = Mathf.Min(spaceLeft, amount);
         quantity += amountToAdd;
+        UpdateUI();
         return amount - amountToAdd; // Return leftover amount
     }
 
 
-    // public int TryAddItem(Item newItem, int amount)
-    // {
-    //     if (IsEmpty)
-    //     {
-    //         AddItem(newItem, amount);
-    //         return 0; // No leftover
-    //     }
-    //     else if (CanStackWith(newItem))
-    //     {
-    //         return AddToStack(amount);
-    //     }
-
-    //     return amount; // Couldn't add anything
-    // }
 
 
 
@@ -85,5 +73,15 @@ public class ItemSlot: MonoBehaviour
         quantity = otherSlot.quantity;
         otherSlot.item = tempItem;
         otherSlot.quantity = tempQuantity;
+        UpdateUI();
+        otherSlot.UpdateUI();
     }
+
+
+    public void SetQuantity(int amount)
+    {
+        quantity = amount;
+        UpdateUI();
+    }
+
 }
