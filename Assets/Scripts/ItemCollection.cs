@@ -54,11 +54,8 @@ public class ItemCollection : MonoBehaviour
 
     public void OnDrag(ItemSlot slot)
     {
-        if (splitForm.gameObject.activeSelf)
-        {
-            splitForm.gameObject.SetActive(false);
-            sourceSlot = null;
-        }
+        if (splitForm.gameObject.activeSelf) CloseSplitForm();
+        
         SetSourceSlot(slot);
     }
 
@@ -76,36 +73,44 @@ public class ItemCollection : MonoBehaviour
     {
         if (sourceSlot == null) return;
 
-        if (isShiftPressed && sourceSlot.Item.IsStackable)
-        {
-            splitForm.gameObject.SetActive(true);
-            splitForm.SetQuantity(sourceSlot.Quantity);
-            isShiftPressed = false;
+        if (isShiftPressed && sourceSlot.Item.IsStackable) {
+            OpenSplitForm(sourceSlot);
+            return;
         }
-        else
-        {
-            SetSlot(slot, sourceSlot.Quantity);
-        }
+
+        SetSlot(slot, sourceSlot.Quantity);
+    }
+
+    private void OpenSplitForm(ItemSlot slot)
+    {
+        splitForm.gameObject.SetActive(true);
+        splitForm.SetQuantity(slot.Quantity);
+        isShiftPressed = false;
+    }
+
+
+    private void CloseSplitForm()
+    {
+        splitForm.gameObject.SetActive(false);
+        sourceSlot = null;
     }
 
 
     public void OnClick(ItemSlot slot)
     {
-        if (splitForm.gameObject.activeSelf)
-        {
-            splitForm.gameObject.SetActive(false);
-            sourceSlot = null;
-        }
+        if (splitForm.gameObject.activeSelf) CloseSplitForm();
 
-        if (isShiftPressed)
-        {
-            isShiftPressed = false;
-            if (slot.Item.IsStackable)
-            {
-                splitForm.gameObject.SetActive(true);
-                splitForm.SetQuantity(slot.Quantity);
-            }
-        }
+        if (isShiftPressed && slot.Item.IsStackable && sourceSlot == null) OpenSplitForm(slot);
+
+        // if (isShiftPressed)
+        // {
+        //     isShiftPressed = false;
+        //     if (slot.Item.IsStackable)
+        //     {
+        //         splitForm.gameObject.SetActive(true);
+        //         splitForm.SetQuantity(slot.Quantity);
+        //     }
+        // }
 
         if (sourceSlot == null)
         {
