@@ -14,6 +14,7 @@ public static class GameEvents
     // Targeting system events
     public static event Action<Targetable> OnTargetRegistered;
     public static event Action<Targetable> OnTargetUnregistered;
+
     
     // Targeting input events
     public static event Action OnTabPressed;
@@ -22,6 +23,7 @@ public static class GameEvents
     public static event Action OnEscapePressed;
     public static event Action<Vector3> OnRightMousePressed;
     public static event Action OnShiftPressed;
+    public static event Action OnShiftReleased;
 
     // Path completion events
 
@@ -44,4 +46,5 @@ public static class GameEvents
     // Item collection raise methods
     public static void RaiseItemCollectionClick(int quantity) => OnItemCollectionClick?.Invoke(quantity);
     public static void RaiseShiftPressed() => OnShiftPressed?.Invoke();
+    public static void RaiseShiftReleased() => OnShiftReleased?.Invoke();
 }

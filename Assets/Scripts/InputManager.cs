@@ -32,5 +32,9 @@ public class InputManager : MonoBehaviour
         {
             GameEvents.RaiseShiftPressed();
         }
+        else if (Input.GetKeyUp(KeyCode.LeftShift) || Input.GetKeyUp(KeyCode.RightShift))
+        {
+            GameEvents.RaiseShiftReleased();
+        }
     }
 }

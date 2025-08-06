@@ -18,6 +18,7 @@ public class ItemCollection : MonoBehaviour
     {
         GameEvents.OnShiftPressed += () => isShiftPressed = true;
         GameEvents.OnItemCollectionClick += (quantity) => splitQuantity = quantity;
+        GameEvents.OnShiftReleased += () => isShiftPressed = false;
     }
 
 
@@ -55,7 +56,7 @@ public class ItemCollection : MonoBehaviour
     public void OnDrag(ItemSlot slot)
     {
         if (splitForm.gameObject.activeSelf) CloseSplitForm();
-        
+
         SetSourceSlot(slot);
     }
 
@@ -73,7 +74,8 @@ public class ItemCollection : MonoBehaviour
     {
         if (sourceSlot == null) return;
 
-        if (isShiftPressed && sourceSlot.Item.IsStackable) {
+        if (isShiftPressed && sourceSlot.Item.IsStackable)
+        {
             OpenSplitForm(sourceSlot);
             return;
         }
@@ -98,19 +100,17 @@ public class ItemCollection : MonoBehaviour
 
     public void OnClick(ItemSlot slot)
     {
+        if (slot == sourceSlot)
+        {
+            sourceSlot = null;
+            splitQuantity = 0;
+            CloseSplitForm();
+            return;
+        }
+
         if (splitForm.gameObject.activeSelf) CloseSplitForm();
 
         if (isShiftPressed && slot.Item.IsStackable && sourceSlot == null) OpenSplitForm(slot);
-
-        // if (isShiftPressed)
-        // {
-        //     isShiftPressed = false;
-        //     if (slot.Item.IsStackable)
-        //     {
-        //         splitForm.gameObject.SetActive(true);
-        //         splitForm.SetQuantity(slot.Quantity);
-        //     }
-        // }
 
         if (sourceSlot == null)
         {
@@ -120,11 +120,7 @@ public class ItemCollection : MonoBehaviour
 
         if (splitQuantity > 0)
         {
-            int diff = sourceSlot.Quantity - splitQuantity;
-            SetSlot(slot, splitQuantity, diff == 0);
-            if (slot != sourceSlot && diff > 0) sourceSlot.SetQuantity(diff);
-            splitQuantity = 0;
-            sourceSlot = null;
+            SplitItems(slot);
             return;
         }
 
@@ -133,13 +129,20 @@ public class ItemCollection : MonoBehaviour
 
 
 
+    private void SplitItems(ItemSlot slot)
+    {
+        int diff = sourceSlot.Quantity - splitQuantity;
+        SetSlot(slot, splitQuantity, diff == 0);
+        if (diff > 0) sourceSlot.SetQuantity(diff);
+
+        splitQuantity = 0;
+        sourceSlot = null;
+    }
+
+
+
     private void SetSlot(ItemSlot slot, int quantity, bool clearSource = true)
     {
-        if (slot == sourceSlot)
-        {
-            sourceSlot = null;
-            return;
-        }
         if (slot.IsEmpty)
         {
             slot.AddItem(sourceSlot.Item, quantity);
@@ -149,7 +152,7 @@ public class ItemCollection : MonoBehaviour
         {
             if (slot.CanStackWith(sourceSlot.Item) && quantity < slot.Item.MaxStackSize)
             {
-                StackItems(slot);
+                StackItems(slot, quantity, clearSource);
             }
             else
             {
@@ -159,11 +162,11 @@ public class ItemCollection : MonoBehaviour
     }
 
 
-    private void StackItems(ItemSlot slot)
+    private void StackItems(ItemSlot slot, int quantity, bool clearSource)
     {
-        int leftover = slot.AddToStack(sourceSlot.Quantity);
+        int leftover = slot.AddToStack(quantity);
 
-        if (leftover == 0)
+        if (leftover == 0 && clearSource)
         {
             ClearSourceSlot();
             return;
