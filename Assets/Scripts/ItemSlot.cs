@@ -34,7 +34,7 @@ public class ItemSlot : MonoBehaviour
     private void UpdateUI()
     {
         itemIcon.sprite = item != null ? item.Icon : null;
-        quantityText.text = item != null && item.IsStackable ? quantity.ToString() : "";
+        quantityText.text = item != null && item.IsStackable && quantity > 1 ? quantity.ToString() : "";
     }
 
     public bool CanStackWith(Item otherItem)

@@ -16,10 +16,21 @@ public class ItemCollection : MonoBehaviour
 
     private void OnEnable()
     {
-        GameEvents.OnShiftPressed += () => isShiftPressed = true;
-        GameEvents.OnItemCollectionClick += (quantity) => splitQuantity = quantity;
-        GameEvents.OnShiftReleased += () => isShiftPressed = false;
+        GameEvents.OnShiftPressed += HandleShiftPressed;
+        GameEvents.OnItemCollectionClick += HandleItemCollectionClick;
+        GameEvents.OnShiftReleased += HandleShiftReleased;
     }
+
+    private void OnDisable()
+    {
+        GameEvents.OnShiftPressed -= HandleShiftPressed;
+        GameEvents.OnItemCollectionClick -= HandleItemCollectionClick;
+        GameEvents.OnShiftReleased -= HandleShiftReleased;
+    }
+
+    private void HandleShiftPressed() => isShiftPressed = true;
+    private void HandleShiftReleased() => isShiftPressed = false;
+    private void HandleItemCollectionClick(int quantity) => splitQuantity = quantity;
 
 
 
@@ -29,23 +40,93 @@ public class ItemCollection : MonoBehaviour
 
     public void AddItem(Item item, int amount = 1)
     {
-        foreach (var slot in itemSlots)
+        if (item.IsStackable)
         {
-            if (slot.IsEmpty)
+            AddStackableItem(item, amount);
+            return;
+        }
+
+        AddNonStackableItem(item, amount);
+    }
+
+
+
+
+    private void AddStackableItem(Item item, int amount)
+    {
+        FindFirstStackableAndEmpty(item, out var stackable, out var empty);
+
+        if (stackable != null)
+        {
+            int leftover = stackable.AddToStack(amount);
+            if (leftover == 0) return;
+
+            if (empty != null)
             {
-                slot.AddItem(item, amount);
+                empty.AddItem(item, leftover);
                 return;
             }
-            else if (slot.CanStackWith(item))
-            {
-                int leftover = slot.AddToStack(amount);
-                if (leftover == 0)
-                {
-                    return;
-                }
-                amount = leftover;
-            }
+
+            LogInventoryFull();
+            return;
         }
+
+        if (empty != null)
+        {
+            empty.AddItem(item, amount);
+            return;
+        }
+
+        LogInventoryFull();
+    }
+
+
+
+
+
+    private void AddNonStackableItem(Item item, int amount)
+    {
+        var empty = FindFirstEmptySlot();
+        if (empty != null)
+        {
+            empty.AddItem(item, amount);
+            return;
+        }
+
+        LogInventoryFull();
+    }
+
+
+
+
+    private void FindFirstStackableAndEmpty(Item item, out ItemSlot stackable, out ItemSlot empty)
+    {
+        stackable = null;
+        empty = null;
+
+        for (int i = 0; i < itemSlots.Length && (stackable == null || empty == null); i++)
+        {
+            var slot = itemSlots[i];
+
+            if (stackable == null && slot.CanStackWith(item))
+                stackable = slot;
+
+            if (empty == null && slot.IsEmpty)
+                empty = slot;
+        }
+    }
+
+    private ItemSlot FindFirstEmptySlot()
+    {
+        for (int i = 0; i < itemSlots.Length; i++)
+        {
+            if (itemSlots[i].IsEmpty) return itemSlots[i];
+        }
+        return null;
+    }
+
+    private void LogInventoryFull()
+    {
         Debug.Log("No space left in the inventory");
     }
 
@@ -100,17 +181,30 @@ public class ItemCollection : MonoBehaviour
 
     public void OnClick(ItemSlot slot)
     {
-        if (slot == sourceSlot)
-        {
-            sourceSlot = null;
-            splitQuantity = 0;
-            CloseSplitForm();
-            return;
-        }
+        // if (slot == sourceSlot)
+        // {
+        //     sourceSlot = null;
+        //     splitQuantity = 0;
+        //     CloseSplitForm();
+        //     return;
+        // }
 
         if (splitForm.gameObject.activeSelf) CloseSplitForm();
 
-        if (isShiftPressed && slot.Item.IsStackable && sourceSlot == null) OpenSplitForm(slot);
+        if (isShiftPressed)
+        {
+            if (slot.Item.IsStackable && slot.Quantity > 1 && sourceSlot == null)
+            {
+                OpenSplitForm(slot);
+            }
+            else
+            {
+                return;
+            }
+        }
+
+
+
 
         if (sourceSlot == null)
         {
@@ -147,18 +241,17 @@ public class ItemCollection : MonoBehaviour
         {
             slot.AddItem(sourceSlot.Item, quantity);
             if (clearSource) ClearSourceSlot();
+            return;
         }
-        else
+
+
+        if (slot.CanStackWith(sourceSlot.Item) && quantity < slot.Item.MaxStackSize)
         {
-            if (slot.CanStackWith(sourceSlot.Item) && quantity < slot.Item.MaxStackSize)
-            {
-                StackItems(slot, quantity, clearSource);
-            }
-            else
-            {
-                SwapItems(slot);
-            }
+            StackItems(slot, quantity, clearSource);
+            return;
         }
+
+        SwapItems(slot);
     }
 
 
