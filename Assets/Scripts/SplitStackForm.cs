@@ -1,7 +1,7 @@
 using UnityEngine;
 using TMPro;
 
-public class SpitterForm : MonoBehaviour
+public class SplitStackForm : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI quantityText;
     // public int Quantity => int.Parse(quantityText.text);
@@ -21,10 +21,17 @@ public class SpitterForm : MonoBehaviour
     }
 
 
-    public void OnClick()
+    public void OnSplitButtonClick()
     {
-        GameEvents.RaiseItemCollectionClick(quantity);
+        GameEvents.RaiseStackSplit(quantity);
         gameObject.SetActive(false);
+    }
+
+
+    public void OnCancelButtonClick()
+    {
+        gameObject.SetActive(false);
+        GameEvents.RaiseStackSplitCancel();
     }
 
     public void SetQuantity(int quantity)

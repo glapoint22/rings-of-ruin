@@ -59,11 +59,6 @@ public class ItemSlot : MonoBehaviour
 
 
 
-    public void RemoveFromStack(int amount)
-    {
-        quantity -= amount;
-        if (quantity <= 0) ClearSlot();
-    }
 
     public void SwapItem(ItemSlot otherSlot)
     {
