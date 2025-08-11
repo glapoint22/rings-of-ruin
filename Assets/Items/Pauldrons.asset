@@ -9,13 +9,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7d54d6e15da0e8f44833e4bf1207d12a, type: 3}
-  m_Name: Potion
+  m_Script: {fileID: 11500000, guid: ef9ad5b3231177d449a9997f4de45b75, type: 3}
+  m_Name: Pauldrons
   m_EditorClassIdentifier: 
-  itemName: Potion
-  icon: {fileID: 21300000, guid: 21cb65e7277c5554ca06a679181ce226, type: 3}
+  itemName: Pauldrons
+  icon: {fileID: 21300000, guid: 736e661e69437214993ce7b69af551ea, type: 3}
   description: 
   value: 0
-  maxStackSize: 20
-  itemType: 13
-  cooldown: 60
+  maxStackSize: 1
+  itemType: 4
+  armor: 5

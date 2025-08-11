@@ -2,11 +2,14 @@ using UnityEngine;
 
 public class TempAddItem : MonoBehaviour
 {
-    [SerializeField] private Item item;
+    [SerializeField] private Item[] items;
     [SerializeField] private ItemCollection itemCollection;
 
     public void AddItem()
     {
-        itemCollection.AddItem(item);
+        foreach (var item in items)
+        {
+            itemCollection.AddItem(item);
+        }
     }
 }

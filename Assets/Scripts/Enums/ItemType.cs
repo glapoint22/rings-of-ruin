@@ -9,7 +9,7 @@ public enum ItemType
     Chest,
     Wrist,
     Hands,
-    Waist,
+    Finger,
     Legs,
     Feet,
     Spell,

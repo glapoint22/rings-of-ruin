@@ -7,8 +7,6 @@ public static class GameEvents
     public static event Action<Damage> OnDamage;
     public static event Action<BuffType> OnAddBuff;
     public static event Action<BuffType> OnRemoveBuff;
-    public static event Action<int> OnStackSplit;
-    public static event Action OnStackSplitCancel;
 
 
 
@@ -45,8 +43,6 @@ public static class GameEvents
     public static void RaiseRightMousePressed(Vector3 worldPosition) => OnRightMousePressed?.Invoke(worldPosition);
 
     // Item collection raise methods
-    public static void RaiseStackSplit(int quantity) => OnStackSplit?.Invoke(quantity);
     public static void RaiseShiftPressed() => OnShiftPressed?.Invoke();
     public static void RaiseShiftReleased() => OnShiftReleased?.Invoke();
-    public static void RaiseStackSplitCancel() => OnStackSplitCancel?.Invoke();
 }

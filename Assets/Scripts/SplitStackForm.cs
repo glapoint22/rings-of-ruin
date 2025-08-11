@@ -4,6 +4,7 @@ using TMPro;
 public class SplitStackForm : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI quantityText;
+    [SerializeField] private GameObject modelBackground;
     // public int Quantity => int.Parse(quantityText.text);
     private int maxQuantity;
     private int quantity;
@@ -23,15 +24,15 @@ public class SplitStackForm : MonoBehaviour
 
     public void OnSplitButtonClick()
     {
-        GameEvents.RaiseStackSplit(quantity);
-        gameObject.SetActive(false);
+        ItemTransferState.SetSplitQuantity(quantity);
+        modelBackground.SetActive(false);
     }
 
 
     public void OnCancelButtonClick()
     {
-        gameObject.SetActive(false);
-        GameEvents.RaiseStackSplitCancel();
+        modelBackground.SetActive(false);
+        ItemTransferState.Clear();
     }
 
     public void SetQuantity(int quantity)

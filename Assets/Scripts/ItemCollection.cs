@@ -4,46 +4,25 @@ public class ItemCollection : MonoBehaviour
 {
     [SerializeField] private ItemSlot[] itemSlots;
     [SerializeField] private SplitStackForm splitStackForm;
-
+    [SerializeField] private GameObject modelBackground;
 
     private bool isShiftPressed = false;
-    private int splitQuantity = 0;
-    private ItemSlot sourceSlot;
-
-
-
-
 
     private void OnEnable()
     {
         GameEvents.OnShiftPressed += HandleShiftPressed;
-        GameEvents.OnStackSplit += HandleStackSplit;
         GameEvents.OnShiftReleased += HandleShiftReleased;
-        GameEvents.OnStackSplitCancel += HandleStackSplitCancel;
     }
 
     private void OnDisable()
     {
         GameEvents.OnShiftPressed -= HandleShiftPressed;
-        GameEvents.OnStackSplit -= HandleStackSplit;
         GameEvents.OnShiftReleased -= HandleShiftReleased;
-        GameEvents.OnStackSplitCancel -= HandleStackSplitCancel;
     }
 
     private void HandleShiftPressed() => isShiftPressed = true;
     private void HandleShiftReleased() => isShiftPressed = false;
-    private void HandleStackSplit(int quantity) => splitQuantity = quantity;
-    private void HandleStackSplitCancel()
-    {
-        splitQuantity = 0;
-        sourceSlot = null;
-    }
-
-
-
-
-
-
+    
 
     public void AddItem(Item item, int amount = 1)
     {
@@ -55,9 +34,6 @@ public class ItemCollection : MonoBehaviour
 
         AddNonStackableItem(item, amount);
     }
-
-
-
 
     private void AddStackableItem(Item item, int amount)
     {
@@ -87,10 +63,6 @@ public class ItemCollection : MonoBehaviour
         LogInventoryFull();
     }
 
-
-
-
-
     private void AddNonStackableItem(Item item, int amount)
     {
         var empty = FindFirstEmptySlot();
@@ -102,9 +74,6 @@ public class ItemCollection : MonoBehaviour
 
         LogInventoryFull();
     }
-
-
-
 
     private void FindFirstStackableAndEmpty(Item item, out ItemSlot stackable, out ItemSlot empty)
     {
@@ -137,11 +106,7 @@ public class ItemCollection : MonoBehaviour
         Debug.Log("No space left in the inventory");
     }
 
-
-
-
-
-    public void OnDrag(ItemSlot slot)
+    public void OnBeginDrag(ItemSlot slot)
     {
         if (isShiftPressed)
         {
@@ -149,41 +114,28 @@ public class ItemCollection : MonoBehaviour
             return;
         }
 
-        if (splitStackForm.gameObject.activeSelf) CloseSplitForm();
 
         SetSourceSlot(slot);
     }
 
-
     private void SetSourceSlot(ItemSlot slot)
     {
         if (slot.IsEmpty) return;
-        sourceSlot = slot;
+        ItemTransferState.SetSource(slot);
     }
-
-
-
 
     public void OnDrop(ItemSlot slot)
     {
-        if (sourceSlot == null || splitStackForm.gameObject.activeSelf) return;
+        if (!ItemTransferState.HasSource) return;
 
-
-        SetSlot(slot, sourceSlot.Quantity);
-        sourceSlot = null;
+        SetSlot(slot, ItemTransferState.SourceSlot.Quantity);
+        ItemTransferState.Clear();
     }
 
     private void OpenSplitForm(ItemSlot slot)
     {
-        splitStackForm.gameObject.SetActive(true);
+        modelBackground.SetActive(true);
         splitStackForm.SetQuantity(slot.Quantity);
-    }
-
-
-    private void CloseSplitForm()
-    {
-        splitStackForm.gameObject.SetActive(false);
-        sourceSlot = null;
     }
 
 
@@ -195,70 +147,59 @@ public class ItemCollection : MonoBehaviour
             return;
         }
 
-        if (splitStackForm.gameObject.activeSelf) CloseSplitForm();
 
-
-        if (sourceSlot == null)
+        if (!ItemTransferState.HasSource)
         {
             SetSourceSlot(slot);
             return;
         }
 
-        if (splitQuantity > 0)
+        if (ItemTransferState.SplitQuantity > 0)
         {
             SplitItems(slot);
             return;
         }
 
-        SetSlot(slot, sourceSlot.Quantity);
-        sourceSlot = null;
+        SetSlot(slot, ItemTransferState.SourceSlot.Quantity);
+        ItemTransferState.Clear();
     }
-
 
     private void HandleShiftPressed(ItemSlot slot)
     {
-        if (!slot.IsEmpty && slot.Item.IsStackable && slot.Quantity > 1 && sourceSlot == null)
+        if (!slot.IsEmpty && slot.Item.IsStackable && slot.Quantity > 1 && !ItemTransferState.HasSource)
         {
             OpenSplitForm(slot);
             SetSourceSlot(slot);
         }
     }
 
-
-
     private void SplitItems(ItemSlot slot)
     {
-        int diff = sourceSlot.Quantity - splitQuantity;
-        SetSlot(slot, splitQuantity, diff == 0);
-        if (diff > 0) sourceSlot.SetQuantity(diff);
-        sourceSlot = null;
-        splitQuantity = 0;
+        int diff = ItemTransferState.SourceSlot.Quantity - ItemTransferState.SplitQuantity;
+        SetSlot(slot, ItemTransferState.SplitQuantity, diff == 0);
+        if (diff > 0) ItemTransferState.SourceSlot.SetQuantity(diff);
+        ItemTransferState.Clear();
     }
-
-
 
     private void SetSlot(ItemSlot slot, int quantity, bool clearSource = true)
     {
-
-        if (slot == sourceSlot) return;
+        if (slot == ItemTransferState.SourceSlot) return;
 
         if (slot.IsEmpty)
         {
-            slot.AddItem(sourceSlot.Item, quantity);
-            if (clearSource) sourceSlot.ClearSlot();
+            slot.AddItem(ItemTransferState.SourceSlot.Item, quantity);
+            if (clearSource) ItemTransferState.SourceSlot.ClearSlot();
             return;
         }
 
-
-        if (slot.CanStackWith(sourceSlot.Item) && quantity < slot.Item.MaxStackSize)
+        if (slot.CanStackWith(ItemTransferState.SourceSlot.Item) && quantity < slot.Item.MaxStackSize)
         {
             StackItems(slot, quantity, clearSource);
             return;
         }
 
-        sourceSlot.SwapItem(slot);
+        ItemTransferState.SourceSlot.SwapItem(slot);
     }
-
 
     private void StackItems(ItemSlot slot, int quantity, bool clearSource)
     {
@@ -266,10 +207,10 @@ public class ItemCollection : MonoBehaviour
 
         if (leftover == 0 && clearSource)
         {
-            sourceSlot.ClearSlot();
+            ItemTransferState.SourceSlot.ClearSlot();
             return;
         }
 
-        sourceSlot.SetQuantity(leftover);
+        ItemTransferState.SourceSlot.SetQuantity(leftover);
     }
 }
